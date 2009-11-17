@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="62a1df55-e090-46c4-82fa-dd2bb3fed7a1" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstaller will parallelize execution against multiple virtual machines automatically.
+        This enables scaling test processes across a matrix of platforms and operating systems and use 
+        virtual hosts most efficiently.
+      </para>
+    </introduction>
+    <section address="VirtualMachineConfigurationParallelism">
+      <title>Parallelizing Execution</title>
+      <content>
+        <para>
+          RemoteInstaller will run tests against multiple virtual machines in parallel. By default, RemoteInstaller
+          evaluates the maximum number of parallelizable tasks. This is the number of virtual machines defined, 
+          minus by the number of virtual machines with shared dependencies.
+        </para>
+        <para>
+          With this level of parallelism you can consider that a virtual machine is equivalent to a physical machine.
+          Adding more virtual machines rather than snapshots reduces the time of execution. Snapshots execute sequentially,
+          while virtual machines execute in parallel. Of course you should factor in the capacity of the physical host 
+          that runs the virtual machine. Your mileage may vary.
+        </para>
+        <para>
+          It is possible to restrict the pipeline count by setting the command-line <literal>pipelineCount</literal> 
+          flag to a lower value. A value of zero means to auto-adjust the pipeline count. A value bigger than the
+          maximum number of parallelizable tasks has no additional effect.
+          <code language="cmd">
+            <![CDATA[RemoteInstaller.exe /pipelineCount:2 ...]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

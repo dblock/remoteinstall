@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1e7a6c2f-1a9c-4b33-adc7-ee82ac339857" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        You're encouraged to contribute to the RemoteInstaller Framework. The latest information about this project
+        can be found at
+        <externalLink>
+          <linkUri>http://remoteinstall.codeplex.com/</linkUri>
+          <linkText>http://remoteinstall.codeplex.com/</linkText>
+        </externalLink>.
+      </para>
+    </introduction>
+    <section address="SourceCode">
+      <title>Source Code</title>
+      <content>
+        <para>
+          Source code is located in
+          <externalLink>
+            <linkUri>https://remoteinstall.svn.codeplex.com/svn/trunk</linkUri>
+            <linkText>https://remoteinstall.svn.codeplex.com/svn/trunk</linkText>
+          </externalLink>.
+          Double-click the Visual Studio solution file, RemoteInstall.sln and Visual Studio will open.
+        </para>
+      </content>
+    </section>
+    <section address="Building">
+      <title>Building the Project</title>
+      <content>
+        <para>
+          You can build all C# code in Visual Studio. To build the entire project, including this documentation use MSBuild
+          from command line and type <literal>build all</literal>. To build the release version, append
+          <literal>/p:Configuration=Release</literal>.
+          <code language="cmd">
+            <![CDATA[c:\source\remoteinstall\trunk> build all]]>
+          </code>
+          Output is placed in the <literal>target\Debug|Release</literal> directory.
+        </para>
+      </content>
+    </section>
+    <section address="Patches">
+      <title>Patches and Code Reviews</title>
+      <content>
+        <para>
+          All changes must be code-reviewed. Submit patches under issues at
+          <externalLink>
+            <linkUri>http://remoteinstall.codeplex.com/WorkItem/List.aspx</linkUri>
+            <linkText>http://remoteinstall.codeplex.com/WorkItem/List.aspx</linkText>
+          </externalLink>.
+        </para>
+      </content>
+    </section>
+    <section address="Documentation">
+      <title>Writing Documentation</title>
+      <content>
+        <para>
+          Documentation is written in MAML, using SandCastle Documentation Framework. You cannot build documentation from within
+          Visual Studio, but you can build the documentation by typing <literal>build doc</literal>.
+          <list class="bullet">
+            <listItem>
+              <externalLink>
+                <linkUri>http://www.codeplex.com/SHFB</linkUri>
+                <linkText>SandCastle Help File Builder</linkText>
+              </externalLink>
+              provides an extensive
+              <externalLink>
+                <linkUri>http://www.ewoodruff.us/shfbdocs/Index.aspx?topic=html/b772e00e-1705-4062-adb6-774826ce6700.htm</linkUri>
+                <linkText>Getting Started</linkText>
+              </externalLink>
+              guide.
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+    <section address="DevEnvironment">
+      <title>Setting Up a Development Environment</title>
+      <content>
+        <para>
+          A development environment for RemoteInstall developers requires the following software.
+          <list class="bullet">
+            <listItem>
+              Microsoft Visual Studio 2005 SP1
+            </listItem>
+            <listItem>
+              Subversion Client
+            </listItem>
+            <listItem>
+              <externalLink>
+                <linkUri>http://msbuildtasks.tigris.org/</linkUri>
+                <linkText>MSBuild Community Tasks 1.3.0</linkText>
+              </externalLink>
+            </listItem>
+            <listItem>
+              <externalLink>
+                <linkUri>http://www.vmware.com/support/developer/vix-api/</linkUri>
+                <linkText>VMWare ViX 1.7</linkText>
+              </externalLink>.
+            </listItem>
+            <listItem>
+              VMWare Workstation 6.5 or VMWare Infrastructure Client and an ESX environment
+            </listItem>
+            <listItem>
+              <externalLink>
+                <linkUri>http://www.codeplex.com/Sandcastle</linkUri>
+                <linkText>SandCastle 2.4 (May 2008)</linkText>
+              </externalLink>,
+              + SandCastle Styles Project 2.4 patch
+            </listItem>
+            <listItem>
+              <externalLink>
+                <linkUri>http://www.codeplex.com/SHFB</linkUri>
+                <linkText>Sandcastle Help File Builder 1.8 (Alpha)</linkText>
+              </externalLink>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

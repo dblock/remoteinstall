@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="4b528aba-a7d1-4c6c-b761-46af94e58cdf" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        By default, RemoteInstaller collects log files from the remote system.
+        It can also copy additional, user-defined, files from the test client to the remote
+        virtual machine or vice-versa.
+      </para>
+    </introduction>
+    <section address="CopyFilesSection">
+      <title>Copying Files</title>
+      <content>
+        <para>
+          You can define a <literal>copyfiles</literal> section under most nodes, which are evaluated in the following order.
+          <list class="ordered">
+            <listItem>remoteinstallerconfig</listItem>
+            <listItem>virtualmachines</listItem>
+            <listItem>virtualmachine</listItem>
+            <listItem>snapshots</listItem>
+            <listItem>snapshot</listItem>
+            <listItem>installers</listItem>
+            <listItem>installer</listItem>
+          </list>
+          Defining a <listeral>copyfiles</listeral> section under <literal>virtualmachine</literal> copies files for every snapshot
+          under that virtual machine, etc.
+        </para>
+        <para>
+          The <literal>copyfiles</literal> configuration section supports the following configuration options.
+          <definitionTable>
+            <definedTerm>destination</definedTerm>
+            <definition>
+              The destination to copy to. Can be one of the following.
+              <definitionTable>
+                <definedTerm>toTestClient</definedTerm>
+                <definition>Copy from the remote virtual machine to the test client. This is the default.</definition>
+                <definedTerm>toVirtualMachine</definedTerm>
+                <definition>Copy from test client to the remote virtual machine.</definition>
+              </definitionTable>
+            </definition>
+            <definedTerm>destpath</definedTerm>
+            <definition>
+              <para>
+                When copying to the test client from the remote virtual machine, a relative path. Logs and files
+                for each snapshot/installer pair go into an automatically generated path. The <literal>destpath</literal>
+                is automatically created under this folder.
+              </para>
+              <para>
+                When copying to the remote host from the test client, a full local path to the file
+                or directory to be copied.
+              </para>
+            </definition>
+            <definedTerm>when</definedTerm>
+            <definition>
+              Indicates when to copy files.
+              <definitionTable>
+                <definedTerm>beforeall</definedTerm>
+                <definition>
+                  Copy files before install and uninstall.
+                  For sequences that alternate install and uninstall this will execute twice.
+                </definition>
+                <definedTerm>aftersuccessfulinstall</definedTerm>
+                <definition>Copy after a successful installation.</definition>
+                <definedTerm>aftersuccessfuluninstall</definedTerm>
+                <definition>Copy after a successful uninstallation.</definition>
+                <definedTerm>afterall</definedTerm>
+                <definition>
+                  Copy after install or uninstall, successful or not.
+                  For sequences that alternate install and uninstall this will execute twice.
+                </definition>
+                <definedTerm>afterfailedinstalluninstall</definedTerm>
+                <definition>Copy after a failed install and/or uninstall (whichever one is first).</definition>
+              </definitionTable>
+            </definition>
+          </definitionTable>
+          You can define one or more <literal>copyfile</literal> items under <literal>copyfiles</literal>.
+          A <literal>copyfile</literal> identifies a single file or an entire directory to be copied.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>
+              A name of the file as it appears in the XML results. It is also the filename of the destination file. This value
+              defaults to the filename portion of <literal>file</literal>.
+            </definition>
+            <definedterm>file</definedterm>
+            <definition>
+              The remote or local location of the file or directory to be copied. If the name specifies
+              a file, the file is copied. If the name specifies a directory, its entire contents are
+              copied, including subdirectories.
+            </definition>
+            <definedTerm>destpath</definedTerm>
+            <definition>
+              <para>
+                When copying to the test client from the remote virtual machine, a relative path. Logs and files
+                for each snapshot/installer pair go into an automatically generated path. The <literal>destpath</literal>
+                is automatically created under this folder.
+              </para>
+              <para>
+                When copying to the remote host from the test client, a full local path to the file
+                or directory to be copied.
+              </para>
+              <para>
+                This value defaults to the parent <literal>copyfiles</literal> node's <literal>destpath</literal> value.
+              </para>
+              <alert class="note">
+                When copying folders don't specify the folder name in <literal>destpath</literal>. RemoteInstaller
+                automatically appends the path name to it.
+              </alert>
+            </definition>
+            <definedTerm>checkIfExists</definedTerm>
+            <definition>
+              Check whether the file or directory exists before attempting to copy it. If the file or directory doesn't
+              exist and this value is <literal>false</literal>, an error occurs and is logged in the results output.
+            </definition>
+            <definedTerm>when</definedTerm>
+            <definition>
+              Indicates when to copy files. See above.
+            </definition>
+            <definedTerm>includeInResults</definedTerm>
+            <definition>
+              Display file name for all file types and a local link for files copied from the virtual machine in
+              the results xml.
+            </definition>
+            <definedTerm>includeDataInResults</definedTerm>
+            <definition>
+              Include the contents of the file in the results. This applies to files copied from the virtual
+              machine only.
+            </definition>
+            <definedTerm>xslt</definedTerm>
+            <definition>
+              Assume that the result content is XML and transform it with the given xslt file.
+            </definition>
+          </definitionTable>
+          The following example defines two system files to copy for each snapshot, a single file to copy for the Sample.msi
+          installer, a file that doesn't exist that will be checked before copying and an entire folder containing admin scripts
+          and a file to copy from the test client to the remote virtual machine to a path that will be automatically created.
+          <code language="xml">
+            <![CDATA[
+<installers>
+  <copyfiles destpath="windows\systemfiles">
+    <copyfile name="system dot ini" file="c:\windows\system.ini" />
+    <copyfile name="win dot ini" file="c:\windows\win.ini" />
+  </copyfiles>
+  <installer file="Samples\Sample.msi" name="Sample Installer">
+    <copyfiles>
+      <copyfile file="c:\windows\odbcinst.ini" destpath="windows" />
+      <copyfile file="c:\windows\doesntexist.ini" destpath="windows" checkIfExists="true" />
+      <copyfile name="admin scripts" file="C:\Inetpub\AdminScripts" destpath="inetpub" />
+      <copyfile file="c:\windows\win.ini" destpath="c:\test" destination="toVirtualMachine" />
+    </copyfiles>
+  </installer>
+</installers>
+          ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

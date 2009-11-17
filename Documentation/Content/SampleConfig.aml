@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="5f3808aa-d56d-4d2d-a956-548d66a5778c" revisionNumber="1">
+  <developerSampleDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>This is a sample configuration file.</para>
+    </introduction>
+    <section address="sample">
+      <content>
+      	<codeReference>Sample.config</codeReference>
+      </content>
+    </section>
+  </developerSampleDocument>
+</topic>

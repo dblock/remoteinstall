@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="88B835D0-0578-40aa-B421-B946521DF73E" revisionNumber="1">
+  <developerHowToDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstall is a tool that automates MSI and DNI deployment on a set of snapshots
+        hosted on a VMWare Workstation or Virtual Infrastructure environment (eg. ESX).
+        You need .NET Framework 2.0, the RemoteInstaller tool, an MSI or DNI installer to test
+        and a virtual machine, optionally with snapshots.
+      </para>
+    </introduction>
+    <procedure>
+      <title>Install Required Software</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Download and install the VMWare VIX API from
+              <externalLink>
+                <linkUri>http://www.vmware.com/support/developer/vix-api/</linkUri>
+                <linkText>http://www.vmware.com/support/developer/vix-api</linkText>
+              </externalLink>.
+              Tested with version 1.7.0.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Install or locate VMWare Workstation 6.5, VMWare Server 2.0 or a Virtual Infrastructure
+              environment (eg. ESX).
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+    <procedure>
+      <title>Get the RemoteInstaller.exe Tool</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Check out and reference in your project the latest good known version of the RemoteInstaller.exe tool from SVN.
+              Because the tool is under development and configuration file format is subject to change,
+              reference a specific revision in your project via svn:externals.
+            </para>
+            <code language="cmd">
+              remoteinstall -r 2603 https://svn/commoncomponents/RemoteInstall/bin
+            </code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Run the tool to see its command-line options.
+              <code language="cmd">
+                <![CDATA[
+C:\Program Files\RemoteInstaller> RemoteInstaller.exe /?
+RemoteInstaller 1.0.2633.0: VMWare Test Driver
+
+/config:<string>      Configuration File (short form /c)
+/outputDir:<string>   Output Directory (short form /o)
+/outputXml:<string>   XML Output File (cannot include path) (short form /x)
+/outputHtml:<string>  HTML Output File (cannot include path) (short form /h)
+/appendOutput[+|-]    Append (vs. overwrite) output file Default value:'-' (short form /a)
+/simulationOnly[+|-]  Simulation VMWare operations Default value:'-' (short form /s)
+/verboseOutput[+|-]   Cause additional verbosity Default value:'-' (short form /v)
+/pipelineCount:<int>  Maximum number of parallel pipelines Default value:'-1' (short form /p)
+@<file>               Read response file for more options
+<variables>           Additional Variables
+                ]]>
+              </code>
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+    <procedure>
+      <title>Create a Configuration File</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              A configuration file drives the remote installation tests. It is authored
+              in a standard Microsoft configuration format and contains a single
+              <literal>RemoteInstallConfig</literal> section with an
+              <literal>installers</literal> and a <literal>virtualmachines</literal>
+              sub-sections.
+            </para>
+            <para>
+              The <literal>installers</literal> section defines the installer(s) to test. All paths are relative to the location
+              from which RemoteInstaller is run. You may also specify absolute paths.
+              <code language="xml">
+                <![CDATA[
+<installers>
+  <installer file="Samples\Sample.msi" name="Sample Installer" />
+</installers>
+                ]]>
+              </code>
+            </para>
+            <para>
+              The <literal>virtualmachines</literal> section defines one or more <literal>Workstation</literal> or <literal>ESX</literal>
+              virtual machines with at least one snapshot with operating system credentials. It is also possible to specify the
+              current snapshot with a <literal>*</literal> keyword.
+              <code language="xml">
+                <![CDATA[
+<virtualmachines username="Administrator" password="admin123">
+  <virtualmachine type="Workstation" name="Windows XP Pro"
+    file="C:\Users\Administrator\Virtual Machines\Windows XP Pro SP2\winXPPro.vmx">
+    <snapshots>
+      <snapshot name="*" username="Administrator" password="admin123" />
+    </snapshots>
+  </virtualmachine>
+</virtualmachines>
+                ]]>
+              </code>
+            </para>
+            <para>
+              Click <link xlink:href="5f3808aa-d56d-4d2d-a956-548d66a5778c">here</link> for a complete MSI configuration file.
+            </para>
+            <para>
+              Click <link xlink:href="0c3b1ab6-a8bc-42cc-aba8-11feb5284e31">here</link> for a complete DNI configuration file.
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+    <procedure>
+      <title>Run RemoteInstaller</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Run RemoteInstaller.exe with the configuration file.
+              <code language="cmd">
+                <![CDATA[
+RemoteInstaller.exe /config:tests\tests.config /outputDir:tests\testlogs /outputXml:testlog.xml
+                  ]]>
+              </code>
+            </para>
+            <para>
+              The output will be placed in testlog.xml. A testlog.xsl file will also be created.
+            </para>
+            <para>
+              RemoteInstaller returns the following error codes.
+              <tableDefinition>
+                <definedTerm>0</definedTerm>
+                <definition>Successful execution.</definition>
+                <definedTerm>-1</definedTerm>
+                <definition>One of installations or tasks has failed.</definition>
+                <definedTerm>-2</definedTerm>
+                <definition>An error has occurred.</definition>        
+              </tableDefinition>
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+  </developerHowToDocument>
+</topic>

@@ -1,0 +1,1 @@
+<copyfile name="ri.installers.copyfiles.copyfile.name.3" file="ri.installers.copyfiles.copyfile.file" checkIfExists="false" when="afterall" destpath="ri.installers.copyfiles.copyfile.destpath" destination="toTestClient" xslt="ri.installers.copyfiles.copyfile.xslt" includeDataInResults="true" includeInResults="true" />

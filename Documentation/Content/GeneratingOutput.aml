@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="062c7320-b2b1-4408-b3b8-c2696fefb369" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstaller supports two output formats: XML with XSLT and HTML. In addition, RemoteInstaller emits
+        all installation logs by default.
+      </para>
+    </introduction>
+    <section address="OutputGeneral">
+      <title>Generating Output</title>
+      <content>
+        <para>
+          A set of rules and limitations apply to all output formats.
+          <list class="bullet">
+            <listItem>
+              All output is written to the directory specified by the <literal>outputDir</literal> command-line argument.
+              If <literal>outputDir</literal> is not specifed, all output is generated in the current directory.
+            </listItem>
+            <listItem>
+              You cannot place different types of output in different directories.
+            </listItem>
+          </list>
+        </para>
+        <para>
+          Output logs are generated into <literal>outputDir</literal>. Each log is placed in the following directory structure
+          <literal>svn revision\installer\virtual machine\snapshot</literal>. The installation log file is a combination
+          of the MSI name and an extension. The installation log ends with <literal>i.log</literal> and the uninstallation log
+          file ends with <literal>x.log</literal>. For example: <literal>MyInstaller.msii.log</literal> and
+          <literal>MyInstaller.msix.log</literal>. These logs are referenced via relative paths in the XML or HTLM output, making
+          the entire <literal>outputDir</literal> directory structure movable.
+        </para>
+      </content>
+    </section>
+    <section address="XmlOutput">
+      <title>XML with XSLT Output</title>
+      <content>
+        <para>
+          To use the XML output, use the <literal>outputXml</literal> argument when running RemoteInstaller.exe.
+          Along, with the XML document you specify, an XSL document is also generated with the same file name and
+          an .xsl extension. You can open the XML document in any web browser and it will appear in the formatting
+          specified by the XSL file. To generate XML outpout, run the following command.
+          <code language="cmd">
+            <![CDATA[RemoteInstaller.exe /config:tests\tests.config /outputDir:tests\testxml /outputXml:myResults.xml]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="XmlOutputFormat">
+      <title>XML File Format</title>
+      <content>
+        <para>
+          The xml output is a hierarchy of results placed inside groups, documented in
+          <link xlink:href="8047f44c-4680-49d1-b322-a667b3b4a24a">this sample</link>. A schema definition (Results.xsd) is
+          also included in the software distribution.
+        </para>
+      </content>
+    </section>
+    <section address="HtmlOutput">
+      <title>HTML Output</title>
+      <content>
+        <para>
+          The HTML output formats the results in an easy to read format using the HTML scripting language with CSS.
+          This format provides a convient way of sending generated results from RemoteInstall automated testing via
+          email or displaying them on a website.
+        </para>
+        <para>
+          To use the HTML output, use the <literal>outputHtml</literal> command-line parameter when running RemoteInstaller.exe.
+          A single HTML file will be generated in the specified directory. To generate HTML output, run the following command.
+          <code language="cmd">
+            <![CDATA[
+RemoteInstaller.exe /config:tests\tests.config /outputDir:tests\testhtml /outputHtml:myResults.html
+							  ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="CombiningOutput">
+      <title>Combining Output</title>
+      <content>
+        <para>
+          You can combine output with the <literal>/appendOutput+</literal> command line option. RemoteInstaller will load
+          previous results, then append new results to the output.
+          <alert class="note">
+            The <literal>/appendOutput+</literal> option applies when generating XML output only or both XML and HTML output.
+          </alert>
+          <alert class="note">
+            RemoteInstaller will currently not remove duplicates. They will be appended to the output.
+          </alert>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

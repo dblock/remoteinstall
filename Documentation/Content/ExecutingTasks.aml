@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="d028ca7a-5c4d-4376-9989-eff774f71a5c" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstaller is capable of executing additional, user-defined commands on the guest
+        operating system or virtual machine. Together with the <literal>copyfiles</literal> construct this enables
+        complex remote testing scenarios.
+      </para>
+    </introduction>
+    <section address="TasksSection">
+      <title>Executing Tasks</title>
+      <content>
+        <para>
+          You can define a <literal>tasks</literal> section under most nodes, which are evaluated in the following order.
+          <list class="ordered">
+            <listItem>remoteinstallerconfig</listItem>
+            <listItem>virtualmachines</listItem>
+            <listItem>virtualmachine</listItem>
+            <listItem>snapshots</listItem>
+            <listItem>snapshot</listItem>
+            <listItem>installers</listItem>
+            <listItem>installer</listItem>
+          </list>
+          Tasks under a specific <literal>snapshot</literal> are executed for that snapshot only, etc.
+        </para>
+        <para>
+          The <literal>tasks</literal> configuration section supports the following configuration options.
+          <definitionTable>
+            <definedTerm>when</definedTerm>
+            <definition>
+              Indicates when to execute the command.
+              <definitionTable>
+                <definedTerm>beforeall</definedTerm>
+                <definition>Execute before install.</definition>
+                <definedTerm>aftersuccessfulinstall</definedTerm>
+                <definition>Execute after a successful installation.</definition>
+                <definedTerm>aftersuccessfuluninstall</definedTerm>
+                <definition>Execute after a successful uninstallation.</definition>
+                <definedTerm>afterall</definedTerm>
+                <definition>Execute after install and uninstall, successful or not.</definition>
+                <definedTerm>afterfailedinstalluninstall</definedTerm>
+                <definition>Execute after a failed install and/or uninstall (whichever one is first).</definition>
+              </definitionTable>
+            </definition>
+          </definitionTable>
+          <alert class="note">
+            <para>
+              Tasks always run after installers and before additional files are collected.
+            </para>
+          </alert>
+          You can define one or more <literal>task</literal> items under <literal>tasks</literal>.
+          A <literal>task</literal> element may be of different type and identifies a single
+          command or task to execute. The system supports execution of simple commands
+          on the remote guest operating system and some virtual machine operations.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>
+              A humanly readable name of the execute element as it appears in the XML results.
+            </definition>
+            <definedTerm>type</definedTerm>
+            <definition>
+              Type of the execution. The following types are supported.
+              <definitionTable>
+                <definedTerm>command</definedTerm>
+                <definition>Execute a remote command.</definition>
+                <definedTerm>virtualmachine</definedTerm>
+                <definition>Execute a virtual machine command.</definition>
+                <definedTerm>snapshot</definedTerm>
+                <definition>Execute a virtual machine snapshot command.</definition>
+              </definitionTable>
+            </definition>
+            <definedTerm>when</definedTerm>
+            <definition>
+              Indicates when to execute this task. See above.
+            </definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="CommandTasks">
+      <title>Command Tasks</title>
+      <content>
+        <para>
+          A <newTerm>command</newTerm> task executes a single command with optional command-line
+          arguments on the remote guest operating system. The following parameters are supported
+          in the task definition.
+          <definitionTable>
+            <definedTerm>cmd</definedTerm>
+            <definition>Command or executable to run.</definition>
+            <definedTerm>cmdargs</definedTerm>
+            <definition>Optional command-line arguments.</definition>
+            <definedTerm>exitcode</definedTerm>
+            <definition>
+              Expected process exit code, default is zero. When the exit code doesn't match this value the task
+              fails and an error is reported in the results.
+            </definition>
+            <definedTerm>ignoreexitcode</definedTerm>
+            <definition>Ignore exit code, don't fail the task regardless of the exit code returned.</definition>
+            <definedTerm>waitforcompletion</definedTerm>
+            <definition>
+              Wait for the process to complete (default). Set to false to detach a process.
+              The exit code from detached processes is ignored.
+            </definition>
+          </definitionTable>
+        </para>
+        <para>
+          The following example collects the current directory listing by executing a
+          <literal>dir</literal> command.
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <tasks when="beforeall">
+    <task type="command" cmd="cmd.exe" cmdargs="/C &quot;dir &gt; c:\dir.txt&quot;" />
+  </tasks>
+  <copyfiles destpath="dir">
+    <copyfile name="current directory" file="c:\dir.txt" when="afterall" />
+  </copyfiles>
+  ...
+</installers>
+          ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineTasks">
+      <title>VirtualMachine Tasks</title>
+      <content>
+        <para>
+          A <newTerm>virtualmachine</newTerm> task executes a virtual machine command. The following parameters are supported
+          in the task definition.
+          <definitionTable>
+            <definedTerm>command</definedTerm>
+            <definition>
+              Type of command to execute.
+              <definitionTable>
+                <definedTerm>poweron</definedTerm>
+                <definition>Power on the virtual machine.</definition>
+                <definedTerm>poweroff</definedTerm>
+                <definition>Power off the virtual machine.</definition>
+                <definedTerm>waitfortoolsinguest</definedTerm>
+                <definition>Wait for the virtual machine to boot.</definition>
+                <definedTerm>shutdownguest</definedTerm>
+                <definition>Gracefully shutdown guest operating system.</definition>
+              </definitionTable>
+            </definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="SnapshotTasks">
+      <title>Snapshot Tasks</title>
+      <content>
+        <para>
+          A <newTerm>snapshot</newTerm> task executes a virtual machine snapshot command. The following parameters are supported
+          in the task definition.
+          <definitionTable>
+            <definedTerm>command</definedTerm>
+            <definition>
+              Type of command to execute.
+              <definitionTable>
+                <definedTerm>create</definedTerm>
+                <definition>
+                  Create a snapshot named <literal>name</literal>.
+                </definition>
+                <definedTerm>revert</definedTerm>
+                <definition>
+                  Revert to a snapshot named <literal>name</literal>.
+                </definition>
+                <definedTerm>remove</definedTerm>
+                <definition>
+                  Remove a snapshot named <literal>name</literal>.
+                </definition>
+                <definedTerm>removeifexists</definedTerm>
+                <definition>
+                  Remove a snapshot named <literal>name</literal> if the snapshot exists.
+                </definition>
+              </definitionTable>
+            </definition>
+          </definitionTable>
+        </para>
+        <para>
+          The following example creates a live snapshot after a successful installation. It will delete an existing snapshot of the
+          same name to avoid creating duplicates. This scenario enables developers to get a snapshot of a working installed product 
+          with, for example, the latest overnight build.
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <tasks when="beforeall">
+    <tasks>
+      <task name="latest installed build" type="snapshot" command="removeifexists" when="beforeall" />
+      <task name="latest installed build" type="snapshot" command="create" when="aftersuccessfulinstall" />
+      <task name="latest failure" type="snapshot" command="removeifexists" when="beforeall" />
+      <task name="latest failure" type="snapshot" command="create" when="afterfailedinstalluninstall" />
+    </tasks>    
+  </tasks>
+</installers>
+          ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

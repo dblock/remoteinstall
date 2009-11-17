@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8047f44c-4680-49d1-b322-a667b3b4a24a" revisionNumber="1">
+  <developerSampleDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>The following section describes various elements of results output.</para>
+    </introduction>
+    <section address="sampleresults">
+      <title>Sample Results</title>
+      <content>
+        <code language="xml">
+          <![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a default stylesheet that transforms this results set to html -->
+<?xml-stylesheet type="text/xsl" href="results.xsl"?>
+<!-- a collection of groups of results -->
+<remoteinstallresultsgroups>
+  <!--
+    A group is a single element within the installer-snapshot product. For example, if you define two installers in
+    a lifo sequence, four installer commands are executed (install the first installer, install the second installer,
+    uninstall the second installer and uninstall the first installer). Results from these installers and any additional
+    tasks are placed within the same group. A rolled up success attribute indicates a sum of all dependent installers and tasks.
+  -->
+  <remoteinstallresultsgroup success="True">
+    <remoteinstallresults success="True">
+      <remoteinstallresult success="True">
+        <!-- Install/uninstall duration in HH:MM:SS:MS format. -->
+        <Duration>00:00:00.0060000</Duration>
+        <!-- Install/uninstall duration in a humanly readable string format. -->
+        <DurationString>00:00:00</DurationString>
+        <!-- A logical name of the installer. -->
+        <InstallerName>installer.msi</InstallerName>
+        <!-- Indicates a successful installation. -->        
+        <SuccessfulInstall>True</SuccessfulInstall>
+        <!-- Indicates a successful uninstallation -->
+        <SuccessfulUnInstall>True</SuccessfulUnInstall>
+        <!-- Install log file. If a log file is blank, install didn't finish. -->
+        <InstallLogfile>logs\vm\snapshot\installer.msii.log</InstallLogfile>
+        <!-- Uninstall log file. If a log file is blank, uninstall didn't finish. -->
+        <UnInstallLogfile>logs\vm\snapshot\installer.msix.log</UnInstallLogfile>
+        <!-- 
+        A deduced version of the installer. This is typically the parent folder or a calculated portion of a wildcard path. 
+        Defaults to "unknown" when the installer version cannot be identified.
+        -->
+        <InstallerVersion>1.0</InstallerVersion>
+        <!-- The exception message from any error that may have occured within this installation. -->
+        <LastError></LastError>
+        <!-- Task results. -->
+        <tasks>
+          <task>
+            <!-- Task command line. -->
+            <CmdLine>foobar.bat</CmdLine>
+            <!-- Logical task name. -->
+            <Name>FooBar</Name>
+            <!-- The exception message from any error that may have occured within this task. -->
+            <LastError></LastError>
+          </task>
+        </tasks>
+        <!-- Results from copy file tasks. -->
+        <copyfiles>
+          <!-- A single copy file task result. -->
+          <copyfile>
+            <!-- Source file name. -->
+            <File>file.name</File>
+            <!-- Free-formed file contents when includeDataInResults=True. -->
+            <Data>xml</Data>
+            <!-- Indicates whether data was included in the results. -->
+            <IncludeInResults>True</IncludeInResults>
+            <!-- Logical file name. -->
+            <Name>file</Name>
+            <!-- Destination file name. -->
+            <DestFilename>logs/vm/snapshot/file.name</DestFilename>
+            <!-- The exception message from any error that may have occured within this file copy operation. -->
+            <LastError></LastError>
+          </copyfile>
+        </copyfiles>
+      </remoteinstallresult>
+    </remoteinstallresults>
+    <!-- The name of the virtual machine that was powered on. -->
+    <Vm>virtual machine</Vm>
+    <!-- The name of the snapshot that was powered on. -->
+    <Snapshot>snapshot</Snapshot>
+    <!-- An optional description of the snapshot that was powered on. -->
+    <Description></Description>
+  </remoteinstallresultsgroup>
+</remoteinstallresultsgroups>]]>
+        </code>
+      </content>
+    </section>
+  </developerSampleDocument>
+</topic>

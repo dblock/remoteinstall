@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="remoteinstallresultsgroups" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="remoteinstallresultsgroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="remoteinstallresultsgroup" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Vm" type="xs:string" minOccurs="0" />
+              <xs:element name="Snapshot" type="xs:string" minOccurs="0" />
+              <xs:element name="Description" type="xs:string" minOccurs="0" />
+              <xs:element name="remoteinstallresults" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="remoteinstallresult" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Duration" type="xs:string" minOccurs="0" />
+                          <xs:element name="DurationString" type="xs:string" minOccurs="0" />
+                          <xs:element name="InstallerName" type="xs:string" minOccurs="0" />
+                          <xs:element name="SuccessfulInstall" type="booleantype" minOccurs="0" />
+                          <xs:element name="SuccessfulUnInstall" type="booleantype" minOccurs="0" />
+                          <xs:element name="InstallLogfile" type="xs:string" minOccurs="0" />
+                          <xs:element name="UnInstallLogfile" type="xs:string" minOccurs="0" />
+                          <xs:element name="InstallerVersion" type="xs:string" minOccurs="0" />
+                          <xs:element name="LastError" type="xs:string" minOccurs="0" />
+                          <xs:element name="tasks" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="task" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="CmdLine" type="xs:string" minOccurs="0" />
+                                      <xs:element name="Name" type="xs:string" minOccurs="0" />
+                                      <xs:element name="LastError" type="xs:string" minOccurs="0" />
+                                    </xs:sequence>
+                                    <xs:attribute name="success" type="booleantype" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="copyfiles" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="copyfile" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="File" type="xs:string" minOccurs="0" />
+                                      <xs:element name="Data" type="xs:string" minOccurs="0" />
+                                      <xs:element name="IncludeInResults" type="xs:string" minOccurs="0" />
+                                      <xs:element name="Name" type="xs:string" minOccurs="0" />
+                                      <xs:element name="DestFilename" type="xs:string" minOccurs="0" />
+                                      <xs:element name="LastError" type="xs:string" minOccurs="0" />
+                                    </xs:sequence>
+                                    <xs:attribute name="success" type="booleantype" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="dependencies" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="virtualmachine" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="Name" type="xs:string" minOccurs="0" />
+                                      <xs:element name="Snapshot" type="xs:string" minOccurs="0" />
+                                      <xs:element name="LastError" type="xs:string" minOccurs="0" />
+                                    </xs:sequence>
+                                    <xs:attribute name="success" type="booleantype" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="success" type="booleantype" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="success" type="booleantype" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="success" type="booleantype" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="success" type="booleantype" />
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="booleantype">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="True" />
+      <xs:enumeration value="False" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

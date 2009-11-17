@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics defaultTopic="4A864A7F-947D-4fac-B20D-CE30B727A840">
+  <Topic id="4A864A7F-947D-4fac-B20D-CE30B727A840" visible="True" title="Remote Installer Framework">
+    <Topic id="88B835D0-0578-40aa-B421-B946521DF73E" visible="True" title="Getting Started" />
+    <Topic id="E00E3E93-E6F7-4372-8E5B-1F9191FFB77A" visible="True" title="RemoteInstaller Features" tocTitle="Features" />
+    <Topic id="698f7dff-5a40-4c71-9f3f-6d515a275bf9" visible="True" noFile="True" title="Configuration Files">
+      <Topic id="2bdfdafd-8f65-4db7-b605-41d7e7943ea3" visible="True" title="Defining Virtual Machines" />
+      <Topic id="c5ed0ce2-cd5a-456d-8fe4-c776c660854e" visible="True" title="Defining Installers" />
+      <Topic id="4b528aba-a7d1-4c6c-b761-46af94e58cdf" visible="True" title="Copying Additional Files" />
+      <Topic id="d028ca7a-5c4d-4376-9989-eff774f71a5c" visible="True" title="Executing Tasks" />
+      <Topic id="b8cfb32a-3412-416a-a6c0-9100ec80474b" visible="True" title="Configuration Variables" />
+      <Topic id="bfcd38b2-cde0-4ba7-9859-5dc9b591bde8" visible="True" title="Configurable Timeouts" tocTitle="Configurable Timeouts" />
+      <Topic id="27b29951-8386-4145-993d-98c90681eb31" visible="True" noFile="True" title="Configuration Samples">
+        <Topic id="5f3808aa-d56d-4d2d-a956-548d66a5778c" visible="True" title="Sample.config" />
+        <Topic id="0c3b1ab6-a8bc-42cc-aba8-11feb5284e31" visible="True" title="DniSample.config" />
+        <Topic id="5df5cce4-0826-4728-9982-f39b4054cc40" visible="True" />
+      </Topic>
+    </Topic>
+    <Topic id="062c7320-b2b1-4408-b3b8-c2696fefb369" visible="True" title="Generating Output">
+      <Topic id="8047f44c-4680-49d1-b322-a667b3b4a24a" visible="True" title="Sample Results" />
+    </Topic>
+    <Topic id="62a1df55-e090-46c4-82fa-dd2bb3fed7a1" visible="True" title="Parallelizing Execution" />
+    <Topic id="c8a468c4-4b62-4723-8244-d93a8f170ba4" visible="True" title="Integrating with CruiseControl" />
+    <Topic id="8fd2223a-c9da-4053-b824-c32802628aac" visible="True" title="Remoting Unit Tests" />
+    <Topic id="1e7a6c2f-1a9c-4b33-adc7-ee82ac339857" visible="True" title="Contributing to the RemoteInstaller Framework" tocTitle="Developers" />
+    <Topic id="bfd78578-6e10-47e5-8b41-44426e0a1ac1" visible="True" title="License" tocTitle="License" />
+  </Topic>
+</Topics>

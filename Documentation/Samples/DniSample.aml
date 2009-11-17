@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="0c3b1ab6-a8bc-42cc-aba8-11feb5284e31" revisionNumber="1">
+  <developerSampleDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>A very simple DNI installer configuration file.</para>
+    </introduction>
+    <section address="dnisample">
+      <content>
+        <code language="xml">
+          <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="RemoteInstallConfig" type="RemoteInstall.RemoteInstallConfig, RemoteInstall" />
+  </configSections>
+  <RemoteInstallConfig>
+    <installers destpath="C:\">
+      <installer file="C:\Bootstrapper.exe" name="DbProtect" type="dni">
+        <components>
+          <component name="Component1" description="Component1 Description"/>
+          <component name ="Component2" description="Component2 Description" args="arg1 arg2"/>
+        </components>
+        <copyfiles>
+          <copyfile file="C:\LOG_PATH\Bootstrapper.log" destpath="" checkIfExists="true" when="afterall"  />
+        </copyfiles>
+      </installer>
+    </installers>
+    <virtualmachines>
+      <virtualmachine name="vm1" type="ESX" host="host1" file="[datarepo] vm1/vm1.vmx" username="user" password="password">
+        <snapshots>
+          <snapshot name="snapshot1" username="user" password="password"/>
+        </snapshots>
+      </virtualmachine>
+    </virtualmachines>
+  </RemoteInstallConfig>
+</configuration>]]>
+        </code>
+      </content>
+    </section>
+  </developerSampleDocument>
+</topic>

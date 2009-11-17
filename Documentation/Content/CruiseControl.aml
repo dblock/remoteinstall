@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="c8a468c4-4b62-4723-8244-d93a8f170ba4" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstaller integration with CruiseControl enables continuous integration, publishing of results
+        and repeatable process.
+      </para>
+    </introduction>
+    <section address="RunningUnderCruiseControl">
+      <title>Running under CruiseControl</title>
+      <content>
+        <para>
+          You can run RemoteInstaller under CruiseControl. Execute the command and publish results to a network
+          share. XML results contain relative paths for logs, so the documents are easily portable from one
+          location to another.
+        </para>
+        <para>
+          This is a typical CruiseControl project configuration. It invokes RemoteInstaller and publishes test
+          results, discussed in the next section.
+          <code language="xml">
+            <![CDATA[
+<project name="My Project Install Tests">
+  <labeller />
+  <sourcecontrol type="svn">
+    <trunkUrl>http://svn/myproject/trunk</trunkUrl>
+    <workingDirectory>c:\source\myproject\trunk</workingDirectory>
+  </sourcecontrol>
+  <triggers />
+  <tasks>
+    <exec>
+      <executable>cmd.exe</executable>
+      <buildArgs>/C "Tools\RemoteInstaller.exe /config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml</buildArgs>
+      <baseDirectory>c:\source\myproject\trunk</baseDirectory>
+    </exec>
+    <merge>
+      <files>
+        <file>c:\source\myproject\trunk\TestResults\Results.xml</file>
+      </files>
+    </merge>
+  </tasks>
+  <publishers>
+    <xmllogger />
+    <buildpublisher>
+      <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
+      <publishDir>\\dropserver\builds\myproject</publishDir>
+    </buildpublisher>
+    <statistics />
+  </publishers>
+</project>]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="PublishingResults">
+      <title>Publishing Test Results</title>
+      <content>
+        <para>
+          Test results are portable between network locations, so you can publish test results to a
+          remote server with each build.
+          <code language="xml">
+            <![CDATA[
+<buildpublisher>
+  <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
+  <publishDir>\\dropserver\builds\myproject</publishDir>
+</buildpublisher>
+              ]]>
+          </code>
+        </para>
+        <para>
+          You can also publish results to CruiseControl directly, making them available online and in build status
+          e-mails with other types of build results.
+          <list class="ordered">
+            <listItem>
+              Merge test results in your CruiseControl project configuration.
+              <code language="xml">
+                <![CDATA[
+<merge>
+  <files>
+    <file>c:\source\myproject\trunk\TestResults\Results.xml</file>
+  </files>
+</merge>
+                  ]]>
+              </code>
+            </listItem>
+            <listItem>
+              Copy <literal>xsl\CruiseControl.xsl</literal> from a RemoteInstaller distribution into
+              <literal>C:\Program Files\CruiseControl.NET\webdashboard\xsl\RemoteInstaller.xsl</literal>
+              and <literal>C:\Program Files\CruiseControl.NET\server\xsl\RemoteInstaller.xsl</literal>
+            </listItem>
+            <listItem>
+              Edit <literal>C:\Program Files\CruiseControl.NET\webdashboard\dashboard.config</literal> and
+              reference the <literal>RemoteInstaller.xsl</literal> under <literal>buildPlugins/buildReportBuildPlugin/xslFileNames</literal>
+              and <literal>buildPlugins/xslReportBuildPlugin</literal>.
+              <code language="xml">
+                <![CDATA[
+<buildPlugins>
+  <buildReportBuildPlugin>
+    <xslFileNames>
+      <xslFile>xsl\RemoteInstallResults.xsl</xslFile>
+    </xslFileNames>
+  </buildReportBuildPlugin>
+  <xslReportBuildPlugin description="RemoteInstall Report" actionName="RemoteInstallReport" xslFileName="xsl\RemoteInstallResults.xsl"/>
+</buildPlugins>]]>
+              </code>
+            </listItem>
+            <listItem>
+              Edit <literal>C:\Program Files\CruiseControl.NET\server\ccnet.exe.config</literal> and
+              <literal>ccservice.exe.config</literal> and reference <literal>xsl\RemoteInstaller.xsl</literal>.
+              <code language="xml">
+                <![CDATA[
+<xslFileNames>
+  <xslFile>xsl\RemoteInstallResults.xsl</xslFile>
+</xslFileNames>
+                ]]>
+              </code>
+            </listItem>
+            <listItem>
+              Make sure that your <literal>email</literal> publisher task includes details.
+              <code language="xml">
+                <![CDATA[
+<email from="build@mycompany.com" includeDetails="true" 
+  mailhost="mail.mycompany.com" mailhostUsername="build@appsecinc.com" mailhostPassword="password">
+  <users>
+    <user name="Engineering" group="lists" address="engineering@mycompany.com" />
+  </users>
+  <groups>
+    <group name="lists" notification="always" />
+  </groups>
+</email>
+                ]]>
+              </code>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

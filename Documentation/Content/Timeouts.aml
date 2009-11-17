@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="bfcd38b2-cde0-4ba7-9859-5dc9b591bde8" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>You may specify timeouts when manipulating virtual machines.</para>
+    </introduction>
+    <section address="TimeoutsConfiguration">
+      <title>Timeouts Configuration Element</title>
+      <content>
+        <para>
+          A <literal>timeouts</literal> configuration element may be placed in the configuration file under the
+          <literal>RemoteInstallerConfig</literal> node. The section defines various configurable timeouts
+          used during the RemoteInstaller execution.
+          <code language="xml">
+            <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="RemoteInstallConfig" type="RemoteInstall.RemoteInstallConfig, RemoteInstall" />
+  </configSections>
+  <RemoteInstallConfig>
+    <timeouts logout="60" />
+    ...
+  </RemoteInstallConfig>
+</configuration>
+]]>
+          </code>
+        </para>
+        <para>
+          All configurable timeouts are defined in seconds. VMWare operations are asynchronous and RemoteInstaller will give up
+          after the timeout occurs, without trying to abort the job, likely leaving the VMWare job in progress.
+          <definitionTable>
+            <definedTerm>connection</definedTerm>
+            <definition>Virtual infrastructure or workstation connection timeout, default is 60 seconds.</definition>
+            <definedTerm>openVM</definedTerm>
+            <definition>Virtual machine open timeout, default is 60 seconds.</definition>
+            <definedTerm>revertToSnapshot</definedTerm>
+            <definition>Revert to snapshot timeout, default is 60 seconds.</definition>
+            <definedTerm>powerOn</definedTerm>
+            <definition>
+              Power on timeout, default is 60 seconds.
+              <alert class="note">
+                <para>
+                  The power-on timeout doesn't include the time to boot the operating system. Use
+                  <literal>waitForTools</literal>.
+                </para>
+              </alert>
+            </definition>
+            <definedTerm>powerOff</definedTerm>
+            <definition>Power off timeout, default is 60 seconds.</definition>
+            <definedTerm>waitForTools</definedTerm>
+            <definition>Operating system boot timeout, default is 5 minutes.</definition>
+            <definedTerm>login</definedTerm>
+            <definition>Operating system log-in timeout, default is 60 seconds.</definition>
+            <definedTerm>copyFile</definedTerm>
+            <definition>
+              Max time to copy a file from guest to host or host to guest. default is 20 minutes. RemoteInstaller copies
+              installation files and log files.
+              <alert class="note">
+                <para>
+                  This takes a long time. See 
+                  <externalLink>
+                    <linkUri>http://communities.vmware.com/thread/184489</linkUri>
+                    <linkText>this page</linkText>
+                  </externalLink>
+                  for a discussion on performance issues.
+                </para>
+              </alert>  
+            </definition>
+            <definedTerm>runProgram</definedTerm>
+            <definition>Maximum time to install or uninstall the tested MSI. Default is 20 minutes.</definition>
+            <definedTerm>fileExists</definedTerm>
+            <definition>Check for existance of a file timeout. Default is 60 seconds.</definition>
+            <definedTerm>logout</definedTerm>
+            <definition>Operating system logout timeout. Default is 60 seconds.</definition>
+            <definedTerm>listDirectory</definedTerm>
+            <definition>List files on the remote system during file collection. Default is 60 seconds.</definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="2bdfdafd-8f65-4db7-b605-41d7e7943ea3" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>You must specify at least one virtual machine with one (default) snapshot in a RemoteInstaller configuration file.</para>
+    </introduction>
+    <section address="VirtualMachineConfiguration">
+      <title>Virtual Machines Configuration Element</title>
+      <content>
+        <para>
+          A <literal>virtualmachines</literal> configuration element must be placed in the configuration file under the
+          <literal>RemoteInstallerConfig</literal> node. The section defines various virtual machines and their snapshots
+          used during the RemoteInstaller execution and supports the following attributes.
+          <definitionTable>
+            <definedTerm>copymethod</definedTerm>
+            <definition>
+              Method of copying the file to the remote virtual machine. This can be one of the following.
+              <definitionTable>
+                <definedTerm>vmware</definedTerm>
+                <definition>Use VMWare API (very slow). This is the default.</definition>
+                <definedTerm>network</definedTerm>
+                <definition>
+                  Attempt to map the remote host's network drive and use a file copy. The remote drive is a combination of the
+                  remote IP address obtained from a VMWare guest environment and the installer destination path.
+                  The virtual machine credentials are used to map the drive.
+                  For example, a destination path of <literal>c:\installers\installer.msi</literal> becomes
+                  <literal>\\192.168.1.2\c$\installers\installer.msi</literal>.
+                </definition>
+              </definitionTable>
+              The <literal>copymethod</literal> setting overrides the value defined with an installer or a collection 
+              of installers.
+            </definition>
+          </definitionTable>
+          <code language="xml">
+            <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="RemoteInstallConfig" type="RemoteInstall.RemoteInstallConfig, RemoteInstall" />
+  </configSections>
+  <RemoteInstallConfig>
+    <virtualmachines>
+      ...
+      <virtualmachine
+        type="Workstation" file="virtualmachine.vmx" name="Virtual Machine">
+        <snapshots>
+          <snapshot name="*" username="Administrator" password="admin123" />
+        </snapshots>
+      </virtualmachine>
+    </virtualmachines>
+  </RemoteInstallConfig>
+</configuration>
+            ]]>
+          </code>
+        </para>
+        <para>
+          You may define one or more virtual machines under the <literal>virtualmachines</literal> section.
+          Each virtual machine must have a <literal>type</literal> attribute. The following virtual machine types
+          are supported.
+          <definitionTable>
+            <definedTerm>Workstation</definedTerm>
+            <definition>A VMWare Workstation 6.5 virtual machine.</definition>
+            <definedTerm>ESX</definedTerm>
+            <definition>A virtual infrastructure (eg. ESX) virtual machine.</definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineConfigurationWorkstation">
+      <title>Workstation Virtual Machines</title>
+      <content>
+        <para>
+          Workstation virtual machines are defined by a local .vmx <literal>file</literal>.
+          A <literal>virtualmachine</literal> of <literal>Workstation</literal> type may have the following attributes.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>Virtual Machine name as it appears in the output results.</definition>
+            <definedTerm>file</definedTerm>
+            <definition>A local .vmx file on the current system that identifies the virtual machine.</definition>
+          </definitionTable>
+          <code language="xml">
+            <![CDATA[
+<virtualmachine type="Workstation" file="c:\Virtual Machines\MyVirtualMachine.vmx" name="My Virtual Machine">
+  <snapshots>
+    <snapshot name="*" username="Administrator" password="admin123" />
+  </snapshots>
+</virtualmachine>
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineConfigurationESX">
+      <title>ESX Virtual Machines</title>
+      <content>
+        <para>
+          An ESX virtual machine is defined by a remote <literal>host</literal> SOAP service location,
+          remotely stored .vmx <literal>file</literal> and infrastructure client <literal>username</literal> and
+          <literal>password</literal> credentials.
+        </para>
+        <para>
+          A <literal>virtualmachine</literal> of <literal>ESX</literal> type may have the following attributes.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>Virtual Machine name as it appears in the output results.</definition>
+            <definedTerm>file</definedTerm>
+            <definition>A storage .vmx file on the remote system that identifies the virtual machine.</definition>
+            <definedTerm>host</definedTerm>
+            <definition>A fully qualified host of the virtual infrastructure environment.</definition>
+            <definedTerm>username</definedTerm>
+            <definition>Username to login to the remote virtual infrastructure environment, same as used in the  Infrastructure Client.</definition>
+            <definedTerm>password</definedTerm>
+            <definition>Password to login to the remote virtual infrastructure environment.</definition>
+          </definitionTable>
+          <code language="xml">
+            <![CDATA[
+<virtualmachine name="dbctest" type="ESX" 
+  host="tubbs.nycapt35k.com" file="[dbctest] dbctest/dbctest.vmx"
+  username="vmuser" password="admin123">
+  <snapshots>
+    <snapshot name="*" username="Administrator" password="admin123" />
+  </snapshots>
+</virtualmachine>
+            ]]>
+          </code>
+          <alert class="tip">
+            <para>
+              A virtual machine on a VMWare Workstation is a file with a standard path (eg. C:\Virtual Machines\myvirtualmachine.vmx).
+              It's the same thing on an ESX server, but with a relative storage path. The latter can be found in the
+              VMWare Infrastructure Client: right click on a virtual machine, choose Edit Settings, click the Options tab and note
+              the Virtual Machine Configuration File (eg. [dbctest] dbctest/dbctest.vmx).
+            </para>
+          </alert>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineConfigurationAdditionalOptions">
+      <title>Additional Options</title>
+      <content>
+        <para>
+          The following additional options are available for virtual machines.
+          <definitionTable>
+            <definedTerm>powerDelay</definedTerm>
+            <definition>
+              Additional delay, in seconds, to wait after a virtual machine powers on and VMWare
+              tools yield control. This introduces an artificial delay that may allow some services
+              to start and reach a fully functioning state.
+            </definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineConfigurationSnapshots">
+      <title>Defining Snapshots</title>
+      <content>
+        <para>
+          A virtual machine configuration must contain at least one snapshot. Snapshots are identified by name.
+          Both a collection of <literal>snapshots</literal> and each single <literal>snapshot</literal>
+          may include a <literal>username</literal> and <literal>password</literal> to login to the operating
+          system. If the snapshot doesn't have credentials defined, the collection credentials are used.
+        </para>
+        <para>
+          A set of <literal>snapshots</literal> supports the following attributes.
+          <definitionTable>
+            <definedTerm>username</definedTerm>
+            <definition>
+              Default username to login to the guest operating system, when unspecified for a <literal>snapshot</literal>.
+            </definition>
+            <definedTerm>password</definedTerm>
+            <definition>Default password to login to the guest operating system.</definition>
+            <definedTerm>powerOff</definedTerm>
+            <definition>
+              Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
+            </definition>
+          </definitionTable>
+          <code language="xml">
+            <![CDATA[
+<virtualmachine type="Workstation" file="c:\vms\vm\vm.vmx" name="My VM">
+  <snapshots username="Administrator" password="admin123">
+    <snapshot name="Base OS" />
+    <snapshot name="With SQL Server" username="domain\user" password="password" />
+  </snapshots>
+</virtualmachine>
+              ]]>
+          </code>
+          <alert class="tip">
+            <para>
+              There's a reserved name <literal>*</literal> for the
+              current snapshot. This is useful to test an installer on the currently powered snapshot, without having to revert to
+              it and power up the virtual machine.
+              <code language="xml">
+                <![CDATA[
+<virtualmachine type="Workstation" file="c:\vms\vm\vm.vmx" name="My VM">
+  <snapshots>
+    <snapshot name="*" username="Administrator" password="admin123" />
+  </snapshots>
+</virtualmachine>]]>
+              </code>
+            </para>
+          </alert>
+          <para>
+            A <literal>snapshot</literal> supports the following attributes.
+            <definitionTable>
+              <definedTerm>name</definedTerm>
+              <definition>A unique name or path identifying this snapshot.</definition>
+              <definedTerm>description</definedTerm>
+              <definition>
+                An optional description identifying this snapshot. The pair of
+                snapshot name and description must be unique.
+              </definition>
+              <definedTerm>username</definedTerm>
+              <definition>Username to login to the guest operating system.</definition>
+              <definedTerm>password</definedTerm>
+              <definition>Password to login to the guest operating system.</definition>
+              <definedTerm>powerOff</definedTerm>
+              <definition>
+                Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
+              </definition>
+            </definitionTable>
+            <code language="xml">
+              <![CDATA[
+<virtualmachine type="Workstation" file="c:\vms\xp\xp.vmx" name="Windows XP">
+  <snapshots>
+    <snapshot name="Base OS" username="Administrator" password="admin123" />
+    <snapshot name="Base OS + SQL Server 2005" username="Administrator" password="admin123" />
+  </snapshots>
+</virtualmachine>]]>
+            </code>
+          </para>
+          <alert class="note">
+            <para>
+              If you create unique names for your snapshots you may refer to them by name regardless of where
+              the spanshot is positioned in the snapshot hierarchy. To distinguish snapshots with the same name
+              specify the full snapshot path separated by backslashes. If you create two identically named
+              snapshots at the same level and specify a full snapshot path, the first one will be used.
+            </para>
+          </alert>
+          <alert class="important">
+            <para>
+              You can create both powered on (live) and powered off snapshots. Using the live snapshots is faster since
+              the operating system doesn't need to start-up, but these snapshots are often not portable between
+              different VMWare hosts that have an incompatible process architecture.
+            </para>
+          </alert>
+        </para>
+      </content>
+    </section>
+    <section address="VirtualMachineConfigurationSnapshotDependencies">
+      <title>Defining Snapshot Dependencies</title>
+      <content>
+        <para>
+          Each snapshot can power one or more dependent snapshot on a different virtual machine. This enables distributed
+          test scenarios. For example, you can test a product with a remote database. The latter lives on a separate virtual
+          machine and its known state is snapshot. A <literal>snapshot</literal> may contain a <literal>dependencies</literal>
+          child node with a list of virtual machines, each containing a single child <literal>snapshot</literal>.
+          Dependent virtual machines are powered first before the snapshot on which the test installation will occur.
+          Dependencies can also be nested.
+          <code language="xml">
+            <![CDATA[
+<virtualmachine type="Workstation" file="c:\vms\xp\xp.vmx" name="Windows XP">
+  <snapshots>
+    <snapshot name="Base OS" username="Administrator" password="admin123">
+      <dependencies>
+        <virtualmachine type="Workstation" file="c:\vms\sql\sql.vmx" name="SQL Server">
+          <snapshots>
+            <snapshot name="SQL 2005" username="Administrator" password="admin123" />
+          </snapshots>
+        </virtualmachine>
+      </dependencies>    
+    </snapshot>
+    <snapshot name="Base OS + SQL Server 2005" username="Administrator" password="admin123" />
+  </snapshots>
+</virtualmachine>]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

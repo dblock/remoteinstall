@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="E00E3E93-E6F7-4372-8E5B-1F9191FFB77A" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>RemoteInstaller Features</para>
+    </introduction>
+    <section address="Features">
+      <title>Features</title>
+      <content>
+        <para>
+          <list class="bullet">
+            <listItem>Designed for continuous integration with CruiseControl and CruiseControl.NET.</listItem>
+            <listItem>Supports VMWare Professional 6.5, VMWare Server 2.0 and Virtual Infrastructure (ESX, etc.) with VMWare VIX 1.7.0+.</listItem>
+            <listItem>Supports running multiple installers on multiple virtual machines with multiple snapshots.</listItem>
+            <listItem>Command line, configuration file driven execution.</listItem>
+            <listItem>XML and HTML logging with pretty xsl-tranformed output including custom merged results.</listItem>
+            <listItem>Capable of executing user-defined command-line, virtual machine and virtual machine snapshot tasks.</listItem>
+            <listItem>Capable of combining results from multiple runs and user-defined tasks.</listItem>
+            <listItem>Automatically collects installation logs clickable in the results summary.</listItem>
+            <listItem>Copies user-defined files and folders from/to the virtual machine.</listItem>
+            <listItem>Supports horizontal scaling with parallel execution against multiple Virtual Machine hosts.</listItem>
+            <listItem>Itegrates and remotes unit tests from unit test frameworks, including NUnit and JUnit.</listItem>
+            <listItem>Supports some distributed test scenarios with multiple virtual machines and snapshots.</listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="5f3808aa-d56d-4d2d-a956-548d66a5778c" revisionNumber="1">
+  <developerSampleDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>A very simple configuration file.</para>
+    </introduction>
+    <section address="sample">
+      <content>
+      	<code language="xml">
+           <![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section
+		  name="RemoteInstallConfig"
+		  type="RemoteInstall.RemoteInstallConfig, RemoteInstall"
+      />
+  </configSections>
+  <RemoteInstallConfig>
+    <timeouts logout="60" />
+    <!-- the installer will be copied to the destpath location on the remote vm -->
+    <installers destpath="C:\">
+      <!-- the installer file definition supports * that is replaced by the latest directory in the list of subdirectories -->
+      <installer
+        file="Samples\Sample.msi"
+        name="Sample Installer" />
+    </installers>
+    <virtualmachines username="Administrator" password="admin123">
+      <!-- a virtual machine without snapshots: this simply runs the tests on a previously powered vm -->
+      <virtualmachine
+        type="Workstation"
+        file="C:\Users\dblock\Virtual Machines\Windows XP Pro SP2\winXPPro.vmx"
+        name="Windows XP Pro SP2 (English)">
+        <snapshots>
+          <!-- the current snapshot -->
+          <snapshot name="*" username="Administrator" password="admin123" />
+        </snapshots>
+      </virtualmachine>
+    </virtualmachines>
+  </RemoteInstallConfig>
+</configuration>]]>
+      	</code>
+      </content>
+    </section>
+  </developerSampleDocument>
+</topic>

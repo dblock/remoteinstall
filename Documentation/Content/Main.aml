@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="4A864A7F-947D-4fac-B20D-CE30B727A840" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <summary>
+      <para>
+        RemoteInstaller is a unit test driver for deployable packages, including Windows installers. 
+        It's a command line tool and a C# library that can be used to automate system testing with virtual machines using VMware Virtual Infrastructure.
+        The framework takes a pragmatic approach to unit testing and works well with developer concepts of continuous integration.
+      </para>
+    </summary>
+    <section address="screenshots">
+      <title>Screenshots</title>
+      <content>
+        <para>
+          RemoteInstaller results under CruiseControl.NET.
+          <mediaLink>
+            <image xlink:href="CruiseControl.jpg" />
+          </mediaLink>
+        </para>
+        <para>
+          Remoted NUnit unit test results produced by RemoteInstaller.
+          <mediaLink>
+            <image xlink:href="NUnitSample.jpg" />
+          </mediaLink>
+        </para>
+      </content>
+    </section>
+    <relatedTopics>
+      <link xlink:href="88B835D0-0578-40aa-B421-B946521DF73E">Getting Started</link>
+      <link xlink:href="E00E3E93-E6F7-4372-8E5B-1F9191FFB77A">RemoteInstaller Features</link>
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="b8cfb32a-3412-416a-a6c0-9100ec80474b" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>You may specify variables throughout the RemoteInstaller configuration files.</para>
+    </introduction>
+    <section address="ConfigVariables">
+      <title>Configuration Variables</title>
+      <content>
+        <para>
+          The following configuration variable types are supported.
+          <definitionTable>
+            <definedTerm>${env.Name}</definedTerm>
+            <definition>Environment variables.</definition>
+            <definedTerm>${var.Name}</definedTerm>
+            <definition>
+              A variable defined on the command line. Simple append <literal>name=value</literal> to the command line.
+            </definition>
+            <definedTerm>${folder.SpecialFolderName}</definedTerm>
+            <definition>
+              Special folders. The following special folder names are supported.
+              <definitionTable>
+                <definedTerm>Desktop</definedTerm>
+                <definition>The logical Desktop rather than the physical file system location.</definition>
+                <definedTerm>Programs</definedTerm>
+                <definition>The directory that contains the user's program groups.</definition>
+                <definedTerm>Personal</definedTerm>
+                <definition>The directory that serves as a common repository for documents.</definition>
+                <definedTerm>MyDocuments</definedTerm>
+                <definition>The "My Documents" folder.</definition>
+                <definedTerm>Favorites</definedTerm>
+                <definition>The directory that serves as a common repository for the user's favorite items.</definition>
+                <definedTerm>Startup</definedTerm>
+                <definition>The directory that corresponds to the user's Startup program group.</definition>
+                <definedTerm>Recent</definedTerm>
+                <definition>The directory that contains the user's most recently used documents.</definition>
+                <definedTerm>SendTo</definedTerm>
+                <definition>The directory that contains the Send To menu items.</definition>
+                <definedTerm>StartMenu</definedTerm>
+                <definition>The directory that contains the Start menu items.</definition>
+                <definedTerm>MyMusic</definedTerm>
+                <definition>The "My Music" folder.</definition>
+                <definedTerm>DesktopDirectory</definedTerm>
+                <definition>The directory used to physically store file objects on the desktop.</definition>
+                <definedTerm>MyComputer</definedTerm>
+                <definition>The "My Computer" folder.</definition>
+                <definedTerm>Templates</definedTerm>
+                <definition>The directory that serves as a common repository for document definedTermlates.</definition>
+                <definedTerm>ApplicationData</definedTerm>
+                <definition>The directory that serves as a common repository for application-specific data for the current roaming user.</definition>
+                <definedTerm>LocalApplicationData</definedTerm>
+                <definition>The directory that serves as a common repository for application-specific data that is used by the current, non-roaming user.</definition>
+                <definedTerm>InternetCache</definedTerm>
+                <definition>The directory that serves as a common repository for definedTermorary Internet files.</definition>
+                <definedTerm>Cookies</definedTerm>
+                <definition>The directory that serves as a common repository for Internet cookies.</definition>
+                <definedTerm>History</definedTerm>
+                <definition>The directory that serves as a common repository for Internet history items.</definition>
+                <definedTerm>CommonApplicationData</definedTerm>
+                <definition>The directory that serves as a common repository for application-specific data that is used by all users.</definition>
+                <definedTerm>System</definedTerm>
+                <definition>The System directory.</definition>
+                <definedTerm>ProgramFiles</definedTerm>
+                <definition>The program files directory.</definition>
+                <definedTerm>MyPictures</definedTerm>
+                <definition>The "My Pictures" folder.</definition>
+                <definedTerm>CommonProgramFiles</definedTerm>
+                <definition>The directory for components that are shared across applications.</definition>
+              </definitionTable>
+            </definition>
+            <definedTerm>${file:path}</definedTerm>
+            <definition>A file to include. The contents of the file can contain other variables.</definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="ConfigVariables">
+      <title>Passing Command-Line Parameters</title>
+      <content>
+        <para>
+          You can pass command-line parameters that can be reused as configuration variables. Simply append
+          <literal>name="value"</literal> to the command line and use <literal>${var.Name}</literal> in a configuration file.
+        </para>
+        <para>
+          For example, the following <literal>Template.config</literal> configuration file uses 
+          <literal>${var.installer}</literal> and <literal>${var.virtualmachine}</literal>.
+          <code language="xml">
+            <![CDATA[
+<configuration>
+  <configSections>
+    <section name="RemoteInstallConfig" type="RemoteInstall.RemoteInstallConfig, RemoteInstall" />
+  </configSections>
+  <RemoteInstallConfig>
+    <installers>
+      <installer file="${var.installer}" name="${var.installer}" />
+    </installers>
+    <virtualmachines>
+      <!-- a virtual machine without snapshots: this simply runs the tests on a previously powered vm -->
+      <virtualmachine
+        type="Workstation"
+        file="${var.virtualmachine}"
+        name="Virtual Machine">
+        <snapshots>
+          <snapshot name="*" username="Administrator" password="admin123" />
+        </snapshots>
+      </virtualmachine>
+    </virtualmachines>
+  </RemoteInstallConfig>
+</configuration>
+            ]]>
+          </code>
+        </para>
+        <para>
+          You can execute RemoteInstaller with the following command line.
+          <code language="cmd">
+            <![CDATA[
+RemoteInstaller.exe /config:Template.config /outputDir:results /outputXml:Result.xml Installer=Sample.msi VirtualMachine="c:\my virtual machines\test.vmx"
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8fd2223a-c9da-4053-b824-c32802628aac" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        RemoteInstaller is capable of running
+        <externalLink>
+          <linkUri>http://www.nunit.org</linkUri>
+          <linkText>NUnit</linkText>
+        </externalLink>
+        or JUnit unit tests for each successful installation. You can
+        therefore use the framework for more than installation testing and effectively verify that the product works
+        after being installed.
+      </para>
+      <para>
+        The following screenshot shows the results that RemoteInstaller is capable of producing when remoting NUnit unit tests.
+        <mediaLink>
+          <image xlink:href="NUnitSample.jpg" />
+        </mediaLink>
+      </para>
+    </introduction>
+    <procedure>
+      <title>NUnit Integration</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>
+              Ensure that NUnit is installed on the target virtual machine snapshot(s). Alternatively, it's also possible
+              to deploy NUnit using its installer. For the purposes of this topic, NUnit is installed in
+              <system>C:\Program Files\NUnit 2.4.7</system>.
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              A sample NUnit unit test is included with the distribution package and is written in C#. It contains three
+              unit tests.
+              <list class="bullet">
+                <listItem>A test that verifies that the Sample installer was successfully installed.</listItem>
+                <listItem>A test that always fails.</listItem>
+                <listItem>A test that never runs.</listItem>
+              </list>
+              <code language="C#">
+                <![CDATA[
+[TestFixture]
+public class Tests
+{
+    [Test]
+    public void CheckWhetherSampleMsiIsInstalled()
+    {
+        RegistryKey key = Registry.LocalMachine.OpenSubKey(
+          @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{89DD6045-A45B-4ED4-9C06-E93316D52A1D}");
+        Assert.IsNotNull(key);
+        object version = key.GetValue("Version");
+        Console.WriteLine("Version: {0}", version);
+        Assert.IsNotNull(version);
+    }
+
+    [Test]
+    public void ThisTestAlwaysFails()
+    {
+        Assert.Fail("This test always fails.");
+    }
+
+    [Test]
+    protected void ThisTestNeverRuns()
+    {
+    }
+}]]>
+              </code>
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              The unit test verifies that <application>Sample.msi</application> was properly installed. RemoteInstaller
+              configuration declares this installer. After each snapshot is restored, <application>Sample.msi</application>
+              is installed first.
+              <code language="xml">
+                <![CDATA[
+<installer file="Samples\Sample.msi" name="Sample Installer" />
+                ]]>
+              </code>
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              The unit test executes on the remote virtual machine. It's copied, along with all its dependent files,
+              by the RemoteInstaller before anything else is run. Note that an entire directory is specified.
+              <code language="xml">
+                <![CDATA[
+<copyfiles>
+  <copyfile file="Samples\NUnitDemo\bin\Debug" destpath="c:\unittests" when="beforeall" 
+            destination="toVirtualMachine" includeInResults="false" />
+</copyfiles>
+                ]]>
+              </code>
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              The unit test is run with <application>nunit-console.exe</application> after a successful installation.
+              <code language="xml">
+                <![CDATA[
+<tasks>
+  <task type="command" cmd="C:\Program Files\NUnit 2.4.7\bin\nunit-console.exe"
+        cmdargs="c:\unittests\Debug\NUnitDemo.dll /xml:c:\unittests\testresults.xml"
+        when="aftersuccessfulinstall" exitcode="1" />
+</tasks>
+                ]]>
+              </code>
+            </para>
+          </content>
+        </step>
+        <step>
+          <content>
+            The NUnit xml output was placed in <literal>testresults.xml</literal>. RemoteInstaller collects this file
+            and saves or transforms it to three different flavors.
+            <list class="bullet">
+              <listItem>NUnit output, as is. Raw XML with no transformations.</listItem>
+              <listItem>
+                Partial transform into HTML using <literal>XslTemplates\UnitTests.xml</literal> which summarizes test execution
+                and is included directly into the RemoteInstaller results.xml.
+              </listItem>
+              <listItem>
+                Full transform into HTML using <literal>XslTemplates\UnitTestDetails.xsl</literal>. This becomes a clickable
+                link in the RemoteInstaller results and contains all unit test success and failure details.
+              </listItem>
+            </list>
+            <code language="xml">
+              <![CDATA[
+<copyfile name="unittests.xml" file="c:\unittests\testresults.xml" destpath="unittests" when="afterall" 
+          destination="toTestClient" />
+<copyfile name="utsummary.html" file="c:\unittests\testresults.xml" destpath="unittests" when="afterall" 
+          destination="toTestClient" includeInResults="false" includeDataInResults="true" xslt="XslTemplates\UnitTests.xsl" />
+<copyfile name="utdetails.html" file="c:\unittests\testresults.xml" destpath="unittests" when="afterall" 
+          destination="toTestClient" includeDataInResults="false" xslt="XslTemplates\UnitTestDetails.xsl" />]]>
+            </code>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>
+              Click <link xlink:href="5df5cce4-0826-4728-9982-f39b4054cc40">here</link> for a complete NUnit integration
+              configuration sample.
+            </para>
+          </content>
+        </step>
+      </steps>
+    </procedure>
+  </developerConceptualDocument>
+</topic>

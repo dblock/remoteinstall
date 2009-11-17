@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="c5ed0ce2-cd5a-456d-8fe4-c776c660854e" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>You must specify at least one installer in a RemoteInstaller configuration file.</para>
+    </introduction>
+    <section address="DefiningInstallers">
+      <title>Defining Installers</title>
+      <content>
+        <para>
+          A collection of <literal>installers</literal> includes multiple <literal>installer</literal> items and
+          supports the following attributes.
+          <definitionTable>
+            <definedTerm>destpath</definedTerm>
+            <definition>Remote location where to copy all installer files.</definition>
+            <definedTerm>copymethod</definedTerm>
+            <definition>
+              Method of copying the file to the remote virtual machine. This can be one of the following.
+              <definitionTable>
+                <definedTerm>vmware</definedTerm>
+                <definition>Use VMWare API (very slow). This is the default.</definition>
+                <definedTerm>network</definedTerm>
+                <definition>
+                  Attempt to map the remote host's network drive and use a file copy. The remote drive is a combination of the
+                  remote IP address obtained from a VMWare guest environment and the installer destination path.
+                  The virtual machine credentials are used to map the drive.
+                  For example, a destination path of <literal>c:\installers\installer.msi</literal> becomes
+                  <literal>\\192.168.1.2\c$\installers\installer.msi</literal>.
+                </definition>
+              </definitionTable>
+              If a virtual machine or a collection of virtual machines also define a <literal>copymethod</literal> 
+              value, this attribute is ignored.
+            </definition>
+          </definitionTable>
+        </para>
+        <para>
+          An <literal>installer</literal> identifies either a single MSI or DNI executable bootstrapper to copy,
+          install and uninstall on the remote host. All installer types supports the following attributes.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>A unique name identifying this installer.</definition>
+            <definedTerm>file</definedTerm>
+            <definition>
+              A file or path that locates the MSI installer. You may use <literal>*</literal> to substitute portions
+              of a directory for the last entry in the directory listing. This is useful for testing tatest builds.
+            </definition>
+            <definedTerm>copymethod</definedTerm>
+            <definition>
+              Method of copying the file to the remote virtual machine. See <literal>installers</literal> for details.
+            </definition>
+            <definedTerm>installargs</definedTerm>
+            <definition>Additional installer arguments.</definition>
+            <definedTerm>sequence</definedTerm>
+            <definition>
+              Installers sequence when multiple installers are specified.
+              <definitionTable>
+                <definedTerm>clean</definedTerm>
+                <definition>Default. Restore the snapshot before each install/uninstall.</definition>
+                <definedTerm>alternate</definedTerm>
+                <definition>Alternate install/uninstall. Install A, uninstall A, install B, uninstall B.</definition>
+                <definedTerm>fifo</definedTerm>
+                <definition>First in, first out. Install A, install B, uninstall A, uninstall B.</definition>
+                <definedTerm>lifo</definedTerm>
+                <definition>Last in, first out. Install A, install B, uninstall B, uninstall A.</definition>
+                <definedTerm>install</definedTerm>
+                <definition>Install only, in order of definition.</definition>
+                <definedTerm>uninstall</definedTerm>
+                <definition>Uninstall only, in order of definition.</definition>
+              </definitionTable>
+            </definition>
+            <definedTerm>type</definedTerm>
+            <definition>
+              This installer type. Can be either <literal>msi</literal> or <literal>dni</literal>.
+              <definitionTable>
+                <definedTerm>msi</definedTerm>
+                <definition>A standard MSI installer. See below.</definition>
+                <definedTerm>dni</definedTerm>
+                <definition>A DNI installer. See below.</definition>
+              </definitionTable>
+            </definition>
+            <definedTerm>install</definedTerm>
+            <definition>Installer supports <literal>install</literal>.</definition>
+            <definedTerm>uninstall</definedTerm>
+            <definition>Installer supports <literal>uninstall</literal>.</definition>
+          </definitionTable>
+        </para>
+      </content>
+    </section>
+    <section address="DefiningInstallersMsi">
+      <title>Defining MSI Installers</title>
+      <content>
+        <para>
+          An MSI installer is a standard Windows MSI installer. It is identified by a single
+          .msi file and can be executed with msiexec to install and uninstall an application.
+          There're no additional attributes supported by MSI installers.
+        </para>
+        <para>
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <installer file="Samples\Sample.msi" name="Sample Installer" copymethod="network" type="msi" />
+</installers>
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="DefiningInstallersDni">
+      <title>Defining DNI Installers</title>
+      <content>
+        <para>
+          A DNI installer is a boostrapped installer that uses DNI technology. Currently DNI does
+          not support unininstallation. See
+          <externalLink>
+            <linkUri><![CDATA[http://www.devage.com/Wiki/ViewArticle.aspx?name=dotnetinstaller&version=0]]></linkUri>
+            <linkText>this page</linkText>
+          </externalLink> 
+          for more information on DNI.
+        </para>
+        <para>
+          In addition to standard installer parameters DNI installers support an optional collection
+          of <literal>component</literal> elements. Each <literal>component</literal> represents
+          a component within DNI. The following attributes are supported.
+          <definitionTable>
+            <definedTerm>name</definedTerm>
+            <definition>A unique component name as specified in the component description in DNI.</definition>
+            <definedTerm>description</definedTerm>
+            <definition>Additional and optional component description.</definition>
+            <definedTerm>args</definedTerm>
+            <definition>Additional command-line arguments to pass to the component during installation.</definition>
+          </definitionTable>
+        </para>
+        <para>
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <installer file="Samples\Setup.exe" name="Sample Installer" type="dni">
+    <components>
+      <component name="Component1" description="Component1 Description" />
+      <component name="Component2" description="Component2 Description" args="arg1 arg2" />
+    </components>
+  </installer>
+</installers>
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="DefiningInstallersNoop">
+      <title>Defining Noop Installers</title>
+      <content>
+        <para>
+          A noop installer doesn't do anything. This may be useful when running installation
+          scenarios on top of existing installations.
+        </para>
+        <para>
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <installer name="Noop Installer" type="noop" />
+</installers>
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

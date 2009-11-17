@@ -1,0 +1,92 @@
+<Project DefaultTargets="all" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Condition="'$(Configuration)'==''">
+    <Configuration>Debug</Configuration>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ProductName>RemoteInstall Test Framework</ProductName>
+    <CompanyName>Application Security Inc.</CompanyName>
+    <Copyright>Copyright (c) Application Security Inc. 2008-2009</Copyright>
+    <Trademark>All Rights Reserved</Trademark>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>0</MinorVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  <Import Project="Version.proj"/>
+  <Target Name="all">
+    <Message Importance="high" Text="Building project ..." />
+    <CallTarget Targets="clean" />
+    <CallTarget Targets="version" />
+    <CallTarget Targets="build" />
+    <CallTarget Targets="doc" />
+    <CallTarget Targets="xsd" />
+    <CallTarget Targets="unittests" />
+    <CallTarget Targets="drop" />
+  </Target>
+  <Target Name="clean">
+    <MSBuild Projects="RemoteInstall.sln" Targets="Clean" />
+    <DeleteTree Directories="target" Recursive="yes" />
+    <Delete Files="Version\GlobalAssemblyInfo.cs" />
+    <DeleteTree Directories="Documentation\$(Configuration)" Recursive="yes" />
+    <DeleteTree Directories="Samples\$(Configuration)" Recursive="yes" />
+    <Delete Files="XslTemplates\Results.xsx" />
+    <DeleteTree Directories="**\bin;**\obj" Recursive="true" />
+  </Target>
+  <ItemGroup>
+    <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareLib.dll" />
+    <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareLib.dll.config" />
+    <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareTools.dll" />
+    <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareTools.dll.config" />
+    <BinaryFile Include="Externals\VMWareTasks\Interop.VixCOM.dll" />
+    <BinaryFile Include="RemoteInstaller\bin\$(Configuration)\RemoteInstall.dll" />
+    <BinaryFile Include="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe" />    
+    <BinaryFile Include="Externals\SmartThreadPool\SmartThreadPool.dll" />    
+  </ItemGroup>
+  <ItemGroup>
+    <Samples Include="Samples/*.config" />
+    <Samples Include="Samples/Sample.msi" />
+    <Samples Include="Samples/NUnitDemo/bin/$(Configuration)/*.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Templates Include="XslTemplates/**/*.xsl" Exclude="XslTemplates/ResultsXsd.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Schema Include="XslTemplates/**/*.xsd" />
+  </ItemGroup>
+  <Target Name="build" DependsOnTargets="version">
+    <MSBuild Projects="RemoteInstall.sln" Targets="Build" />
+  </Target>
+  <Target Name="drop">
+    <MakeDir Directories="target\$(Configuration)\bin" />
+    <Copy SourceFiles="@(BinaryFile)" DestinationFolder="target\$(Configuration)\bin" />
+    <MakeDir Directories="target\$(Configuration)\samples" />
+    <Copy SourceFiles="@(Samples)" DestinationFolder="target\$(Configuration)\samples" />
+    <MakeDir Directories="target\$(Configuration)\xsl" />
+    <Copy SourceFiles="@(Templates)" DestinationFolder="target\$(Configuration)\xsl" />
+    <MakeDir Directories="target\$(Configuration)\schema" />
+    <Copy SourceFiles="@(Schema)" DestinationFolder="target\$(Configuration)\schema" />
+    <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="target\$(Configuration)" />
+    <Copy SourceFiles="License\cpl-1.0.htm" DestinationFolder="target\$(Configuration)" />
+  </Target>
+  <Target Name="doc" DependsOnTargets="version">
+    <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />
+    <Error Condition="'$(SHFBROOT)'==''" Text="Missing Sandcastle Builder, SHFBROOT environment variable not set, install from http://www.codeplex.com/SHFB" />
+    <MSBuild Projects="Documentation\RemoteInstaller.shfbproj" />
+    <Error Condition="Exists('Documentation\$(Configuration)\LastBuild.log')" Text="Documentation build failed, check Documentation\$(Configuration)\LastBuild.log" />
+  </Target>
+  <Target Name="sample">
+    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Sample.config /outputDir:target\$(Configuration) /outputXml:results.xml" />
+  </Target>
+  <Target Name="xsd">
+    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Everything.config /outputDir:Samples\$(Configuration) /outputXml:results.xml /simulationOnly+ root=." />
+    <Exec Command="&quot;$(ProgramFiles)\Microsoft Visual Studio 8\SDK\v2.0\Bin\xsd.exe&quot; Samples\$(Configuration)\results.xml /outputdir:Samples\$(Configuration)" />
+    <Xslt Inputs="Samples\$(Configuration)\Results.xsd" Output="XslTemplates\Results.xsd" Xsl="XslTemplates\ResultsXsd.xsl" />
+    <FileUpdate Regex=" xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;" ReplacementText="&gt;" Files="XslTemplates\Results.xsd" />
+  </Target>
+  <Target Name="unittests" DependsOnTargets="version">
+    <MakeDir Directories="target\$(Configuration)\unittests" />
+    <CreateItem Include="RemoteInstallUnitTests\**\bin\$(Configuration)\*UnitTests.dll">
+      <Output TaskParameter="Include" ItemName="UnitTestBinaries" />
+    </CreateItem>
+    <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\$(Configuration)\unittests\results.xml" />
+  </Target>
+</Project>

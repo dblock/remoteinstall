@@ -11,7 +11,7 @@
     <MinorVersion>1</MinorVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <ReleaseDir>target\$(Configuration)</ReleaseDir>
+    <ReleaseDir>target\$(Configuration)\RemoteInstall</ReleaseDir>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <Import Project="Version.proj"/>
@@ -24,6 +24,7 @@
     <CallTarget Targets="xsd" />
     <CallTarget Targets="unittests" />
     <CallTarget Targets="drop" />
+    <CallTarget Targets="zip" />
   </Target>
   <Target Name="clean">
     <MSBuild Projects="RemoteInstall.sln" Targets="Clean" />
@@ -93,9 +94,9 @@
     <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\UnitTests\$(Configuration)\results.xml" />
   </Target>
   <Target Name="zip" DependsOnTargets="version">
-    <CreateItem Include="$(ReleaseDir)\**\*" Exclude="$(ReleaseDir)\*.zip">
+    <CreateItem Include="target\$(Configuration)\**\*" Exclude="target\$(Configuration)\*.zip">
       <Output TaskParameter="Include" ItemName="PackageFiles" />
     </CreateItem>
-    <Zip WorkingDirectory="$(ReleaseDir)" ZipFileName="$(ReleaseDir)\RemoteInstall.$(Major).$(Minor).zip" Files="@(PackageFiles)" />
+    <Zip WorkingDirectory="target\$(Configuration)" ZipFileName="target\$(Configuration)\RemoteInstall.$(Major).$(Minor).zip" Files="@(PackageFiles)" />
   </Target>
 </Project>

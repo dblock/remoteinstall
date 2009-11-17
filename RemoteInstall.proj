@@ -10,6 +10,9 @@
     <MajorVersion>1</MajorVersion>
     <MinorVersion>1</MinorVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReleaseDir>target\$(Configuration)</ReleaseDir>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <Import Project="Version.proj"/>
   <Target Name="all">
@@ -56,16 +59,16 @@
     <MSBuild Projects="RemoteInstall.sln" Targets="Build" />
   </Target>
   <Target Name="drop">
-    <MakeDir Directories="target\$(Configuration)\bin" />
-    <Copy SourceFiles="@(BinaryFile)" DestinationFolder="target\$(Configuration)\bin" />
-    <MakeDir Directories="target\$(Configuration)\samples" />
-    <Copy SourceFiles="@(Samples)" DestinationFolder="target\$(Configuration)\samples" />
-    <MakeDir Directories="target\$(Configuration)\xsl" />
-    <Copy SourceFiles="@(Templates)" DestinationFolder="target\$(Configuration)\xsl" />
-    <MakeDir Directories="target\$(Configuration)\schema" />
-    <Copy SourceFiles="@(Schema)" DestinationFolder="target\$(Configuration)\schema" />
-    <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="target\$(Configuration)" />
-    <Copy SourceFiles="License\cpl-1.0.htm" DestinationFolder="target\$(Configuration)" />
+    <MakeDir Directories="$(ReleaseDir)\bin" />
+    <Copy SourceFiles="@(BinaryFile)" DestinationFolder="$(ReleaseDir)\bin" />
+    <MakeDir Directories="$(ReleaseDir)\samples" />
+    <Copy SourceFiles="@(Samples)" DestinationFolder="$(ReleaseDir)\samples" />
+    <MakeDir Directories="$(ReleaseDir)\xsl" />
+    <Copy SourceFiles="@(Templates)" DestinationFolder="$(ReleaseDir)\xsl" />
+    <MakeDir Directories="$(ReleaseDir)\schema" />
+    <Copy SourceFiles="@(Schema)" DestinationFolder="$(ReleaseDir)\schema" />
+    <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="$(ReleaseDir)" />
+    <Copy SourceFiles="License\cpl-1.0.htm" DestinationFiles="$(ReleaseDir)\License.htm" />
   </Target>
   <Target Name="doc" DependsOnTargets="version">
     <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />
@@ -74,7 +77,7 @@
     <Error Condition="Exists('Documentation\$(Configuration)\LastBuild.log')" Text="Documentation build failed, check Documentation\$(Configuration)\LastBuild.log" />
   </Target>
   <Target Name="sample">
-    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Sample.config /outputDir:target\$(Configuration) /outputXml:results.xml" />
+    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Sample.config /outputDir:$(ReleaseDir) /outputXml:results.xml" />
   </Target>
   <Target Name="xsd">
     <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Everything.config /outputDir:Samples\$(Configuration) /outputXml:results.xml /simulationOnly+ root=." />
@@ -83,10 +86,16 @@
     <FileUpdate Regex=" xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;" ReplacementText="&gt;" Files="XslTemplates\Results.xsd" />
   </Target>
   <Target Name="unittests" DependsOnTargets="version">
-    <MakeDir Directories="target\$(Configuration)\unittests" />
+    <MakeDir Directories="target\UnitTests\$(Configuration)" />
     <CreateItem Include="RemoteInstallUnitTests\**\bin\$(Configuration)\*UnitTests.dll">
       <Output TaskParameter="Include" ItemName="UnitTestBinaries" />
     </CreateItem>
-    <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\$(Configuration)\unittests\results.xml" />
+    <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\UnitTests\$(Configuration)\results.xml" />
+  </Target>
+  <Target Name="zip" DependsOnTargets="version">
+    <CreateItem Include="$(ReleaseDir)\**\*" Exclude="$(ReleaseDir)\*.zip">
+      <Output TaskParameter="Include" ItemName="PackageFiles" />
+    </CreateItem>
+    <Zip WorkingDirectory="$(ReleaseDir)" ZipFileName="$(ReleaseDir)\RemoteInstall.$(Major).$(Minor).zip" Files="@(PackageFiles)" />
   </Target>
 </Project>

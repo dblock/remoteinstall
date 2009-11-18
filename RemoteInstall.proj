@@ -69,7 +69,7 @@
     <MakeDir Directories="$(ReleaseDir)\schema" />
     <Copy SourceFiles="@(Schema)" DestinationFolder="$(ReleaseDir)\schema" />
     <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="$(ReleaseDir)" />
-    <Copy SourceFiles="License\cpl-1.0.htm" DestinationFiles="$(ReleaseDir)\License.htm" />
+    <Copy SourceFiles="License\epl-v10.html" DestinationFiles="$(ReleaseDir)\License.htm" />
   </Target>
   <Target Name="doc" DependsOnTargets="version">
     <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />

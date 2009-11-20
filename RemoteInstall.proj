@@ -8,7 +8,7 @@
     <Copyright>Copyright (c) Application Security Inc. 2008-2009</Copyright>
     <Trademark>All Rights Reserved</Trademark>
     <MajorVersion>1</MajorVersion>
-    <MinorVersion>1</MinorVersion>
+    <MinorVersion>2</MinorVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ReleaseDir>target\$(Configuration)\RemoteInstall</ReleaseDir>

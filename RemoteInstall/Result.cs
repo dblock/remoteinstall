@@ -20,6 +20,8 @@ namespace RemoteInstall
     /// </summary>
     public class Result : XmlResult
     {
+        private bool _success = true;
+
         private string _installerName;
         private string _installerVersion;
 
@@ -206,11 +208,11 @@ namespace RemoteInstall
                         return false;
                 }
 
-                return true;
+                return _success;
             }
             set
             {
-                throw new InvalidOperationException();
+                _success = value;
             }
         }
 

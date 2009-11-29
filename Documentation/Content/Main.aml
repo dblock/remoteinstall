@@ -3,9 +3,13 @@
   <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
     <summary>
       <para>
-        RemoteInstaller is a unit test driver for deployable packages, including Windows installers. 
-        It's a command line tool and a C# library that can be used to automate system testing with virtual machines using VMware Virtual Infrastructure.
-        The framework takes a pragmatic approach to unit testing and works well with developer concepts of continuous integration.
+        <mediaLink>
+          <image xlink:href="Logo.gif" />
+        </mediaLink>
+        RemoteInstaller is a test driver for deployable packages, specifically Windows installers.
+        It's a command line tool and a C# library that can be used to automate system testing with virtual
+        machines using VMware Virtual Infrastructure. The framework takes a pragmatic approach to testing 
+        and works well with developer concepts of continuous integration.
       </para>
     </summary>
     <section address="screenshots">

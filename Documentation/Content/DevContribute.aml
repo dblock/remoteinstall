@@ -80,7 +80,7 @@
           A development environment for RemoteInstall developers requires the following software.
           <list class="bullet">
             <listItem>
-              Microsoft Visual Studio 2005 SP1
+              Microsoft Visual Studio 2008
             </listItem>
             <listItem>
               Subversion Client

@@ -1,29 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstall", "RemoteInstall\RemoteInstall.csproj", "{54A79D97-B818-44E7-B998-73CFB07C6954}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3} = {DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstaller", "RemoteInstaller\RemoteInstaller.csproj", "{59A6144E-A480-4D40-895B-D94B17B68409}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3} = {DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}
-	EndProjectSection
-EndProject
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA794E53-7753-4F9E-8A42-FDF97143B89B}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		Samples\DniSample.config = Samples\DniSample.config
 		Samples\ESXDependenciesSample.config = Samples\ESXDependenciesSample.config
@@ -42,10 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA79
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6B276B85-8A0E-4CD0-BF7D-AB1DA8B78D03}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		build.cmd = build.cmd
 		CruiseControl.config = CruiseControl.config
@@ -53,17 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6B276B85
 		Version.proj = Version.proj
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version", "Version\Version.csproj", "{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{142EBDCC-B640-4CA6-A727-55A10ECD2874}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		XslTemplates\CruiseControl.xsl = XslTemplates\CruiseControl.xsl
 		XslTemplates\Results.xsd = XslTemplates\Results.xsd
@@ -74,20 +38,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{BCB5C96D-C5E6-46D3-9D0B-5207629B3499}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		Documentation\RemoteInstaller.content = Documentation\RemoteInstaller.content
 		Documentation\RemoteInstaller.shfbproj = Documentation\RemoteInstaller.shfbproj
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{1B38422D-B3DE-437D-84DA-D9C84F28638E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Content\ConfigVariables.aml = Documentation\Content\ConfigVariables.aml
 		Documentation\Content\CopyFiles.aml = Documentation\Content\CopyFiles.aml
@@ -102,16 +58,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{1B38
 		Documentation\Content\Main.aml = Documentation\Content\Main.aml
 		Documentation\Content\ParallelizingExecution.aml = Documentation\Content\ParallelizingExecution.aml
 		Documentation\Content\SampleConfig.aml = Documentation\Content\SampleConfig.aml
+		Documentation\Content\ThirdPartyLicenses.aml = Documentation\Content\ThirdPartyLicenses.aml
 		Documentation\Content\Timeouts.aml = Documentation\Content\Timeouts.aml
 		Documentation\Content\UnitTests.aml = Documentation\Content\UnitTests.aml
 		Documentation\Content\VirtualMachines.aml = Documentation\Content\VirtualMachines.aml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{02C0AC68-CAA6-4187-ABE0-9ABFA6993C5A}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Samples\DniSample.aml = Documentation\Samples\DniSample.aml
 		Documentation\Samples\NUnitSample.aml = Documentation\Samples\NUnitSample.aml
@@ -119,27 +72,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{02C0
 		Documentation\Samples\Sample.aml = Documentation\Samples\Sample.aml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitDemo", "Samples\NUnitDemo\NUnitDemo.csproj", "{C11BB5E5-BEA3-46A6-B05E-3E2895C47AC3}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{216AD6FB-854B-49D3-8351-A0C6FD56BC47}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Images\CruiseControl.jpg = Documentation\Images\CruiseControl.jpg
+		Documentation\Images\Logo.gif = Documentation\Images\Logo.gif
 		Documentation\Images\NUnitSample.jpg = Documentation\Images\NUnitSample.jpg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstallUnitTests", "RemoteInstallUnitTests\RemoteInstallUnitTests.csproj", "{0BD49533-E444-40F9-8137-00BD52089AD5}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstall", "RemoteInstall\RemoteInstall.csproj", "{54A79D97-B818-44E7-B998-73CFB07C6954}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3} = {DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstaller", "RemoteInstaller\RemoteInstaller.csproj", "{59A6144E-A480-4D40-895B-D94B17B68409}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3} = {DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Version", "Version\Version.csproj", "{DF9B8E13-AD32-4FEA-83CB-5048234FC2F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitDemo", "Samples\NUnitDemo\NUnitDemo.csproj", "{C11BB5E5-BEA3-46A6-B05E-3E2895C47AC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstallUnitTests", "RemoteInstallUnitTests\RemoteInstallUnitTests.csproj", "{0BD49533-E444-40F9-8137-00BD52089AD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

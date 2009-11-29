@@ -82,7 +82,7 @@
   </Target>
   <Target Name="xsd">
     <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Everything.config /outputDir:Samples\$(Configuration) /outputXml:results.xml /simulationOnly+ root=." />
-    <Exec Command="&quot;$(ProgramFiles)\Microsoft Visual Studio 8\SDK\v2.0\Bin\xsd.exe&quot; Samples\$(Configuration)\results.xml /outputdir:Samples\$(Configuration)" />
+    <Exec Command="&quot;$(ProgramFiles)\Microsoft SDKs\Windows\v6.0A\bin\xsd.exe&quot; Samples\$(Configuration)\results.xml /outputdir:Samples\$(Configuration)" />
     <Xslt Inputs="Samples\$(Configuration)\Results.xsd" Output="XslTemplates\Results.xsd" Xsl="XslTemplates\ResultsXsd.xsl" />
     <FileUpdate Regex=" xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;" ReplacementText="&gt;" Files="XslTemplates\Results.xsd" />
   </Target>

@@ -79,6 +79,7 @@
     <None Include="Content\Features.aml" />
     <None Include="Content\Main.aml" />
     <None Include="Content\License.aml" />
+    <None Include="Content\ThirdPartyLicenses.aml" />
   </ItemGroup>
   <ItemGroup>
     <ContentLayout Include="RemoteInstaller.content" />
@@ -94,6 +95,9 @@
     </Image>
     <Image Include="Images\CruiseControl.jpg">
       <ImageId>CruiseControl.jpg</ImageId>
+    </Image>
+    <Image Include="Images\Logo.gif">
+      <ImageId>Logo.gif</ImageId>
     </Image>
   </ItemGroup>
   <!-- Import the SHFB build targets -->

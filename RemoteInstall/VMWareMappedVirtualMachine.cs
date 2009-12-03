@@ -144,10 +144,13 @@ namespace RemoteInstall
                 if (Directory.Exists(destinationPath))
                 {
                     // target is a directory
-                    File.Copy(sourcePath, Path.Combine(destinationPath, Path.GetFileName(sourcePath)), true);
+                    string resolvedDestinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                    ConsoleOutput.WriteLine(" Copy '{0}' => '{1}'", sourcePath, resolvedDestinationPath);
+                    File.Copy(sourcePath, resolvedDestinationPath, true);
                 }
                 else
                 {
+                    ConsoleOutput.WriteLine(" Copy '{0}' => '{1}'", sourcePath, destinationPath);
                     File.Copy(sourcePath, destinationPath, true);
                 }
             }
@@ -155,6 +158,7 @@ namespace RemoteInstall
             {
                 if (!Directory.Exists(destinationPath))
                 {
+                    ConsoleOutput.WriteLine(" MkDir '{0}'", destinationPath);
                     Directory.CreateDirectory(destinationPath);
                 }
 
@@ -168,7 +172,9 @@ namespace RemoteInstall
                     }
                     else
                     {
-                        File.Copy(systementry, Path.Combine(destinationPath, Path.GetFileName(systementry)), true);
+                        string resolvedDestinationPath = Path.Combine(destinationPath, Path.GetFileName(systementry));
+                        ConsoleOutput.WriteLine(" Copy '{0}' => '{1}'", systementry, resolvedDestinationPath);
+                        File.Copy(systementry, resolvedDestinationPath, true);
                     }
                 }
             }

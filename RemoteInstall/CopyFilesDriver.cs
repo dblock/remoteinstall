@@ -157,10 +157,11 @@ namespace RemoteInstall
                 destinationShortFileName = Path.Combine(destinationShortFileName, Path.GetFileName(copyFileConfig.Name));
                 copyFileResult.DestFilename = destinationShortFileName;
 
-                if (!_installInstance.SimulationOnly)
+                if (!_installInstance.SimulationOnly && File.Exists(destinationFileName))
                 {
+                    ConsoleOutput.WriteLine("Processing 'Local:{0}'", destinationFileName);
                     string transformedData = File.ReadAllText(destinationFileName);
-                    if (!string.IsNullOrEmpty(copyFileConfig.XslTransform))
+                    if (! string.IsNullOrEmpty(copyFileConfig.XslTransform))
                     {
                         // transform data
                         XmlDocument xmlDocument = new XmlDocument();

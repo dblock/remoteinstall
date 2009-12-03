@@ -66,10 +66,10 @@
   <!-- Unit Test Errors -->
   <xsl:template match="error">
     <tr>
-      <td class="error">
+      <td class="errornote">
         <xsl:value-of select="../@name"/>
       </td>
-      <td class="error">Error</td>
+      <td class="errornote">Error</td>
     </tr>
   </xsl:template>
 

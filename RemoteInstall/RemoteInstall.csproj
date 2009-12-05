@@ -70,6 +70,7 @@
     <Compile Include="DniInstallerConfig.cs" />
     <Compile Include="CommandTaskConfig.cs" />
     <Compile Include="ExeInstallerConfig.cs" />
+    <Compile Include="ExitCodes.cs" />
     <Compile Include="GlobalTasksConfig.cs" />
     <Compile Include="NoopInstallerConfig.cs" />
     <Compile Include="ParallelizableDriverTaskCollections.cs" />

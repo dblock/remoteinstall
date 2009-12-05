@@ -63,10 +63,9 @@ namespace RemoteInstall
             _process = _vm.RunProgramInGuest(
                 _config.DestinationPath, args);
 
-            if (_process.ExitCode == 3010)
+            if (_config.ExitCodes.Count > 0)
             {
-                // reboot required
-                // \todo: add definition to exe installers that specify what reboot code is
+                _config.ExitCodes.Check(_process.ExitCode); 
             }
             else if (_process.ExitCode != 0)
             {
@@ -81,8 +80,20 @@ namespace RemoteInstall
         /// <returns>true if a reboot was required</returns>
         public bool IsRebootRequired()
         {
-            return _config.RebootRequired ||
-                (_process != null && _process.ExitCode == 3010);
+            if (_config.RebootRequired)
+                return true;
+
+            if (_process == null)
+                return false;
+
+            if (_config.ExitCodes.Contains(_process.ExitCode, ExitCodeResult.reboot))
+            {
+                ConsoleOutput.WriteLine(string.Format("Execution requires reboot (defined in exitcodes), return code: {0}",
+                    _process.ExitCode));
+                return true;
+            }
+
+            return false;
         }
     }
 }

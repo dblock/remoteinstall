@@ -166,5 +166,19 @@ namespace RemoteInstall
                 }
             }
         }
+
+        [ConfigurationProperty("exitcodes", IsDefaultCollection = false, IsRequired = false)]
+        [ConfigurationCollection(typeof(ExitCodesConfig), AddItemName = "exitcode")]
+        public ExitCodesConfig ExitCodes
+        {
+            get
+            {
+                return (ExitCodesConfig)this["exitcodes"];
+            }
+            set
+            {
+                this["exitcodes"] = value;
+            }
+        }
     }
 }

@@ -152,6 +152,16 @@
           </definitionTable>
         </para>
         <para>
+          In addition to standard installer parameters DNI installers support an optional collection
+          of <literal>exitcode</literal> elements. Each <literal>exitcode</literal> describes how to treat an exit code.
+          <definitionTable>
+            <definedTerm>value</definedTerm>
+            <definition>A numeric value. Leave blank for the final default exit code.</definition>
+            <definedTerm>result</definedTerm>
+            <definition>One of <literal>reboot</literal>, <literal>failure</literal> or <literal>success</literal>.</definition>
+          </definitionTable>
+        </para>
+        <para>
           <code language="xml">
             <![CDATA[
 <installers destpath="C:\">
@@ -160,6 +170,10 @@
       <component name="Component1" description="Component1 Description" />
       <component name="Component2" description="Component2 Description" args="arg1 arg2" />
     </components>
+    <exitcodes>
+     <exitcode value="3010" result="reboot" />
+     <exitcode result="success" />
+    </exitcodes>
   </installer>
 </installers>
             ]]>
@@ -185,11 +199,28 @@
           </definitionTable>
         </para>
         <para>
+          In addition to standard installer parameters EXE installers support an optional collection
+          of <literal>exitcode</literal> elements. Each <literal>exitcode</literal> describes how to treat an exit code.
+          <definitionTable>
+            <definedTerm>value</definedTerm>
+            <definition>A numeric value. Leave blank for the final default exit code.</definition>
+            <definedTerm>result</definedTerm>
+            <definition>
+              One of <literal>reboot</literal>, <literal>failure</literal> or <literal>success</literal>.
+            </definition>
+          </definitionTable>
+        </para>
+        <para>
           <code language="xml">
             <![CDATA[
 <installers destpath="C:\">
   <installer file="Samples\Setup.exe" name="Sample Installer" type="exe" 
-   installArgs="/q /log:setup.log" uninstallArgs="/x /q /log:setup.log" logFile="c:\setup.log" />
+   installArgs="/q /log:setup.log" uninstallArgs="/x /q /log:setup.log" logFile="c:\setup.log">
+    <exitcodes>
+     <exitcode value="3010" result="reboot" />
+     <exitcode result="success" />
+    </exitcodes>
+  </installer>
 </installers>
             ]]>
           </code>

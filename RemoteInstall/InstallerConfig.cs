@@ -20,7 +20,8 @@ namespace RemoteInstall
     {
         noop,
         dni,
-        msi
+        msi,
+        exe
     }
 
     public class InstallerConfigProxy : GlobalTasksConfigurationElement
@@ -55,6 +56,9 @@ namespace RemoteInstall
                     break;
                 case InstallerType.dni:
                     _config = new DniInstallerConfig(_destinationPath, _copyMethod);
+                    break;
+                case InstallerType.exe:
+                    _config = new ExeInstallerConfig(_destinationPath, _copyMethod);
                     break;
                 case InstallerType.msi:
                 default:
@@ -252,6 +256,38 @@ namespace RemoteInstall
         }
 
         /// <summary>
+        /// Reboot if required.
+        /// </summary>
+        [ConfigurationProperty("rebootIfRequired", IsRequired = false, DefaultValue = true)]
+        public virtual bool RebootIfRequired
+        {
+            get
+            {
+                return (bool)this["rebootIfRequired"];
+            }
+            set
+            {
+                this["rebootIfRequired"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Reboot if required.
+        /// </summary>
+        [ConfigurationProperty("rebootRequired", IsRequired = false, DefaultValue = false)]
+        public virtual bool RebootRequired
+        {
+            get
+            {
+                return (bool)this["rebootRequired"];
+            }
+            set
+            {
+                this["rebootRequired"] = value;
+            }
+        }
+
+        /// <summary>
         /// Returns the SVN revision number of the installer
         /// </summary>
         public string SvnRevision
@@ -295,22 +331,6 @@ namespace RemoteInstall
             }
 
             return subdirs[subdirs.Length - 1];
-        }
-
-        /// <summary>
-        /// Additional installer args
-        /// </summary>
-        [ConfigurationProperty("installargs", IsRequired = false)]
-        public string InstallArgs
-        {
-            get
-            {
-                return (string)this["installargs"];
-            }
-            set
-            {
-                this["installargs"] = value;
-            }
         }
 
         /// <summary>

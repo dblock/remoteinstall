@@ -23,6 +23,7 @@
                           <xs:element name="InstallLogfile" type="xs:string" minOccurs="0" />
                           <xs:element name="UnInstallLogfile" type="xs:string" minOccurs="0" />
                           <xs:element name="InstallerVersion" type="xs:string" minOccurs="0" />
+                          <xs:element name="RebootRequired" type="xs:string" minOccurs="0" />
                           <xs:element name="LastError" type="xs:string" minOccurs="0" />
                           <xs:element name="tasks" minOccurs="0" maxOccurs="unbounded">
                             <xs:complexType>

@@ -119,6 +119,23 @@ namespace RemoteInstall.DriverTasks
                 {
                     _vmPowerDriver.PowerOff();
                 }
+                else if (remoteInstallResult.RebootRequired)
+                {
+                    if (installerConfig.RebootIfRequired)
+                    {
+                        ConsoleOutput.WriteLine("Shutting down '{0}:{1}'", _vmPowerDriver.VmConfig.Name,
+                            _vmPowerDriver.SnapshotConfig.Name);
+                        _vmPowerDriver.ShutdownGuest();
+                        ConsoleOutput.WriteLine("Powering on '{0}:{1}'", _vmPowerDriver.VmConfig.Name,
+                            _vmPowerDriver.SnapshotConfig.Name);
+                        _vmPowerDriver.PowerOn();
+                    }
+                    else
+                    {
+                        ConsoleOutput.WriteLine("Skipping reboot of '{0}:{1}'", _vmPowerDriver.VmConfig.Name,
+                            _vmPowerDriver.SnapshotConfig.Name);
+                    }
+                }
 
                 return remoteInstallResult.Success;
             }

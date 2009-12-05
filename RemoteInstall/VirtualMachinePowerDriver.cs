@@ -164,8 +164,12 @@ namespace RemoteInstall
                 }
             }
 
-            // power on the virtual machine if it's powered off
+            PowerOn();
+        }
 
+        public void PowerOn()
+        {
+            // power on the virtual machine if it's powered off
             _vm.PowerOn();
             _vm.WaitForToolsInGuest();
 
@@ -193,6 +197,11 @@ namespace RemoteInstall
             {
                 _vm.PowerOff();
             }
+        }
+
+        public void ShutdownGuest()
+        {
+            _vm.ShutdownGuest();
         }
 
         public void MapVirtualMachine(CopyMethod copyMethod)

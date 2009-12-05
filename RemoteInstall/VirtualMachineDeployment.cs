@@ -18,5 +18,11 @@ namespace RemoteInstall
         /// </summary>
         /// <returns>the path to the log file</returns>
         void UnInstall(out string logfile);
+
+        /// <summary>
+        /// Determine whether a reboot is required.
+        /// </summary>
+        /// <returns>true if reboot is required</returns>
+        bool IsRebootRequired();
     }
 }

@@ -15,6 +15,8 @@ namespace RemoteInstall
             UnInstall
         };
 
+        private VMWareVirtualMachine.Process _msiexecProcess = null;
+
         /// <summary>
         /// Convert an msi action to string.
         /// </summary>
@@ -87,15 +89,29 @@ namespace RemoteInstall
             string msiAction = MsiActionToString(action);
             logfile = string.Format("{0}{1}.log", msiPath, msiAction);
 
-            VMWareVirtualMachine.Process msiexecProcess = this.VirtualMachineHost.RunProgramInGuest(
+            _msiexecProcess = this.VirtualMachineHost.RunProgramInGuest(
                 "msiexec.exe", string.Format("/qn /{0} \"{1}\" /l*v \"{2}\" {3}",
                     msiAction, msiPath, logfile, msiArgs));
-            
-            if (msiexecProcess.ExitCode != 0)
+
+            if (_msiexecProcess.ExitCode == 3010)
+            {
+                // reboot required
+            }
+            else if (_msiexecProcess.ExitCode != 0)
             {
                 throw new Exception(string.Format("{0} failed, return code: {1}",
-                    action, msiexecProcess.ExitCode));
+                    action, _msiexecProcess.ExitCode));
             }
         }
+
+        /// <summary>
+        /// Is a reboot required?
+        /// </summary>
+        /// <returns>true if a reboot was required</returns>
+        public bool IsRebootRequired()
+        {
+            return _config.RebootRequired
+                || (_msiexecProcess != null && _msiexecProcess.ExitCode == 3010);
+        }       
     }
 }

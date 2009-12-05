@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Vestris.VMWareLib;
@@ -6,12 +6,12 @@ using Vestris.VMWareLib;
 namespace RemoteInstall
 {
     /// <summary>
-    /// A deployment driver for DNI (http://www.codeplex.com/dotnetinstaller).
+    /// A deployment driver for an executable installer.
     /// </summary>
-    class VirtualMachineDniDeployment : VirtualMachineDeployment
+    class VirtualMachineExeDeployment : VirtualMachineDeployment
     {
         private VMWareMappedVirtualMachine _vm = null;
-        private DniInstallerConfig _config = null;
+        private ExeInstallerConfig _config = null;
         private VMWareVirtualMachine.Process _process = null;
 
         /// <summary>
@@ -30,49 +30,47 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// A virtual machine DNI deployment package.
+        /// A virtual machine EXE deployment package.
         /// </summary>
         /// <param name="vm">target virtual machine</param>
         /// <param name="config">installation configuration</param>
-        public VirtualMachineDniDeployment(VMWareMappedVirtualMachine vm, DniInstallerConfig config)
+        public VirtualMachineExeDeployment(VMWareMappedVirtualMachine vm, ExeInstallerConfig config)
         {
             _vm = vm;
             _config = config;
         }
 
         /// <summary>
-        /// Uninstall a DNI package.
+        /// Uninstall an EXE package.
         /// </summary>
         public void UnInstall(out string logfile)
         {
-            logfile = string.Empty;
-            throw new NotSupportedException("DotNetInstaller doesn't support uninstall. Set uninstall to false.");
+            Run(out logfile, _config.UnInstallArgs);
         }
 
         /// <summary>
         /// Install a DNI package.
         /// </summary>
         public void Install(out string logfile)
-        {            
-            logfile = string.Format("{0}.log", _config.DestinationPath);
-            string fullArgs = _config.InstallArgs;
-            foreach (ComponentConfig component in _config.components)
-            {
-                fullArgs += " /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"";
-            }
+        {
+            Run(out logfile, _config.InstallArgs);
+        }
+
+        private void Run(out string logfile, string args)
+        {
+            logfile = _config.LogFile;
 
             _process = _vm.RunProgramInGuest(
-                _config.DestinationPath, string.Format("/q /log /LogFile \"{0}\" {1}",
-                    logfile, fullArgs));
+                _config.DestinationPath, args);
 
             if (_process.ExitCode == 3010)
             {
                 // reboot required
-                // \todo: add definition to dni installers that specify what reboot code is
+                // \todo: add definition to exe installers that specify what reboot code is
             }
             else if (_process.ExitCode != 0)
             {
-                throw new Exception(string.Format("Installation failed, return code: {0}",
+                throw new Exception(string.Format("Execution failed, return code: {0}",
                     _process.ExitCode));
             }
         }
@@ -83,8 +81,8 @@ namespace RemoteInstall
         /// <returns>true if a reboot was required</returns>
         public bool IsRebootRequired()
         {
-            return _config.RebootRequired 
-                || (_process != null && _process.ExitCode == 3010);
+            return _config.RebootRequired ||
+                (_process != null && _process.ExitCode == 3010);
         }
     }
 }

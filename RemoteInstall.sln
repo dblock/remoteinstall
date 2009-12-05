@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA79
 		Samples\FailingTask.config = Samples\FailingTask.config
 		Samples\Multiple.config = Samples\Multiple.config
 		Samples\NUnit.config = Samples\NUnit.config
+		Samples\RebootSample.config = Samples\RebootSample.config
 		Samples\Sample.config = Samples\Sample.config
 		Samples\SampleCopy.config = Samples\SampleCopy.config
 		Samples\SampleTasks.config = Samples\SampleTasks.config
@@ -95,6 +96,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitDemo", "Samples\NUnitD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstallUnitTests", "RemoteInstallUnitTests\RemoteInstallUnitTests.csproj", "{0BD49533-E444-40F9-8137-00BD52089AD5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Samples\Setup\Setup.csproj", "{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,12 +124,17 @@ Global
 		{0BD49533-E444-40F9-8137-00BD52089AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD49533-E444-40F9-8137-00BD52089AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD49533-E444-40F9-8137-00BD52089AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C11BB5E5-BEA3-46A6-B05E-3E2895C47AC3} = {CA794E53-7753-4F9E-8A42-FDF97143B89B}
+		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923} = {CA794E53-7753-4F9E-8A42-FDF97143B89B}
 		{1B38422D-B3DE-437D-84DA-D9C84F28638E} = {BCB5C96D-C5E6-46D3-9D0B-5207629B3499}
 		{02C0AC68-CAA6-4187-ABE0-9ABFA6993C5A} = {BCB5C96D-C5E6-46D3-9D0B-5207629B3499}
 		{216AD6FB-854B-49D3-8351-A0C6FD56BC47} = {BCB5C96D-C5E6-46D3-9D0B-5207629B3499}

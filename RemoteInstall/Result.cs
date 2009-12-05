@@ -21,6 +21,7 @@ namespace RemoteInstall
     public class Result : XmlResult
     {
         private bool _success = true;
+        private bool _reboot_required = false;
 
         private string _installerName;
         private string _installerVersion;
@@ -186,6 +187,16 @@ namespace RemoteInstall
         {
             get { return _installerVersion; }
             set { _installerVersion = value; }
+        }
+
+        /// <summary>
+        /// Is a reboot required.
+        /// </summary>
+        [XmlResultNode]
+        public bool RebootRequired
+        {
+            get { return _reboot_required; }
+            set { _reboot_required = value; }
         }
 
         /// <summary>

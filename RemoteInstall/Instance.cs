@@ -156,8 +156,8 @@ namespace RemoteInstall
                     // install
                     if (options.Install)
                     {
-                        ConsoleOutput.WriteLine("Installing 'Remote:{0}', '{1}' ({2})",
-                            _installerConfig.Name, _installerConfig.DestinationPath, _installerConfig.InstallArgs);
+                        ConsoleOutput.WriteLine("Installing 'Remote:{0}', '{1}'",
+                            _installerConfig.Name, _installerConfig.DestinationPath);
 
                         result.SuccessfulInstall = InstallResult.False;
 
@@ -187,6 +187,12 @@ namespace RemoteInstall
                         result.SuccessfulUnInstall = InstallResult.True;
                         result.AddRange(additionalSequences.ExecuteSequence(
                             SequenceWhen.aftersuccessfuluninstall));
+                    }
+
+                    if (! _simulationOnly && deploy != null && deploy.IsRebootRequired())
+                    {
+                        ConsoleOutput.WriteLine("Reboot required after 'Remote:{0}'", _installerConfig.Name);
+                        result.RebootRequired = true;
                     }
                 }
                 catch (Exception ex)

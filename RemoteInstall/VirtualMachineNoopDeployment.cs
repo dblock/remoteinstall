@@ -50,5 +50,14 @@ namespace RemoteInstall
         {
             logfile = string.Empty;
         }
+
+        /// <summary>
+        /// Is a reboot required?
+        /// </summary>
+        /// <returns>true if a reboot was required</returns>
+        public bool IsRebootRequired()
+        {
+            return false;
+        }
     }
 }

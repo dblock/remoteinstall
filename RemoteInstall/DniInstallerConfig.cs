@@ -118,6 +118,22 @@ namespace RemoteInstall
             }
         }
 
+        /// <summary>
+        /// Additional installer args
+        /// </summary>
+        [ConfigurationProperty("installargs", IsRequired = false)]
+        public string InstallArgs
+        {
+            get
+            {
+                return (string)this["installargs"];
+            }
+            set
+            {
+                this["installargs"] = value;
+            }
+        }
+
         public override bool UnInstall
         {
             get

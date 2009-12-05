@@ -27,6 +27,24 @@
                   For example, a destination path of <literal>c:\installers\installer.msi</literal> becomes
                   <literal>\\192.168.1.2\c$\installers\installer.msi</literal>.
                 </definition>
+                <definedTerm>sequence</definedTerm>
+                <definition>
+                  Installers sequence when multiple installers are specified.
+                  <definitionTable>
+                    <definedTerm>clean</definedTerm>
+                    <definition>Default. Restore the snapshot before each install/uninstall.</definition>
+                    <definedTerm>alternate</definedTerm>
+                    <definition>Alternate install/uninstall. Install A, uninstall A, install B, uninstall B.</definition>
+                    <definedTerm>fifo</definedTerm>
+                    <definition>First in, first out. Install A, install B, uninstall A, uninstall B.</definition>
+                    <definedTerm>lifo</definedTerm>
+                    <definition>Last in, first out. Install A, install B, uninstall B, uninstall A.</definition>
+                    <definedTerm>install</definedTerm>
+                    <definition>Install only, in order of definition.</definition>
+                    <definedTerm>uninstall</definedTerm>
+                    <definition>Uninstall only, in order of definition.</definition>
+                  </definitionTable>
+                </definition>
               </definitionTable>
               If a virtual machine or a collection of virtual machines also define a <literal>copymethod</literal> 
               value, this attribute is ignored.
@@ -50,38 +68,28 @@
             </definition>
             <definedTerm>installargs</definedTerm>
             <definition>Additional installer arguments.</definition>
-            <definedTerm>sequence</definedTerm>
-            <definition>
-              Installers sequence when multiple installers are specified.
-              <definitionTable>
-                <definedTerm>clean</definedTerm>
-                <definition>Default. Restore the snapshot before each install/uninstall.</definition>
-                <definedTerm>alternate</definedTerm>
-                <definition>Alternate install/uninstall. Install A, uninstall A, install B, uninstall B.</definition>
-                <definedTerm>fifo</definedTerm>
-                <definition>First in, first out. Install A, install B, uninstall A, uninstall B.</definition>
-                <definedTerm>lifo</definedTerm>
-                <definition>Last in, first out. Install A, install B, uninstall B, uninstall A.</definition>
-                <definedTerm>install</definedTerm>
-                <definition>Install only, in order of definition.</definition>
-                <definedTerm>uninstall</definedTerm>
-                <definition>Uninstall only, in order of definition.</definition>
-              </definitionTable>
-            </definition>
             <definedTerm>type</definedTerm>
             <definition>
               This installer type. Can be either <literal>msi</literal> or <literal>dni</literal>.
               <definitionTable>
+                <definedTerm>noop</definedTerm>
+                <definition>A installer that doesn't do anything.</definition>
                 <definedTerm>msi</definedTerm>
                 <definition>A standard MSI installer. See below.</definition>
                 <definedTerm>dni</definedTerm>
                 <definition>A DNI installer. See below.</definition>
+                <definedTerm>exe</definedTerm>
+                <definition>An executable installer.</definition>
               </definitionTable>
             </definition>
             <definedTerm>install</definedTerm>
             <definition>Installer supports <literal>install</literal>.</definition>
             <definedTerm>uninstall</definedTerm>
             <definition>Installer supports <literal>uninstall</literal>.</definition>
+            <definedTerm>rebootIfRequired</definedTerm>
+            <definition>Reboot target virtual machine if the installer returned 3010, reboot required.</definition>
+            <definedTerm>rebootRequired</definedTerm>
+            <definition>Force a reboot after the installer finishes.</definition>
           </definitionTable>
         </para>
       </content>
@@ -92,7 +100,13 @@
         <para>
           An MSI installer is a standard Windows MSI installer. It is identified by a single
           .msi file and can be executed with msiexec to install and uninstall an application.
-          There're no additional attributes supported by MSI installers.
+        </para>
+        <para>
+          In addition to standard installer parameters MSI installers support the following options.
+          <definitionTable>
+            <definedTerm>installArgs</definedTerm>
+            <definition>Additional command-line arguments to pass to msiexec.</definition>
+          </definitionTable>
         </para>
         <para>
           <code language="xml">
@@ -118,6 +132,13 @@
           for more information on DNI.
         </para>
         <para>
+          In addition to standard installer parameters DNI installers support the following options.
+          <definitionTable>
+            <definedTerm>installArgs</definedTerm>
+            <definition>Additional command-line arguments to pass to the installer.</definition>
+          </definitionTable>
+        </para>
+        <para>
           In addition to standard installer parameters DNI installers support an optional collection
           of <literal>component</literal> elements. Each <literal>component</literal> represents
           a component within DNI. The following attributes are supported.
@@ -140,6 +161,35 @@
       <component name="Component2" description="Component2 Description" args="arg1 arg2" />
     </components>
   </installer>
+</installers>
+            ]]>
+          </code>
+        </para>
+      </content>
+    </section>
+    <section address="DefiningInstallersExe">
+      <title>Defining EXE Installers</title>
+      <content>
+        <para>
+          An executable installer is a boostrapped installer that uses some generic install technology.
+        </para>
+        <para>
+          In addition to standard installer parameters EXE installers support the following parameters.
+          <definitionTable>
+            <definedTerm>installArgs</definedTerm>
+            <definition>Command-line arguments for installation.</definition>
+            <definedTerm>uninstallArgs</definedTerm>
+            <definition>Command-line arguments for uninstallation.</definition>
+            <definedTerm>logFile</definedTerm>
+            <definition>The full location of a log file if the installer generates one.</definition>
+          </definitionTable>
+        </para>
+        <para>
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <installer file="Samples\Setup.exe" name="Sample Installer" type="exe" 
+   installArgs="/q /log:setup.log" uninstallArgs="/x /q /log:setup.log" logFile="c:\setup.log" />
 </installers>
             ]]>
           </code>

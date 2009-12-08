@@ -76,14 +76,17 @@ namespace RemoteInstall
                         case ExitCodeResult.reboot:
                             ConsoleOutput.WriteLine(string.Format("Execution succeeded and requires reboot (defined in exitcodes), return code: {0}",
                                 exitCode));
-                            break;
+                            return;
                         case ExitCodeResult.success:
                             ConsoleOutput.WriteLine(string.Format("Execution succeeded (defined in exitcodes), return code: {0}",
                                 exitCode));
-                            break;
+                            return;
                     }
                 }
             }
+
+            ConsoleOutput.WriteLine(string.Format("Warning: exitcodes fails to define action, ignored return code: {0}",
+                exitCode));
         }
 
         public bool Contains(int exitCode, ExitCodeResult result)
@@ -96,7 +99,7 @@ namespace RemoteInstall
                     {
                         return true;
                     }
-                    
+
                     break;
                 }
             }
@@ -117,7 +120,7 @@ namespace RemoteInstall
         {
             get
             {
-                return (string) this["value"];
+                return (string)this["value"];
             }
             set
             {
@@ -130,7 +133,7 @@ namespace RemoteInstall
             int result = 0;
             if (int.TryParse(Value, out result))
             {
-                return result == exitCode;
+                return (result == exitCode);
             }
             else if (string.IsNullOrEmpty(Value))
             {
@@ -138,7 +141,7 @@ namespace RemoteInstall
             }
             else
             {
-                throw new Exception(string.Format("Invalid exitcode value: {0}", 
+                throw new Exception(string.Format("Invalid exitcode value: {0}",
                     Value));
             }
         }

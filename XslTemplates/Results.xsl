@@ -77,8 +77,12 @@
                 <tr>
                   <td>
                     <xsl:value-of select="InstallerName" />
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="InstallerVersion" />
+                    <xsl:choose>
+                      <xsl:when test="InstallerVersion != 'unknown'">
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="InstallerVersion" />
+                      </xsl:when>
+                    </xsl:choose>
                   </td>
                   <td>
                     <xsl:attribute name="class">
@@ -129,6 +133,13 @@
                     <span>
                       &#187; duration: <xsl:value-of select="DurationString" />
                     </span>
+                    <xsl:choose>
+                      <xsl:when test="RebootRequired = 'True'">
+                        <xsl:text>
+                          &#187; reboot was required
+                        </xsl:text>
+                      </xsl:when>
+                    </xsl:choose>
                     <xsl:for-each select="copyfiles/copyfile[IncludeInResults='True'] | copyfiles/copyfile[string-length(LastError) &gt; 1]">
                       &#187;
                       <xsl:choose>
@@ -206,7 +217,7 @@
             </table>
           </td>
         </tr>
-      </xsl:for-each>      
+      </xsl:for-each>
     </table>
   </body>
 </html>

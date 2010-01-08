@@ -61,7 +61,6 @@ namespace RemoteInstall
         public List<ResultsGroup> Run()
         {           
             STPStartInfo poolStartInfo = new STPStartInfo();
-            SmartThreadPool pool = new SmartThreadPool(poolStartInfo);
             List<IWorkItemResult<IList<IList<ResultsGroup>>>> poolResults = new List<IWorkItemResult<IList<IList<ResultsGroup>>>>();
 
             // build parallelizable tasks
@@ -117,6 +116,8 @@ namespace RemoteInstall
 
             ConsoleOutput.WriteLine(string.Format("Starting {0} parallel installation(s) ({1} max) ...",
                 poolStartInfo.MaxWorkerThreads, ptasks.Count));
+
+            SmartThreadPool pool = new SmartThreadPool(poolStartInfo);
 
             ConsoleOutput.ShowThreadID = (poolStartInfo.MaxWorkerThreads > 1);            
 

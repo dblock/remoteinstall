@@ -41,6 +41,11 @@ namespace RemoteInstall
         /// </summary>
         private CopyFileResult CopyFile(CopyFileConfig copyFileConfig)
         {
+            // resolve host/guest variables
+            copyFileConfig.DestinationPath = _installInstance.VirtualMachine.Rewrite(copyFileConfig.DestinationPath);
+            copyFileConfig.File = _installInstance.VirtualMachine.Rewrite(copyFileConfig.File);
+            copyFileConfig.Name = _installInstance.VirtualMachine.Rewrite(copyFileConfig.Name);
+            // include in results
             CopyFileResult copyFileResult = new CopyFileResult();
             copyFileResult.File = copyFileConfig.File;
             copyFileResult.Name = copyFileConfig.Name;
@@ -143,7 +148,7 @@ namespace RemoteInstall
             }
 
             if (createDirectory)
-            {
+            {                
                 ConsoleOutput.WriteLine("Creating 'Local:{0}'", destinationPath);
                 Directory.CreateDirectory(destinationPath);
             }

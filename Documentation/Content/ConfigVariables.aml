@@ -16,6 +16,17 @@
             <definition>
               A variable defined on the command line. Simple append <literal>name=value</literal> to the command line.
             </definition>
+            <definedTerm>${guestenv.Name}</definedTerm>
+            <definition>
+              Guest operating system (remote virtual machine) environment variables. Can be used within the source and
+              destination copyfile nodes.
+            </definition>
+            <definedTerm>${hostenv.Name}</definedTerm>
+            <definition>
+              Host operating system (server on which RemoteInstaller is run) environment variable. This is equivalent
+              to ${env.Name}, but is resolved when the file is being copied and not when the configuration is loaded.
+              Can be used within the source and destination copyfile nodes.
+            </definition>
             <definedTerm>${folder.SpecialFolderName}</definedTerm>
             <definition>
               Special folders. The following special folder names are supported.
@@ -82,7 +93,7 @@
           <literal>name="value"</literal> to the command line and use <literal>${var.Name}</literal> in a configuration file.
         </para>
         <para>
-          For example, the following <literal>Template.config</literal> configuration file uses 
+          For example, the following <literal>Template.config</literal> configuration file uses
           <literal>${var.installer}</literal> and <literal>${var.virtualmachine}</literal>.
           <code language="xml">
             <![CDATA[

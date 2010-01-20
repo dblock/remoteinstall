@@ -4,6 +4,7 @@ using System.Text;
 using Vestris.VMWareLib;
 using System.IO;
 using Vestris.VMWareLib.Tools.Windows;
+using System.Text.RegularExpressions;
 
 namespace RemoteInstall
 {
@@ -248,6 +249,34 @@ namespace RemoteInstall
                     }
                     break;
             }
+        }
+
+        private string Rewrite(Match m)
+        {
+            string var = m.Groups["var"].Value;
+            string name = m.Groups["name"].Value;
+            switch (var)
+            {
+                case "hostenv":
+                    string hostenvValue = Environment.GetEnvironmentVariable(name);
+                    ConsoleOutput.WriteLine(" Resolved 'Local:%{0}%' => '{1}'", name, hostenvValue);
+                    return hostenvValue;
+                case "guestenv":
+                    string guestEnvValue = _simulationOnly ? name : _vm.GuestEnvironmentVariables[name];
+                    ConsoleOutput.WriteLine(" Resolved 'Remote:%{0}%' => '{1}'", name, guestEnvValue);
+                    return guestEnvValue;
+                default:
+                    throw new Exception(string.Format("Unsupported variable: $({0}.{1})",
+                        var, name));
+            }
+        }
+
+        public string Rewrite(string value)
+        {
+            return Regex.Replace(value,
+                @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.-]*)\}",
+                new MatchEvaluator(Rewrite), 
+                RegexOptions.IgnoreCase);
         }
 
         #region IDisposable Members

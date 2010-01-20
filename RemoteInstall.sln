@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA79
 		Samples\RebootSample.config = Samples\RebootSample.config
 		Samples\Sample.config = Samples\Sample.config
 		Samples\SampleCopy.config = Samples\SampleCopy.config
+		Samples\SampleMinimumCopy.config = Samples\SampleMinimumCopy.config
 		Samples\SampleTasks.config = Samples\SampleTasks.config
 		Samples\SampleVMTasks.config = Samples\SampleVMTasks.config
 		Samples\SnapshotsSample.config = Samples\SnapshotsSample.config

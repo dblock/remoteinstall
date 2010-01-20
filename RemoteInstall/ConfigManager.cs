@@ -84,6 +84,9 @@ namespace RemoteInstall
                     return EvaluateFileContents(
                         Path.Combine(Path.GetDirectoryName(_configFilename), 
                         name));
+                case "guestenv":
+                case "hostenv":
+                    return "${" + string.Format("{0}.{1}", var, name) + "}";
                 default:
                     throw new Exception(string.Format("Unsupported variable: $({0}.{1})",
                         var, name));

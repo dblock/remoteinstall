@@ -5,6 +5,14 @@
       <Output TaskParameter="Minor" PropertyName="Minor" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
+    <Time>
+      <Output TaskParameter="Month" PropertyName="Month" />
+      <Output TaskParameter="Day" PropertyName="Day" />
+      <Output TaskParameter="Year" PropertyName="Year" />
+      <Output TaskParameter="Hour" PropertyName="Hour" />
+      <Output TaskParameter="Minute" PropertyName="Minute" />
+      <Output TaskParameter="Second" PropertyName="Second" />
+    </Time>
     <SvnVersion LocalPath=".">
       <Output TaskParameter="Revision" PropertyName="Build" />
     </SvnVersion>
@@ -25,6 +33,7 @@
     <CreateItem Include="MSBuildProjectDirectory" AdditionalMetadata="ReplacementValue=$(MSBuildProjectDirectory)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
     <CreateItem Include="UserName" AdditionalMetadata="ReplacementValue=$(UserName)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
     <CreateItem Include="ComputerName" AdditionalMetadata="ReplacementValue=$(ComputerName)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
+    <CreateItem Include="Date" AdditionalMetadata="ReplacementValue=$(Month)/$(Day)/$(Year)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
     <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision) ($(Configuration))"/>
     <AssemblyInfo CodeLanguage="CS" OutputFile="Version\GlobalAssemblyInfo.cs"
        AssemblyCompany="$(CompanyName)" AssemblyProduct="$(ProductName)"

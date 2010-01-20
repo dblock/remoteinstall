@@ -59,7 +59,7 @@
   <Target Name="build" DependsOnTargets="version">
     <MSBuild Projects="RemoteInstall.sln" Targets="Build" />
   </Target>
-  <Target Name="drop">
+  <Target Name="drop" DependsOnTargets="version">
     <MakeDir Directories="$(ReleaseDir)\bin" />
     <Copy SourceFiles="@(BinaryFile)" DestinationFolder="$(ReleaseDir)\bin" />
     <MakeDir Directories="$(ReleaseDir)\samples" />
@@ -69,6 +69,7 @@
     <MakeDir Directories="$(ReleaseDir)\schema" />
     <Copy SourceFiles="@(Schema)" DestinationFolder="$(ReleaseDir)\schema" />
     <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="$(ReleaseDir)" />
+    <TemplateFile Template="Documentation\WhatsNew.html" OutputFilename="..\$(ReleaseDir)\WhatsNew.html" Tokens="@(AssemblyInfoTokens)" />
     <Copy SourceFiles="License\epl-v10.html" DestinationFiles="$(ReleaseDir)\License.htm" />
   </Target>
   <Target Name="doc" DependsOnTargets="version">

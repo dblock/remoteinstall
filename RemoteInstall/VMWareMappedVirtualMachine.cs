@@ -19,6 +19,9 @@ namespace RemoteInstall
         private string _username;
         private string _password;
         private bool _simulationOnly = false;
+        private Dictionary<string, string> _guestEnvironmentVariables = null;
+        private Dictionary<string, string> _resolvedGuestEnvironmentVariables = new Dictionary<string, string>();
+        private Dictionary<string, string> _resolvedHostEnvironmentVariables = new Dictionary<string, string>();
 
         public VMWareMappedVirtualMachine(
             string name,
@@ -192,7 +195,7 @@ namespace RemoteInstall
                     mappedNetworkDriveInfo.Password = _password;
                     mappedNetworkDriveInfo.Auto = false;
                     ConsoleOutput.WriteLine(" Mapping 'Remote:{0}' as '{1}'", mappedNetworkDriveInfo.RemotePath, _username);
-                    if (! _simulationOnly)
+                    if (!_simulationOnly)
                     {
                         using (MappedNetworkDrive mappedNetworkDrive = new MappedNetworkDrive(_vm, mappedNetworkDriveInfo))
                         {
@@ -208,7 +211,7 @@ namespace RemoteInstall
                 case CopyMethod.vmware:
                 default:
                     ConsoleOutput.WriteLine(" '{0}' => Remote:'{1}'", hostPath, guestPath);
-                    if (! _simulationOnly)
+                    if (!_simulationOnly)
                     {
                         _vm.CopyFileFromHostToGuest(hostPath, guestPath);
                     }
@@ -227,7 +230,7 @@ namespace RemoteInstall
                     mappedNetworkDriveInfo.Password = _password;
                     mappedNetworkDriveInfo.Auto = false;
                     ConsoleOutput.WriteLine(" Mapping 'Remote:{0}' as '{1}'", mappedNetworkDriveInfo.RemotePath, _username);
-                    if (! _simulationOnly)
+                    if (!_simulationOnly)
                     {
                         using (MappedNetworkDrive mappedNetworkDrive = new MappedNetworkDrive(_vm, mappedNetworkDriveInfo))
                         {
@@ -243,7 +246,7 @@ namespace RemoteInstall
                 case CopyMethod.vmware:
                 default:
                     ConsoleOutput.WriteLine(" 'Remote:{0}' => '{1}'", guestPath, hostPath);
-                    if (! _simulationOnly)
+                    if (!_simulationOnly)
                     {
                         _vm.CopyFileFromGuestToHost(guestPath, hostPath);
                     }
@@ -258,24 +261,49 @@ namespace RemoteInstall
             switch (var)
             {
                 case "hostenv":
-                    string hostenvValue = Environment.GetEnvironmentVariable(name);
-                    ConsoleOutput.WriteLine(" Resolved 'Local:%{0}%' => '{1}'", name, hostenvValue);
+                    string hostenvValue = string.Empty;
+                    if (!_resolvedHostEnvironmentVariables.TryGetValue(name, out hostenvValue))
+                    {
+                        hostenvValue = Environment.GetEnvironmentVariable(name);
+                        ConsoleOutput.WriteLine(" Resolved 'Local:%{0}%' => '{1}'", name, hostenvValue);
+                        _resolvedHostEnvironmentVariables.Add(name, hostenvValue);
+                    }
                     return hostenvValue;
                 case "guestenv":
-                    string guestEnvValue = _simulationOnly ? name : _vm.GuestEnvironmentVariables[name];
-                    ConsoleOutput.WriteLine(" Resolved 'Remote:%{0}%' => '{1}'", name, guestEnvValue);
-                    return guestEnvValue;
+                    string guestenvValue = string.Empty;
+                    if (!_resolvedGuestEnvironmentVariables.TryGetValue(name, out guestenvValue))
+                    {
+                        GetGuestEnvironmentVariable(name, out guestenvValue);
+                        ConsoleOutput.WriteLine(" Resolved 'Remote:%{0}%' => '{1}'", name, guestenvValue);
+                        _resolvedGuestEnvironmentVariables.Add(name, guestenvValue);
+                    }
+                    return guestenvValue;
                 default:
                     throw new Exception(string.Format("Unsupported variable: $({0}.{1})",
                         var, name));
             }
         }
 
+        public bool GetGuestEnvironmentVariable(string name, out string result)
+        {
+            if (_simulationOnly)
+            {
+                result = name;
+                return true;
+            }
+
+            if (_guestEnvironmentVariables == null)
+            {
+                Shell guestShell = new Shell(_vm);
+                _guestEnvironmentVariables = guestShell.GetEnvironmentVariables();
+            }
+
+            return _guestEnvironmentVariables.TryGetValue(name, out result);
+        }
+
         public string Rewrite(string value)
         {
-            return Regex.Replace(value,
-                @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.-]*)\}",
-                new MatchEvaluator(Rewrite), 
+            return Regex.Replace(value, ConfigManager.VarRegex, new MatchEvaluator(Rewrite),
                 RegexOptions.IgnoreCase);
         }
 

@@ -21,6 +21,8 @@ namespace RemoteInstall
         NameValueCollection _variables;
         string _configFilename;
 
+        public static string VarRegex = @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.\-\(\)]*)\}";
+
         public ConfigManager(string filename, NameValueCollection variables)
         {
             _variables = variables;
@@ -98,9 +100,7 @@ namespace RemoteInstall
             ConsoleOutput.WriteLine("Loading {0} ...", filename);
             using (StreamReader reader = new StreamReader(filename))
             {
-                return Regex.Replace(reader.ReadToEnd(),
-                    @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.-]*)\}",
-                    new MatchEvaluator(Rewrite),
+                return Regex.Replace(reader.ReadToEnd(), VarRegex, new MatchEvaluator(Rewrite),
                     RegexOptions.IgnoreCase);
             }
         }

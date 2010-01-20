@@ -5,6 +5,7 @@ using System.IO;
 using NUnit.Framework;
 using System.Reflection;
 using RemoteInstall;
+using System.Text.RegularExpressions;
 
 namespace RemoteInstallUnitTests
 {
@@ -31,7 +32,7 @@ namespace RemoteInstallUnitTests
             
             /*
                 <copyfiles destpath="windows\${hostenv.PROCESSOR_ARCHITECTURE}\${env.PROCESSOR_ARCHITECTURE}\systemfiles">
-                  <copyfile file="${guestenv.WINDIR}\system.ini" />
+                  <copyfile file="${guestenv.ProgramFiles(x86)}\system.ini" />
                 </copyfiles>
              */
 
@@ -39,10 +40,19 @@ namespace RemoteInstallUnitTests
             Console.WriteLine("{0}: {1} => {2}", copyFileConfig.Name, copyFileConfig.File, copyFileConfig.DestinationPath);
             string pa = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             Assert.AreEqual(string.Format("system dot ini ({0})", pa), copyFileConfig.Name);
-            Assert.AreEqual(@"${guestenv.WINDIR}\system.ini", copyFileConfig.File);
+            Assert.AreEqual(@"${guestenv.ProgramFiles(x86)}\system.ini", copyFileConfig.File);
             Assert.AreEqual(string.Format(@"windows\{0}\{1}\systemfiles", 
                 "${hostenv.PROCESSOR_ARCHITECTURE}", pa), copyFileConfig.DestinationPath);
             File.Delete(configFileName);
+        }
+
+        [Test]
+        public void VarRegexTests()
+        {
+            Assert.AreEqual(1, Regex.Matches("${var.NAME}", ConfigManager.VarRegex).Count);
+            Assert.AreEqual(1, Regex.Matches("${var.Program-Files}", ConfigManager.VarRegex).Count);
+            Assert.AreEqual(1, Regex.Matches("${var.ProgramFiles(x86)}", ConfigManager.VarRegex).Count);
+            Assert.AreEqual("ProgramFiles(x86)", Regex.Matches("${var.ProgramFiles(x86)}", ConfigManager.VarRegex)[0].Groups["name"].Value);
         }
     }
 }

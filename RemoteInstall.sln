@@ -43,6 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 	ProjectSection(SolutionItems) = preProject
 		Documentation\RemoteInstaller.content = Documentation\RemoteInstaller.content
 		Documentation\RemoteInstaller.shfbproj = Documentation\RemoteInstaller.shfbproj
+		Documentation\WhatsNew.html = Documentation\WhatsNew.html
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{1B38422D-B3DE-437D-84DA-D9C84F28638E}"

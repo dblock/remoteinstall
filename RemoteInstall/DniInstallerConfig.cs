@@ -134,23 +134,6 @@ namespace RemoteInstall
             }
         }
 
-        public override bool UnInstall
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                if (value)
-                {
-                    throw new Exception("Installers of type DNI must set uninstall = false.");
-                }
-
-                base.UnInstall = false;
-            }
-        }
-
         public override InstallerType Type
         {
             get

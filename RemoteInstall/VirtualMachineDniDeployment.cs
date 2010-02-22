@@ -10,6 +10,12 @@ namespace RemoteInstall
     /// </summary>
     class VirtualMachineDniDeployment : VirtualMachineDeployment
     {
+        private enum DniAction
+        {
+            Install,
+            UnInstall
+        };
+
         private VMWareMappedVirtualMachine _vm = null;
         private DniInstallerConfig _config = null;
         private VMWareVirtualMachine.Process _process = null;
@@ -41,29 +47,41 @@ namespace RemoteInstall
         }
 
         /// <summary>
+        /// Install a DNI package.
+        /// </summary>
+        public void Install(out string logfile)
+        {
+            string args = _config.InstallArgs;
+            foreach (ComponentConfig component in _config.components)
+            {
+                args += " /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"";
+            }
+
+            DniExec(_config.DestinationPath, args, DniAction.UnInstall, out logfile);
+        }
+
+        /// <summary>
         /// Uninstall a DNI package.
         /// </summary>
         public void UnInstall(out string logfile)
         {
-            logfile = string.Empty;
-            throw new NotSupportedException("DotNetInstaller doesn't support uninstall. Set uninstall to false.");
+            DniExec(_config.DestinationPath, "/x", DniAction.Install, out logfile);
         }
 
         /// <summary>
-        /// Install a DNI package.
+        /// Execute dotNetInstaller.
         /// </summary>
-        public void Install(out string logfile)
-        {            
-            logfile = string.Format("{0}.log", _config.DestinationPath);
-            string fullArgs = _config.InstallArgs;
-            foreach (ComponentConfig component in _config.components)
-            {
-                fullArgs += " /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"";
-            }
+        /// <param name="dniPath"></param>
+        /// <param name="dniArgs"></param>
+        /// <param name="action"></param>
+        /// <param name="logfile"></param>
+        private void DniExec(string dniPath, string dniArgs, DniAction action, out string logfile)
+        {
+            logfile = string.Format("{0}{1}.log", _config.DestinationPath, action);
 
             _process = _vm.RunProgramInGuest(
                 _config.DestinationPath, string.Format("/q /log /LogFile \"{0}\" {1}",
-                    logfile, fullArgs));
+                    logfile, dniArgs));
 
             if (_config.ExitCodes.Count > 0)
             {

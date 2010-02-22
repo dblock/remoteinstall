@@ -35,6 +35,8 @@
                 <li>Added rebootIfRequred option to installers to suppress reboot. </li>
                 <li>Added ${guestenv.VARIABLE} and ${hostenv.VARIABLE} into copyfile name, source and
                     destination nodes.</li>
+                <li>Added support for dotNetInstaller 1.8 uninstall. If your bootstrapper supports uninstall,
+                    remove <code>uninstall="false"</code> from the configuration to test uninstall.</li>
             </ul>
         </li>
         <li><strong>Misc</strong>:

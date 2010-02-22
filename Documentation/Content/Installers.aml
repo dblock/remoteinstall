@@ -123,8 +123,7 @@
       <title>Defining DNI Installers</title>
       <content>
         <para>
-          A DNI installer is a boostrapped installer that uses DNI technology. Currently DNI does
-          not support unininstallation. See
+          A DNI installer is a boostrapped installer that uses DNI technology. See
           <externalLink>
             <linkUri><![CDATA[http://www.devage.com/Wiki/ViewArticle.aspx?name=dotnetinstaller&version=0]]></linkUri>
             <linkText>this page</linkText>

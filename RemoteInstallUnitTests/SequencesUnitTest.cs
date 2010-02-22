@@ -117,20 +117,18 @@ namespace RemoteInstallUnitTests
                     case InstallersSequence.alternate:
                     case InstallersSequence.install:
                         // two installers alternating with install+uninstall in the same run 
-                        // or just install or uninstall, but dni doesn't support uninstall
+                        // or just install or uninstall
                         Assert.AreEqual(1, results.Count);
                         Assert.AreEqual(2, results[0].Count);
                         break;
                     case InstallersSequence.uninstall:
-                        // dni doesn't support uninstall, nothing will run
-                        Assert.AreEqual(1, results.Count);
-                        Assert.AreEqual(0, results[0].Count);
-                        break;
-                    default:
-                        // two installers split into install+uninstall in a sequence of 2
-                        // since dni doesn't support uninstall
                         Assert.AreEqual(1, results.Count);
                         Assert.AreEqual(2, results[0].Count);
+                        break;
+                    default:
+                        // two installers split into install+uninstall in a sequence of 4                        
+                        Assert.AreEqual(1, results.Count);
+                        Assert.AreEqual(4, results[0].Count);
                         break;
                 }
             }

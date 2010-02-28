@@ -115,11 +115,7 @@ namespace RemoteInstall.DriverTasks
 
                 _results.Add(remoteInstallResult);
 
-                if (options.PowerOff)
-                {
-                    _vmPowerDriver.PowerOff();
-                }
-                else if (remoteInstallResult.RebootRequired)
+                if (remoteInstallResult.RebootRequired)
                 {
                     if (installerConfig.RebootIfRequired)
                     {
@@ -130,11 +126,19 @@ namespace RemoteInstall.DriverTasks
                             _vmPowerDriver.SnapshotConfig.Name);
                         _vmPowerDriver.PowerOn();
                     }
+                    else if (options.PowerOff)
+                    {
+                        _vmPowerDriver.PowerOff();
+                    }
                     else
                     {
                         ConsoleOutput.WriteLine("Skipping reboot of '{0}:{1}'", _vmPowerDriver.VmConfig.Name,
                             _vmPowerDriver.SnapshotConfig.Name);
                     }
+                }
+                else if (options.PowerOff)
+                {
+                    _vmPowerDriver.PowerOff();
                 }
 
                 return remoteInstallResult.Success;

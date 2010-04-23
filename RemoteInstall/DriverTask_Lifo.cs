@@ -104,7 +104,7 @@ namespace RemoteInstall.DriverTasks
 
                 if (snapshotConfig.PowerOff)
                 {
-                    driverTaskInstance.PowerDriver.PowerOff();
+                    driverTaskInstance.PowerOff();
                 }
             }
             return results;

@@ -160,12 +160,17 @@ namespace RemoteInstall.DriverTasks
             }
         }
 
-
-        public VirtualMachinePowerDriver PowerDriver
+        public void PowerOff()
         {
-            get
+            try
             {
-                return _vmPowerDriver;
+                _vmPowerDriver.ConnectToHost();
+                _vmPowerDriver.PowerOff();
+            }
+            finally
+            {
+                _vmPowerDriver.CloseVirtualMachine();
+                _vmPowerDriver.DisconnectFromHost();
             }
         }
 
@@ -216,5 +221,5 @@ namespace RemoteInstall.DriverTasks
         {
             return _vmConfig.Overlaps(task._vmConfig);
         }
-    }    
+    }
 }

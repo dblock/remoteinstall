@@ -126,7 +126,7 @@ namespace RemoteInstall
         {
             get
             {
-                return (string)this["installargs"];
+                return Rewrite((string)this["installargs"]);
             }
             set
             {

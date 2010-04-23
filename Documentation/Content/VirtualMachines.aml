@@ -27,7 +27,7 @@
                   <literal>\\192.168.1.2\c$\installers\installer.msi</literal>.
                 </definition>
               </definitionTable>
-              The <literal>copymethod</literal> setting overrides the value defined with an installer or a collection 
+              The <literal>copymethod</literal> setting overrides the value defined with an installer or a collection
               of installers.
             </definition>
           </definitionTable>
@@ -215,6 +215,11 @@
               <definedTerm>powerOff</definedTerm>
               <definition>
                 Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
+              </definition>
+              <definedTerm>installargs</definedTerm>
+              <definition>
+                Additional arguments that can be referred to as @{snapshot.installargs} in
+                the installer configurations.
               </definition>
             </definitionTable>
             <code language="xml">

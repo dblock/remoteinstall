@@ -76,6 +76,7 @@
     <Compile Include="ParallelizableDriverTaskCollections.cs" />
     <Compile Include="DriverTaskCollection.cs" />
     <Compile Include="DriverTaskCollections.cs" />
+    <Compile Include="ReflectionResolver.cs" />
     <Compile Include="ResultsGroup.cs" />
     <Compile Include="ResultsCollection.cs" />
     <Compile Include="SnapshotTaskConfig.cs" />

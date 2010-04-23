@@ -244,5 +244,33 @@
         </para>
       </content>
     </section>
+    <section address="InheritSnapshotVMParameters">
+      <title>Inheriting Snapshot and Virtual Machine Parameters</title>
+      <content>
+        <para>
+          It is possible to refer to the current snapshot or virtual machine within installer parameters with the
+          <literal>@{object.name}</literal> syntax. Consider the following example, in which the installer name and
+          installer arguments are inherited from the snapshot definition.
+        </para>
+        <para>
+          <code language="xml">
+            <![CDATA[
+<installers destpath="C:\">
+  <installer file="Samples\Sample.msi" name="Sample Installer on @{virtualmachine.name}" 
+   installargs="@{snapshot.installargs}" />
+</installers>
+<virtualmachines>
+  <virtualmachine type="Workstation" ... >
+    <snapshots>
+      <snapshot name="with database" installargs="INSTALL_DATABASE=1" />
+      <snapshot name="without database" installargs="INSTALL_DATABASE=0" />
+    </snapshots>
+  </virtualmachine>
+</virtualmachines>
+            ]]>
+          </code>          
+        </para>
+      </content>
+    </section>
   </developerConceptualDocument>
 </topic>

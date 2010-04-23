@@ -74,6 +74,22 @@ namespace RemoteInstall
         }
 
         /// <summary>
+        /// Description of the snapshot
+        /// </summary>
+        [ConfigurationProperty("installargs", IsRequired = false)]
+        public string InstallArgs
+        {
+            get
+            {
+                return (string)this["installargs"];
+            }
+            set
+            {
+                this["installargs"] = value;
+            }
+        }
+
+        /// <summary>
         /// Username used to login to the snapshot
         /// </summary>
         [ConfigurationProperty("username", IsRequired = false)]

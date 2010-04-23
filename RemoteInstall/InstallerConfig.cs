@@ -198,7 +198,7 @@ namespace RemoteInstall
         {
             get
             {
-                return _file;
+                return Rewrite(_file);
             }
             set
             {
@@ -342,7 +342,8 @@ namespace RemoteInstall
             get
             {
                 string result = (string)this["name"];
-                return string.IsNullOrEmpty(result) ? Path.GetFileName(File) : result;
+                result = string.IsNullOrEmpty(result) ? Path.GetFileName(File) : result;
+                return Rewrite(result);
             }
             set
             {
@@ -357,7 +358,7 @@ namespace RemoteInstall
         {
             get
             {                
-                return _destinationPath + File.Substring(File.LastIndexOf('\\') + 1);
+                return Rewrite(_destinationPath + File.Substring(File.LastIndexOf('\\') + 1));
             }
         }
 

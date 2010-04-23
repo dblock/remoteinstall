@@ -21,7 +21,7 @@ namespace RemoteInstall
         {
             get
             {
-                return (string)this["logFile"];
+                return Rewrite((string)this["logFile"]);
             }
             set
             {
@@ -37,7 +37,7 @@ namespace RemoteInstall
         {
             get
             {
-                return (string) this["installArgs"];
+                return Rewrite((string) this["installArgs"]);
             }
             set
             {
@@ -53,7 +53,7 @@ namespace RemoteInstall
         {
             get
             {
-                return (string) this["uninstallArgs"];
+                return Rewrite((string) this["uninstallArgs"]);
             }
             set
             {

@@ -228,6 +228,18 @@ namespace RemoteInstall.DriverTasks
                 InstallerConfig installerConfig = installerConfigProxy.Instance;
                 foreach (SnapshotConfig snapshotConfig in _vmConfig.Snapshots)
                 {
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
+
                     ResultsGroup group = new ResultsGroup(
                         _vmConfig.Name, snapshotConfig.Name, snapshotConfig.Description);
                     results.Add(group);
@@ -287,6 +299,18 @@ namespace RemoteInstall.DriverTasks
                 foreach (InstallerConfigProxy installerConfigProxy in _installersConfig)
                 {
                     InstallerConfig installerConfig = installerConfigProxy.Instance;
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
+
                     DriverTaskInstance.DriverTaskInstanceOptions options = new DriverTaskInstance.DriverTaskInstanceOptions();
                     options.Install = _install & installerConfig.Install;
                     options.Uninstall = _uninstall & installerConfig.UnInstall;
@@ -356,6 +380,17 @@ namespace RemoteInstall.DriverTasks
                 foreach (InstallerConfigProxy installerConfigProxy in _installersConfig)
                 {
                     InstallerConfig installerConfig = installerConfigProxy.Instance;
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
 
                     DriverTaskInstance.DriverTaskInstanceOptions installOptions = new DriverTaskInstance.DriverTaskInstanceOptions();
                     installOptions.Install = installerConfig.Install;
@@ -381,6 +416,17 @@ namespace RemoteInstall.DriverTasks
                 foreach (InstallerConfigProxy installerConfigProxy in uninstallConfigs)
                 {
                     InstallerConfig installerConfig = installerConfigProxy.Instance;
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
 
                     DriverTaskInstance.DriverTaskInstanceOptions uninstallOptions = new DriverTaskInstance.DriverTaskInstanceOptions();
                     uninstallOptions.Install = false;
@@ -436,6 +482,17 @@ namespace RemoteInstall.DriverTasks
                 foreach (InstallerConfigProxy installerConfigProxy in _installersConfig)
                 {
                     InstallerConfig installerConfig = installerConfigProxy.Instance;
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
 
                     DriverTaskInstance.DriverTaskInstanceOptions installOptions = new DriverTaskInstance.DriverTaskInstanceOptions();
                     installOptions.Install = installerConfig.Install;
@@ -461,6 +518,17 @@ namespace RemoteInstall.DriverTasks
                 foreach (InstallerConfigProxy installerConfigProxy in uninstallConfigs)
                 {
                     InstallerConfig installerConfig = installerConfigProxy.Instance;
+                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                        delegate(object sender, ReflectionResolverEventArgs args)
+                        {
+                            object[] objs = { snapshotConfig, _vmConfig, _installersConfig };
+                            ReflectionResolver resolver = new ReflectionResolver(objs);
+                            string result = null;
+                            if (resolver.TryResolve(args.VariableType + "Config", args.VariableName, out result))
+                            {
+                                args.Result = result;
+                            }
+                        });
 
                     DriverTaskInstance.DriverTaskInstanceOptions uninstallOptions = new DriverTaskInstance.DriverTaskInstanceOptions();
                     uninstallOptions.Install = false;

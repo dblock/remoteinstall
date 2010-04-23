@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA79
 		Samples\SampleTasks.config = Samples\SampleTasks.config
 		Samples\SampleVMTasks.config = Samples\SampleVMTasks.config
 		Samples\SnapshotsSample.config = Samples\SnapshotsSample.config
+		Samples\SnapshotWithParameters.config = Samples\SnapshotWithParameters.config
 		Samples\Template.config = Samples\Template.config
 	EndProjectSection
 EndProject
@@ -100,6 +101,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstallUnitTests", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Samples\Setup\Setup.csproj", "{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteInstallerClient", "RemoteInstallerClient\RemoteInstallerClient.csproj", "{FA5C4CFE-34FB-4EBF-B757-0C5262F03C00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +133,10 @@ Global
 		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E4C3EE1-8CDF-43BA-99F4-2563A9519923}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5C4CFE-34FB-4EBF-B757-0C5262F03C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5C4CFE-34FB-4EBF-B757-0C5262F03C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5C4CFE-34FB-4EBF-B757-0C5262F03C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5C4CFE-34FB-4EBF-B757-0C5262F03C00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

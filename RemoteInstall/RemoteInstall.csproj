@@ -67,8 +67,12 @@
     <Compile Include="CopyFilesConfig.cs" />
     <Compile Include="CopyFilesDriver.cs" />
     <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="DriverTask_Clean.cs" />
+    <Compile Include="DriverTask_Fifo.cs" />
     <Compile Include="DniInstallerConfig.cs" />
     <Compile Include="CommandTaskConfig.cs" />
+    <Compile Include="DriverTask_Alternate.cs" />
+    <Compile Include="DriverTask_Lifo.cs" />
     <Compile Include="ExeInstallerConfig.cs" />
     <Compile Include="ExitCodes.cs" />
     <Compile Include="GlobalTasksConfig.cs" />

@@ -11,8 +11,6 @@ namespace RemoteInstall
     /// </summary>
     public abstract class GlobalTasksConfigurationElement : ConfigurationElement
     {
-        public static string VarRegex = @"\@\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.\-\(\)]*)\}";
-
         [ConfigurationProperty("copyfiles", IsDefaultCollection = false)]
         [ConfigurationCollection(typeof(CopyFilesConfig), AddItemName = "copyfile")]
         public CopyFilesConfig CopyFiles
@@ -38,32 +36,10 @@ namespace RemoteInstall
         /// <returns></returns>
         public string Rewrite(string value)
         {
-            return Regex.Replace(value, VarRegex, new MatchEvaluator(Rewrite),
-                RegexOptions.IgnoreCase);
+            ReflectionRewriter rewriter = new ReflectionRewriter();
+            rewriter.OnRewrite = OnRewrite;
+            return rewriter.Rewrite(value);
         }
-
-        private string Rewrite(Match m)
-        {
-            string var = m.Groups["var"].Value;
-            string name = m.Groups["name"].Value;
-
-            ReflectionResolverEventArgs args = new ReflectionResolverEventArgs(
-                var, name);
-
-            if (OnRewrite != null)
-            {
-                OnRewrite(this, args);                
-            }
-
-            if (! args.Rewritten)
-            {
-                throw new Exception(string.Format("Unsupported variable or missing handler: @({0}.{1})",
-                    var, name));
-            }
-
-            return args.Result;
-        }
-
     }
 
     public abstract class GlobalTasksConfigurationElementCollection : ConfigurationElementCollection

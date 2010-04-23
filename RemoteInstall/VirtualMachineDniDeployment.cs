@@ -54,7 +54,7 @@ namespace RemoteInstall
             string args = _config.InstallArgs;
             foreach (ComponentConfig component in _config.components)
             {
-                args += " /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"";
+                args += _config.Rewrite(" /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"");
             }
 
             DniExec(_config.DestinationPath, args, DniAction.UnInstall, out logfile);

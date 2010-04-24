@@ -165,6 +165,7 @@ namespace RemoteInstall.DriverTasks
             try
             {
                 _vmPowerDriver.ConnectToHost();
+                _vmPowerDriver.MapVirtualMachine(CopyMethod.undefined);
                 _vmPowerDriver.PowerOff();
             }
             finally

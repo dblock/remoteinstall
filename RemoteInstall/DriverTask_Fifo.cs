@@ -104,7 +104,15 @@ namespace RemoteInstall.DriverTasks
 
                 if (snapshotConfig.PowerOff)
                 {
-                    driverTaskInstance.PowerOff();
+                    try
+                    {
+                        driverTaskInstance.PowerOff();
+                    }
+                    catch (Exception ex)
+                    {
+                        ConsoleOutput.WriteLine("Error powering off '{0}:{1}'", _vmConfig.Name, snapshotConfig.Name);
+                        ConsoleOutput.WriteLine(ex);
+                    }
                 }
             }
             return results;

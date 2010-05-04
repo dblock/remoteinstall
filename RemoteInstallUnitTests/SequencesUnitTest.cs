@@ -33,7 +33,7 @@ namespace RemoteInstallUnitTests
             {
                 Console.WriteLine("Sequence: {0}", sequence);
                 NameValueCollection vars = new NameValueCollection();
-                vars["root"] = @"..\..\..";
+                vars["root"] = @"..\..\..\..";
                 vars["sequence"] = sequence.ToString();
 
                 Driver driver = new Driver(
@@ -93,7 +93,7 @@ namespace RemoteInstallUnitTests
             {
                 Console.WriteLine("Sequence: {0}", sequence);
                 NameValueCollection vars = new NameValueCollection();
-                vars["root"] = @"..\..\..";
+                vars["root"] = @"..\..\..\..";
                 vars["sequence"] = sequence.ToString();
 
                 Driver driver = new Driver(

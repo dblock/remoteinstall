@@ -41,8 +41,8 @@
     <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareTools.dll" />
     <BinaryFile Include="Externals\VMWareTasks\Vestris.VMWareTools.dll.config" />
     <BinaryFile Include="Externals\VMWareTasks\Interop.VixCOM.dll" />
-    <BinaryFile Include="RemoteInstaller\bin\$(Configuration)\RemoteInstall.dll" />
-    <BinaryFile Include="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe" />    
+    <BinaryFile Include="RemoteInstaller\bin\x86\$(Configuration)\RemoteInstall.dll" />
+    <BinaryFile Include="RemoteInstaller\bin\x86\$(Configuration)\RemoteInstaller.exe" />    
     <BinaryFile Include="Externals\SmartThreadPool\SmartThreadPool.dll" />    
   </ItemGroup>
   <ItemGroup>
@@ -79,17 +79,17 @@
     <Error Condition="Exists('Documentation\$(Configuration)\LastBuild.log')" Text="Documentation build failed, check Documentation\$(Configuration)\LastBuild.log" />
   </Target>
   <Target Name="sample">
-    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Sample.config /outputDir:$(ReleaseDir) /outputXml:results.xml" />
+    <Exec Command="RemoteInstaller\bin\x86\$(Configuration)\RemoteInstaller.exe /config:Samples\Sample.config /outputDir:$(ReleaseDir) /outputXml:results.xml" />
   </Target>
   <Target Name="xsd">
-    <Exec Command="RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe /config:Samples\Everything.config /outputDir:Samples\$(Configuration) /outputXml:results.xml /simulationOnly+ root=." />
+    <Exec Command="RemoteInstaller\bin\x86\$(Configuration)\RemoteInstaller.exe /config:Samples\Everything.config /outputDir:Samples\$(Configuration) /outputXml:results.xml /simulationOnly+ root=." />
     <Exec Command="&quot;$(ProgramFiles)\Microsoft SDKs\Windows\v6.0A\bin\xsd.exe&quot; Samples\$(Configuration)\results.xml /outputdir:Samples\$(Configuration)" />
     <Xslt Inputs="Samples\$(Configuration)\Results.xsd" Output="XslTemplates\Results.xsd" Xsl="XslTemplates\ResultsXsd.xsl" />
     <FileUpdate Regex=" xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;" ReplacementText="&gt;" Files="XslTemplates\Results.xsd" />
   </Target>
   <Target Name="unittests" DependsOnTargets="version">
     <MakeDir Directories="target\UnitTests\$(Configuration)" />
-    <CreateItem Include="RemoteInstallUnitTests\**\bin\$(Configuration)\*UnitTests.dll">
+    <CreateItem Include="RemoteInstallUnitTests\**\bin\x86\$(Configuration)\*UnitTests.dll">
       <Output TaskParameter="Include" ItemName="UnitTestBinaries" />
     </CreateItem>
     <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\UnitTests\$(Configuration)\results.xml" />

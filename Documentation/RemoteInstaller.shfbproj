@@ -34,11 +34,11 @@
     <PresentationStyle>Prototype</PresentationStyle>
     <HelpFileVersion>1.0</HelpFileVersion>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\RemoteInstaller\bin\$(Configuration)\Interop.VixCOM.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\RemoteInstall\bin\$(Configuration)\RemoteInstall.dll" xmlns="" />
-      <DocumentationSource sourceFile="..\RemoteInstall\bin\$(Configuration)\RemoteInstall.XML" xmlns="" />
-      <DocumentationSource sourceFile="..\RemoteInstaller\bin\$(Configuration)\RemoteInstaller.exe" xmlns="" />
-      <DocumentationSource sourceFile="..\RemoteInstaller\bin\$(Configuration)\RemoteInstaller.XML" xmlns="" />
+      <DocumentationSource sourceFile="..\RemoteInstaller\bin\x86\$(Configuration)\Interop.VixCOM.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\RemoteInstall\bin\x86\$(Configuration)\RemoteInstall.dll" xmlns="" />
+      <DocumentationSource sourceFile="..\RemoteInstall\bin\x86\$(Configuration)\RemoteInstall.XML" xmlns="" />
+      <DocumentationSource sourceFile="..\RemoteInstaller\bin\x86\$(Configuration)\RemoteInstaller.exe" xmlns="" />
+      <DocumentationSource sourceFile="..\RemoteInstaller\bin\x86\$(Configuration)\RemoteInstaller.XML" xmlns="" />
     </DocumentationSources>
     <KeepLogFile>False</KeepLogFile>
     <CopyrightText>$(Copyright)</CopyrightText>

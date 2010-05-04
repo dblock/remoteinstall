@@ -72,7 +72,7 @@ namespace RemoteInstallUnitTests
             Directory.CreateDirectory(outputDir);
 
             NameValueCollection vars = new NameValueCollection();
-            vars["root"] = @"..\..\..";
+            vars["root"] = @"..\..\..\..";
 
             Driver driver = new Driver(
                 outputDir,

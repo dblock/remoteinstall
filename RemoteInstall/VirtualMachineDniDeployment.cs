@@ -51,13 +51,23 @@ namespace RemoteInstall
         /// </summary>
         public void Install(out string logfile)
         {
-            string args = _config.InstallArgs;
-            foreach (ComponentConfig component in _config.components)
-            {
-                args += _config.Rewrite(" /ComponentArgs \"" + component.Description + "\":\"" + component.Args + "\"");
-            }
+            DniExec(_config.DestinationPath, ComponentArgs, DniAction.UnInstall, out logfile);
+        }
 
-            DniExec(_config.DestinationPath, args, DniAction.UnInstall, out logfile);
+        public string ComponentArgs
+        {
+            get
+            {
+                string args = _config.InstallArgs;
+                
+                foreach (ComponentConfig component in _config.components)
+                {
+                    args += _config.Rewrite(" /ComponentArgs \"" + component.Description + 
+                        "\":\"" + component.Args + "\"");
+                }
+
+                return args;
+            }
         }
 
         /// <summary>

@@ -23,7 +23,9 @@ namespace RemoteInstall.DriverTasks
                 InstallerConfig installerConfig = installerConfigProxy.Instance;
                 foreach (SnapshotConfig snapshotConfig in _vmConfig.Snapshots)
                 {
-                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                    VirtualMachineConfig vmconfig = _vmConfig;
+
+                    InstallerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
                         delegate(object sender, ReflectionResolverEventArgs args)
                         {
                             object[] objs = { snapshotConfig, _vmConfig, _installersConfig };

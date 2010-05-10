@@ -38,8 +38,8 @@ namespace RemoteInstall.DriverTasks
 
                 foreach (InstallerConfigProxy installerConfigProxy in _installersConfig)
                 {
-                    InstallerConfig installerConfig = installerConfigProxy.Instance;
-                    installerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
+                    InstallerConfig installerConfig = installerConfigProxy.Instance;                    
+                    InstallerConfig.OnRewrite = new EventHandler<ReflectionResolverEventArgs>(
                         delegate(object sender, ReflectionResolverEventArgs args)
                         {
                             object[] objs = { snapshotConfig, _vmConfig, _installersConfig };

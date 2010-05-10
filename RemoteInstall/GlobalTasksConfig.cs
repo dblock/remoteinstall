@@ -27,7 +27,8 @@ namespace RemoteInstall
             set { this["tasks"] = value; }
         }
 
-        public EventHandler<ReflectionResolverEventArgs> OnRewrite;
+        [ThreadStatic]
+        public static EventHandler<ReflectionResolverEventArgs> OnRewrite;
 
         /// <summary>
         /// Resolve a value via reflection.

@@ -23,6 +23,12 @@ namespace RemoteInstall
 
         public static string VarRegex = @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.\-\(\)]*)\}";
 
+        public ConfigManager(string filename)
+            : this(filename, new NameValueCollection())
+        {
+
+        }
+
         public ConfigManager(string filename, NameValueCollection variables)
         {
             _variables = variables;
@@ -41,7 +47,8 @@ namespace RemoteInstall
 
                 if (_config == null)
                 {
-                    throw new FileLoadException(string.Format("Error loading config file: {0}", filename));
+                    throw new InvalidConfigurationException(string.Format("Error loading configuration file: {0}", filename),
+                        new FileLoadException("Missing RemoteInstallConfig section.", filename));
                 }
 
                 // insert a noop installer when it's missing from the configuration
@@ -77,7 +84,10 @@ namespace RemoteInstall
                     return Environment.GetEnvironmentVariable(name);
                 case "var":
                     string value = _variables[name];
-                    if (value == null) throw new Exception(string.Format("Missing variable: {0}", name));
+                    if (value == null)
+                    {
+                        throw new InvalidConfigurationException(string.Format("Missing variable: {0}", name));
+                    }
                     return value;
                 case "folder":
                     return Environment.GetFolderPath((Environment.SpecialFolder)Enum.Parse(
@@ -90,7 +100,7 @@ namespace RemoteInstall
                 case "hostenv":
                     return "${" + string.Format("{0}.{1}", var, name) + "}";
                 default:
-                    throw new Exception(string.Format("Unsupported variable: $({0}.{1})",
+                    throw new InvalidConfigurationException(string.Format("Unsupported variable: $({0}.{1})",
                         var, name));
             }
         }
@@ -113,6 +123,14 @@ namespace RemoteInstall
                 map, ConfigurationUserLevel.None);
 
             return (RemoteInstallConfig)configuration.Sections[typeof(RemoteInstallConfig).Name];
+        }
+
+        public string ConfigFilename
+        {
+            get
+            {
+                return _configFilename;
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace RemoteInstallUnitTests
         public void EverythingConfigurationTest()
         {
             Stream everythingConfigStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.Everything.config");
+                "RemoteInstallUnitTests.TestConfigs.Everything.config");
             string configFileName = Path.GetTempFileName();
             
             using (StreamReader everythingReader = new StreamReader(everythingConfigStream))
@@ -50,7 +50,7 @@ namespace RemoteInstallUnitTests
         public void EverythingSimulationTest()
         {
             Stream everythingConfigStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.Everything.config");
+                "RemoteInstallUnitTests.TestConfigs.Everything.config");
 
             string configFileName = Path.GetTempFileName();
 
@@ -60,7 +60,7 @@ namespace RemoteInstallUnitTests
             }
 
             Stream everythingXmlStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.EverythingTask.xml");
+                "RemoteInstallUnitTests.TestConfigs.EverythingTask.xml");
 
             using (StreamReader everythingXmlReader = new StreamReader(everythingXmlStream))
             {
@@ -96,6 +96,80 @@ namespace RemoteInstallUnitTests
             Assert.AreEqual(1, resultsCopy.GetXml().SelectNodes("/remoteinstallresultsgroups").Count);
             Directory.Delete(outputDir, true);
             File.Delete(configFileName);
+        }
+
+        [Test]
+        public void NothingToDoTest()
+        {
+            Stream configStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
+                "RemoteInstallUnitTests.TestConfigs.NothingToDo.config");
+            string configFileName = Path.GetTempFileName();
+
+            using (StreamReader sr = new StreamReader(configStream))
+            {
+                File.WriteAllText(configFileName, sr.ReadToEnd());
+            }
+
+            string outputDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(outputDir);
+
+            try
+            {
+                Driver driver = new Driver(outputDir, true, configFileName, null, 0);
+                Results results = new Results();
+                results.AddRange(driver.Run());
+                Assert.Fail("Expected InvalidConfigurationException");
+            }
+            catch (InvalidConfigurationException ex)
+            {
+                Console.WriteLine("Expected exception: {0}", ex.Message);
+            }
+            finally
+            {
+                Directory.Delete(outputDir, true);
+                File.Delete(configFileName);
+            }
+        }
+
+        [Test]
+        public void SnapshotsWithParametersTest()
+        {
+            Stream configStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
+                "RemoteInstallUnitTests.TestConfigs.SnapshotWithParameters.config");
+            string configFileName = Path.GetTempFileName();
+
+            using (StreamReader sr = new StreamReader(configStream))
+            {
+                File.WriteAllText(configFileName, sr.ReadToEnd());
+            }
+
+            string outputDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(outputDir);
+
+            try
+            {
+                Driver driver = new Driver(outputDir, true, configFileName, null, 0);
+                Results results = new Results();
+                results.AddRange(driver.Run());
+                // four individual results
+                Assert.AreEqual(4, results.Count);
+                foreach (ResultsGroup group in results)
+                {
+                    Console.WriteLine("{0}: {1}", group.Vm, group.Snapshot);
+                    foreach(Result result in group)
+                    {
+                        // installer name is defined as name="@{snapshot.installargs}" 
+                        // and each installargs is vm.snapshot
+                        Assert.AreEqual(string.Format("{0}.{1}", group.Vm, group.Snapshot), 
+                            result.InstallerName);
+                    }
+                }
+            }
+            finally
+            {
+                Directory.Delete(outputDir, true);
+                File.Delete(configFileName);
+            }
         }
     }
 }

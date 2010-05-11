@@ -19,7 +19,7 @@ namespace RemoteInstallUnitTests
         public void GuestAndHostEnvTests()
         {
             Stream configStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.SampleMinimumCopy.config");
+                "RemoteInstallUnitTests.TestConfigs.MinimumCopy.config");
             
             string configFileName = Path.GetTempFileName();            
             using (StreamReader everythingReader = new StreamReader(configStream))

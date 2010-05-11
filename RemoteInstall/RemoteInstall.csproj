@@ -75,6 +75,7 @@
     <Compile Include="ExeInstallerConfig.cs" />
     <Compile Include="ExitCodes.cs" />
     <Compile Include="GlobalTasksConfig.cs" />
+    <Compile Include="InvalidConfigurationException.cs" />
     <Compile Include="NoopInstallerConfig.cs" />
     <Compile Include="ParallelizableDriverTaskCollections.cs" />
     <Compile Include="DriverTaskCollection.cs" />

@@ -57,27 +57,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Samples\Everything.config">
-      <Link>Samples\Everything.config</Link>
-    </EmbeddedResource>
+    <EmbeddedResource Include="TestConfigs\DniSequences.config" />
+    <EmbeddedResource Include="TestConfigs\Everything.config" />
+    <EmbeddedResource Include="TestConfigs\MinimumCopy.config" />
+    <EmbeddedResource Include="TestConfigs\MsiSequences.config" />
+    <EmbeddedResource Include="TestConfigs\NothingToDo.config" />
+    <EmbeddedResource Include="TestConfigs\SnapshotWithParameters.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Samples\EverythingTask.xml">
-      <Link>Samples\EverythingTask.xml</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Samples\DniSequences.config">
-      <Link>Samples\DniSequences.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Samples\MsiSequences.config">
-      <Link>Samples\MsiSequences.config</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Samples\SampleMinimumCopy.config">
-      <Link>Samples\SampleMinimumCopy.config</Link>
-    </EmbeddedResource>
+    <EmbeddedResource Include="TestConfigs\EverythingTask.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

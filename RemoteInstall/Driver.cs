@@ -15,7 +15,7 @@ namespace RemoteInstall
     /// </summary>
     public class Driver
     {
-        private RemoteInstallConfig _config = null;
+        private ConfigManager _configManager = null;
         private string _logpath = Environment.CurrentDirectory;
         private bool _simulationOnly = false;
         private int _pipelineCount = -1;
@@ -36,7 +36,7 @@ namespace RemoteInstall
         {
             get
             {
-                return _config;
+                return _configManager.Configuration;
             }
         }
 
@@ -46,10 +46,9 @@ namespace RemoteInstall
         /// </summary>
         public Driver(string logpath, bool simulationOnly, string filename, NameValueCollection variables, int pipelineCount)
         {
-            ConfigManager configManager = new ConfigManager(filename, variables);
-            _config = configManager.Configuration;
+            _configManager = new ConfigManager(filename, variables);
             _simulationOnly = simulationOnly;
-            VMWareInterop.Timeouts = _config.Timeouts.GetVMWareTimeouts();
+            VMWareInterop.Timeouts = _configManager.Configuration.Timeouts.GetVMWareTimeouts();
             _logpath = logpath;
             _pipelineCount = pipelineCount;
         }
@@ -66,37 +65,49 @@ namespace RemoteInstall
             // build parallelizable tasks
             ParallelizableRemoteInstallDriverTaskCollections ptasks = new ParallelizableRemoteInstallDriverTaskCollections();
 
+            if (_configManager.Configuration.VirtualMachines.Count == 0)
+            {
+                throw new InvalidConfigurationException(string.Format("Missing virtual machines in {0}.",
+                   _configManager.ConfigFilename));
+            }
+
             // build the sequence that is going to be run
-            foreach (VirtualMachineConfig vm in _config.VirtualMachines)
+            foreach (VirtualMachineConfig vm in _configManager.Configuration.VirtualMachines)
             {
                 DriverTaskCollection tasks = new DriverTaskCollection();
 
                 if (vm.Snapshots.Count == 0)
                 {
-                    throw new Exception(string.Format("Missing snapshots in {0}. Define a 'current' snapshot with <snapshot name='*' />.",
+                    throw new InvalidConfigurationException(string.Format("Missing snapshots in {0}. Define a 'current' snapshot with <snapshot name='*' />.",
                         vm.Name));
                 }
 
-                switch (_config.Installers.Sequence)
+                switch (_configManager.Configuration.Installers.Sequence)
                 {
                     case InstallersSequence.alternate:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_config, _logpath, _simulationOnly, vm, _config.Installers, true, true));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, true, true));
                         break;
                     case InstallersSequence.install:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_config, _logpath, _simulationOnly, vm, _config.Installers, true, false));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, true, false));
                         break;
                     case InstallersSequence.uninstall:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_config, _logpath, _simulationOnly, vm, _config.Installers, false, true));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, false, true));
                         break;
                     case InstallersSequence.fifo:
-                        tasks.Add(new DriverTasks.DriverTask_Fifo(_config, _logpath, _simulationOnly, vm, _config.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Fifo(_configManager.Configuration, 
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
                         break;
                     case InstallersSequence.lifo:
-                        tasks.Add(new DriverTasks.DriverTask_Lifo(_config, _logpath, _simulationOnly, vm, _config.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Lifo(_configManager.Configuration, 
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
                         break;
                     case InstallersSequence.clean:
                     default:
-                        tasks.Add(new DriverTasks.DriverTask_Clean(_config, _logpath, _simulationOnly, vm, _config.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Clean(_configManager.Configuration,
+                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
                         break;
                 }
 
@@ -112,6 +123,11 @@ namespace RemoteInstall
             else
             {
                 poolStartInfo.MaxWorkerThreads = ptasks.Count;
+            }
+
+            if (ptasks.Count == 0)
+            {
+                throw new InvalidConfigurationException("Number of tasks cannot be zero.");
             }
 
             ConsoleOutput.WriteLine(string.Format("Starting {0} parallel installation(s) ({1} max) ...",

@@ -18,7 +18,7 @@ namespace RemoteInstallUnitTests
         public void SimulateAllMsiSequencesTest()
         {
             Stream sequencesConfigStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.MsiSequences.config");
+                "RemoteInstallUnitTests.TestConfigs.MsiSequences.config");
 
             string configFileName = Path.GetTempFileName();
             using (StreamReader sequencesConfigReader = new StreamReader(sequencesConfigStream))
@@ -78,7 +78,7 @@ namespace RemoteInstallUnitTests
         public void SimulateAllDniSequencesTest()
         {
             Stream sequencesConfigStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                "RemoteInstallUnitTests.Samples.DniSequences.config");
+                "RemoteInstallUnitTests.TestConfigs.DniSequences.config");
 
             string configFileName = Path.GetTempFileName();
             using (StreamReader sequencesConfigReader = new StreamReader(sequencesConfigStream))

@@ -188,7 +188,8 @@ namespace RemoteInstall
 
         public void LoginToGuest()
         {
-            _vm.LoginInGuest(_snapshotConfig.Username, _snapshotConfig.Password);
+            _vm.LoginInGuest(_snapshotConfig.Username, _snapshotConfig.Password, 
+                _snapshotConfig.LoginType);
         }
 
         public void PowerOff()

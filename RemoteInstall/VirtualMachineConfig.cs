@@ -78,7 +78,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Username used to login to the VM
+        /// Username used to login to the virtual machine host.
         /// </summary>
         [ConfigurationProperty("username", IsRequired = false)]
         public string Username
@@ -94,7 +94,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Password used to login to the VM
+        /// Password used to login to the virtual machine host.
         /// </summary>
         [ConfigurationProperty("password", IsRequired = false)]
         public string Password

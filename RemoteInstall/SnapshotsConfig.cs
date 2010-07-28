@@ -16,7 +16,7 @@ namespace RemoteInstall
 
         protected override ConfigurationElement CreateNewElement()
         {
-            return new SnapshotConfig(Username, Password, PowerOff);
+            return new SnapshotConfig(Username, Password, LoginType, PowerOff);
         }
 
         protected override Object GetElementKey(ConfigurationElement element)
@@ -54,6 +54,27 @@ namespace RemoteInstall
             set
             {
                 this["password"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Default login type for all snapshots.
+        /// </summary>
+        [ConfigurationProperty("loginType", IsRequired = false)]
+        public GuestLoginType LoginType
+        {
+            get
+            {
+                object loginType = this["loginType"];
+                return loginType == null
+                    ? GuestLoginType.undefined
+                    : (GuestLoginType)loginType;
+            }
+            set
+            {
+                this["loginType"] = (value == GuestLoginType.undefined)
+                    ? null
+                    : (object)value;
             }
         }
 

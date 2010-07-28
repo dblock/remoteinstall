@@ -4,31 +4,39 @@ using System.Configuration;
 
 namespace RemoteInstall
 {
+    public enum GuestLoginType
+    {
+        undefined,
+        normal,
+        interactive
+    }
+
     /// <summary>
-    /// Configuration of a snapshot
+    /// Configuration of a snapshot.
     /// </summary>
     public class SnapshotConfig : GlobalTasksConfigurationElement
     {
         /// <summary>
-        /// Used to identify the current snapshot of a VM
+        /// Used to identify the current snapshot of a VM.
         /// </summary>
         public static string CurrentSnapshotName = "*";
 
         public SnapshotConfig()
-            : this(string.Empty, string.Empty, false)
+            : this(string.Empty, string.Empty, GuestLoginType.undefined, false)
         {
 
         }
 
-        public SnapshotConfig(string username, string password, bool poweroff)
+        public SnapshotConfig(string username, string password, GuestLoginType loginType, bool poweroff)
         {
             Username = username;
             Password = password;
             PowerOff = poweroff;
+            LoginType = loginType;
         }
 
         /// <summary>
-        /// Returns true if the snapshot identifies the current snapshot
+        /// Returns true if the snapshot identifies the current snapshot.
         /// </summary>
         public bool IsCurrentSnapshot
         {
@@ -39,7 +47,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Name of the snapshot
+        /// Name of the snapshot.
         /// </summary>
         [ConfigurationProperty("name", IsRequired = true)]
         public string Name
@@ -58,7 +66,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Description of the snapshot
+        /// Description of the snapshot.
         /// </summary>
         [ConfigurationProperty("description", IsRequired = false)]
         public string Description
@@ -74,7 +82,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Description of the snapshot
+        /// Description of the snapshot.
         /// </summary>
         [ConfigurationProperty("installargs", IsRequired = false)]
         public string InstallArgs
@@ -90,7 +98,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Username used to login to the snapshot
+        /// Username used to login to the snapshot.
         /// </summary>
         [ConfigurationProperty("username", IsRequired = false)]
         public string Username
@@ -106,7 +114,7 @@ namespace RemoteInstall
         }
 
         /// <summary>
-        /// Password used to login to the snapshot
+        /// Password used to login to the snapshot.
         /// </summary>
         [ConfigurationProperty("password", IsRequired = false)]
         public string Password
@@ -118,6 +126,27 @@ namespace RemoteInstall
             set
             {
                 this["password"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Login type.
+        /// </summary>
+        [ConfigurationProperty("loginType", IsRequired = false)]
+        public GuestLoginType LoginType
+        {
+            get
+            {
+                object loginType = this["loginType"];
+                return loginType == null 
+                    ? GuestLoginType.undefined 
+                    : (GuestLoginType) loginType;
+            }
+            set
+            {
+                this["loginType"] = (value == GuestLoginType.undefined) 
+                    ? null
+                    : (object) value;
             }
         }
 

@@ -27,14 +27,34 @@
     <ul>
         <li><strong>Features</strong>:
             <ul>
-                <li>Added exe installer type that installs any executable bootstrappers.</li>
+                <li>Added support for interactive virtual machine logon with a <code>loginType</code>
+                    option. Can be <code>normal</code> (default) or <code>interactive</code> and be
+                    specified at <code>snapshots</code> and <code>snapshot</code> nodes.</li>
+            </ul>
+        </li>
+        <li><strong>Misc</strong>:
+            <ul>
+            </ul>
+        </li>
+        <li><strong>Bugs</strong>:
+            <ul>
+            </ul>
+        </li>
+    </ul>
+    <h3>
+        1.2 (7/17/2010)</h3>
+    <ul>
+        <li><strong>Features</strong>:
+            <ul>
+                <li>Added <code>exe</code> installer type that installs any executable bootstrappers.</li>
                 <li>Added support for user-defined exit codes that control success, failure and reboot
-                    in dni and exe installers. </li>
+                    in <code>dni</code> and <code>exe</code> installers. </li>
                 <li>Added support for reboots in-between installers. </li>
-                <li>Added rebootRequired option to installers to force reboot. </li>
-                <li>Added rebootIfRequred option to installers to suppress reboot. </li>
-                <li>Added ${guestenv.VARIABLE} and ${hostenv.VARIABLE} into copyfile name, source and
-                    destination nodes.</li>
+                <li>Added <code>rebootRequired</code> option to installers to force reboot. </li>
+                <li>Added <code>rebootIfRequred</code> option to installers to suppress reboot.</li>
+                <li>Added <code>${guestenv.VARIABLE}</code> and <code>${hostenv.VARIABLE}</code> into
+                    <code>copyfile</code> <code>name</code>, <code>source</code> and <code>destination</code>
+                    nodes.</li>
                 <li>Added support for dotNetInstaller 1.8 uninstall. If your bootstrapper supports uninstall,
                     remove <code>uninstall="false"</code> from the configuration to test uninstall.</li>
                 <li>Added inheritance of snapshot and virtual machine parameters to installers. You
@@ -53,9 +73,10 @@
             <ul>
                 <li>Bug: ERROR: Operation is not valid due to the current state of the object, assigning
                     failure result after a task. </li>
-                <li>Bug: nunit or junt test errors embedded within results are formatted in the same
+                <li>Bug: NUnit or JUnit test errors embedded within results are formatted in the same
                     red color as failures. </li>
-                <li>Bug: snapshot powerOff option has no effect in lifo and fifo sequences.</li>
+                <li>Bug: snapshot <code>powerOff</code> option has no effect in <code>lifo</code> and
+                    <code>fifo</code> sequences.</li>
                 <li>Bug: doesn't run on 64-bit Windows.</li>
             </ul>
         </li>

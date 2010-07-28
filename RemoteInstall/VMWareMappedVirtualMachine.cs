@@ -5,6 +5,7 @@ using Vestris.VMWareLib;
 using System.IO;
 using Vestris.VMWareLib.Tools.Windows;
 using System.Text.RegularExpressions;
+using Interop.VixCOM;
 
 namespace RemoteInstall
 {
@@ -68,12 +69,23 @@ namespace RemoteInstall
             }
         }
 
-        public void LoginInGuest(string username, string password)
+        public void LoginInGuest(string username, string password, GuestLoginType loginType)
         {
-            ConsoleOutput.WriteLine(" Logging on to 'Remote:{0}' as '{1}'", _name, username);
+            int loginOptions = 0;
+            switch (loginType)
+            {
+                case GuestLoginType.interactive:
+                    ConsoleOutput.WriteLine(" Interactively logging on to 'Remote:{0}' as '{1}'", _name, username);
+                    loginOptions = Constants.VIX_LOGIN_IN_GUEST_REQUIRE_INTERACTIVE_ENVIRONMENT;
+                    break;
+                default:
+                    ConsoleOutput.WriteLine(" Logging on to 'Remote:{0}' as '{1}'", _name, username);
+                    break;
+            }
+
             if (!_simulationOnly)
             {
-                _vm.LoginInGuest(username, password);
+                _vm.LoginInGuest(username, password, loginOptions);
             }
         }
 

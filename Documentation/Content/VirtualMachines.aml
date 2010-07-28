@@ -168,6 +168,11 @@
             </definition>
             <definedTerm>password</definedTerm>
             <definition>Default password to login to the guest operating system.</definition>
+            <definedTerm>loginType</definedTerm>
+            <definition>
+              Type of guest operating system login to perform. Can be one of <newTerm>normal</newTerm> and
+              <newTerm>interactive</newTerm>.
+            </definition>
             <definedTerm>powerOff</definedTerm>
             <definition>
               Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
@@ -212,6 +217,11 @@
               <definition>Username to login to the guest operating system.</definition>
               <definedTerm>password</definedTerm>
               <definition>Password to login to the guest operating system.</definition>
+              <definedTerm>loginType</definedTerm>
+              <definition>
+                Type of guest operating system login to perform. Can be one of <newTerm>normal</newTerm> and 
+                <newTerm>interactive</newTerm>.
+              </definition>
               <definedTerm>powerOff</definedTerm>
               <definition>
                 Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.

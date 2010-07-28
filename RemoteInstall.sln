@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{CA79
 		Samples\ESXMultipleSample.config = Samples\ESXMultipleSample.config
 		Samples\ESXSample.config = Samples\ESXSample.config
 		Samples\FailingTask.config = Samples\FailingTask.config
+		Samples\InteractiveLoginTypeSample.config = Samples\InteractiveLoginTypeSample.config
 		Samples\Multiple.config = Samples\Multiple.config
 		Samples\NUnit.config = Samples\NUnit.config
 		Samples\RebootSample.config = Samples\RebootSample.config

@@ -60,19 +60,19 @@ namespace RemoteInstall
         /// <summary>
         /// Default login type for all snapshots.
         /// </summary>
-        [ConfigurationProperty("loginType", IsRequired = false)]
+        [ConfigurationProperty("logintype", IsRequired = false)]
         public GuestLoginType LoginType
         {
             get
             {
-                object loginType = this["loginType"];
-                return loginType == null
+                object logintype = this["logintype"];
+                return logintype == null
                     ? GuestLoginType.undefined
-                    : (GuestLoginType)loginType;
+                    : (GuestLoginType)logintype;
             }
             set
             {
-                this["loginType"] = (value == GuestLoginType.undefined)
+                this["logintype"] = (value == GuestLoginType.undefined)
                     ? null
                     : (object)value;
             }

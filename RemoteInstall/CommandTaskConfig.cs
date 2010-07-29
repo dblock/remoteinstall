@@ -118,6 +118,23 @@ namespace RemoteInstall
             }
         }
 
+        /// <summary>
+        /// For Windows guest operating systems, when running a program with a graphical user interface, 
+        /// will ensure that the application's window is visible and not minimized on the guest's screen.
+        /// </summary>
+        [ConfigurationProperty("activatewindow", DefaultValue = false)]
+        public bool ActivateWindow
+        {
+            get
+            {
+                return (bool)this["activatewindow"];
+            }
+            set
+            {
+                this["activatewindow"] = value;
+            }
+        }
+
         public string CmdLine
         {
             get

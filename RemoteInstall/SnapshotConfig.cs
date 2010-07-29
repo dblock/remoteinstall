@@ -27,12 +27,12 @@ namespace RemoteInstall
 
         }
 
-        public SnapshotConfig(string username, string password, GuestLoginType loginType, bool poweroff)
+        public SnapshotConfig(string username, string password, GuestLoginType logintype, bool poweroff)
         {
             Username = username;
             Password = password;
             PowerOff = poweroff;
-            LoginType = loginType;
+            LoginType = logintype;
         }
 
         /// <summary>
@@ -132,19 +132,19 @@ namespace RemoteInstall
         /// <summary>
         /// Login type.
         /// </summary>
-        [ConfigurationProperty("loginType", IsRequired = false)]
+        [ConfigurationProperty("logintype", IsRequired = false)]
         public GuestLoginType LoginType
         {
             get
             {
-                object loginType = this["loginType"];
-                return loginType == null 
+                object logintype = this["logintype"];
+                return logintype == null 
                     ? GuestLoginType.undefined 
-                    : (GuestLoginType) loginType;
+                    : (GuestLoginType) logintype;
             }
             set
             {
-                this["loginType"] = (value == GuestLoginType.undefined) 
+                this["logintype"] = (value == GuestLoginType.undefined) 
                     ? null
                     : (object) value;
             }

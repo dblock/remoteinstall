@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Interop.VixCOM;
 using Vestris.VMWareLib;
 
 namespace RemoteInstall
@@ -59,15 +60,21 @@ namespace RemoteInstall
             copyFileResult.Name = executeConfig.Name;
             try
             {
-                ConsoleOutput.WriteLine("{0} 'Remote:{1}'", 
+                ConsoleOutput.WriteLine("{0}{1} 'Remote:{2}'",
                     executeConfig.WaitForCompletion ? "Executing" : "Detaching",
-                    executeConfig.CmdLine);                     
+                    executeConfig.ActivateWindow ? " and activating" : "",
+                    executeConfig.CmdLine);
 
                 if (!_installInstance.SimulationOnly)
                 {
-                    VMWareVirtualMachine.Process process = executeConfig.WaitForCompletion
-                        ? _installInstance.VirtualMachine.RunProgramInGuest(executeConfig.Command, executeConfig.CommandLineArgs)
-                        : _installInstance.VirtualMachine.DetachProgramInGuest(executeConfig.Command, executeConfig.CommandLineArgs);
+                    int options = 0;
+                    if (! executeConfig.WaitForCompletion)
+                        options |= Constants.VIX_RUNPROGRAM_RETURN_IMMEDIATELY;
+                    if (executeConfig.ActivateWindow)
+                        options |= Constants.VIX_RUNPROGRAM_ACTIVATE_WINDOW;
+
+                    VMWareVirtualMachine.Process process = _installInstance.VirtualMachine.RunProgramInGuest(
+                        executeConfig.Command, executeConfig.CommandLineArgs, options);
 
                     string exitCodeAction = "success";
                     if (executeConfig.IgnoreExitCode) exitCodeAction = "ignored";

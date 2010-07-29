@@ -91,7 +91,7 @@ namespace RemoteInstall
 
             _msiexecProcess = this.VirtualMachineHost.RunProgramInGuest(
                 "msiexec.exe", string.Format("/qn /{0} \"{1}\" /l*v \"{2}\" {3}",
-                    msiAction, msiPath, logfile, msiArgs));
+                    msiAction, msiPath, logfile, msiArgs), 0);
 
             if (_msiexecProcess.ExitCode == 3010)
             {

@@ -69,10 +69,10 @@ namespace RemoteInstall
             }
         }
 
-        public void LoginInGuest(string username, string password, GuestLoginType loginType)
+        public void LoginInGuest(string username, string password, GuestLoginType logintype)
         {
             int loginOptions = 0;
-            switch (loginType)
+            switch (logintype)
             {
                 case GuestLoginType.interactive:
                     ConsoleOutput.WriteLine(" Interactively logging on to 'Remote:{0}' as '{1}'", _name, username);
@@ -133,18 +133,11 @@ namespace RemoteInstall
             }
         }
 
-        public VMWareVirtualMachine.Process RunProgramInGuest(string path, string parameters)
+        public VMWareVirtualMachine.Process RunProgramInGuest(string path, string parameters, int options)
         {
             ConsoleOutput.WriteLine(" Executing 'Remote:{0} {1}'", path, parameters);
             return _simulationOnly ? new VMWareVirtualMachine.Process(null)
-                : _vm.RunProgramInGuest(path, parameters);
-        }
-
-        public VMWareVirtualMachine.Process DetachProgramInGuest(string path, string parameters)
-        {
-            ConsoleOutput.WriteLine(" Detaching 'Remote:{0} {1}'", path, parameters);
-            return _simulationOnly ? new VMWareVirtualMachine.Process(null)
-                : _vm.DetachProgramInGuest(path, parameters);
+                : _vm.RunProgramInGuest(path, parameters, options, VMWareInterop.Timeouts.RunProgramTimeout);
         }
 
         #endregion

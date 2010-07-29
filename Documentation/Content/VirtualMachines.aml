@@ -168,7 +168,7 @@
             </definition>
             <definedTerm>password</definedTerm>
             <definition>Default password to login to the guest operating system.</definition>
-            <definedTerm>loginType</definedTerm>
+            <definedTerm>logintype</definedTerm>
             <definition>
               Type of guest operating system login to perform. Can be one of <newTerm>normal</newTerm> and
               <newTerm>interactive</newTerm>.
@@ -217,7 +217,7 @@
               <definition>Username to login to the guest operating system.</definition>
               <definedTerm>password</definedTerm>
               <definition>Password to login to the guest operating system.</definition>
-              <definedTerm>loginType</definedTerm>
+              <definedTerm>logintype</definedTerm>
               <definition>
                 Type of guest operating system login to perform. Can be one of <newTerm>normal</newTerm> and 
                 <newTerm>interactive</newTerm>.

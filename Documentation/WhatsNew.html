@@ -27,9 +27,19 @@
     <ul>
         <li><strong>Features</strong>:
             <ul>
-                <li>Added support for interactive virtual machine logon with a <code>loginType</code>
+                <li>Added support for interactive virtual machine logon with a <code>logintype</code>
                     option. Can be <code>normal</code> (default) or <code>interactive</code> and be
                     specified at <code>snapshots</code> and <code>snapshot</code> nodes.</li>
+                <li>Added <code>activatewindow</code> to <code>command</code> tasks. For Windows guest
+                    operating systems, when running a program with a graphical user interface, will
+                    ensure that the application's window is visible and not minimized on the guest's
+                    screen.</li>
+            </ul>
+        </li>
+        <li><strong>Interface Changes</strong>:
+            <ul>
+                <li>For <code>command</code> tasks using <code>waitforcompletion="false"</code>, add
+                    <code>activatewindow="true"</code> as the default behavior has changed.</li>
             </ul>
         </li>
         <li><strong>Misc</strong>:

@@ -97,10 +97,16 @@
             </definition>
             <definedTerm>ignoreexitcode</definedTerm>
             <definition>Ignore exit code, don't fail the task regardless of the exit code returned.</definition>
+            <definedTerm>activatewindow</definedTerm>
+            <definition>
+              For Windows guest operating systems, when running a program with a graphical user interface,
+              will ensure that the application's window is visible and not minimized on the guest's screen.
+            </definition>
             <definedTerm>waitforcompletion</definedTerm>
             <definition>
-              Wait for the process to complete (default). Set to false to detach a process.
-              The exit code from detached processes is ignored.
+              Wait for the process to complete. Set to <literal>false</literal> to detach a process. Default is <literal>true</literal>.
+              The exit code from detached processes is ignored. It's recommended to set <literal>activatewindow</literal> to true
+              when using this option.
             </definition>
           </definitionTable>
         </para>

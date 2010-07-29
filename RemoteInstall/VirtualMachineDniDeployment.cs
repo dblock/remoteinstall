@@ -91,7 +91,7 @@ namespace RemoteInstall
 
             _process = _vm.RunProgramInGuest(
                 _config.DestinationPath, string.Format("/q /log /LogFile \"{0}\" {1}",
-                    logfile, dniArgs));
+                    logfile, dniArgs), 0);
 
             if (_config.ExitCodes.Count > 0)
             {

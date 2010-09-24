@@ -85,7 +85,7 @@ namespace RemoteInstall
 
             if (!_simulationOnly)
             {
-                _vm.LoginInGuest(username, password, loginOptions);
+                _vm.LoginInGuest(username, password, loginOptions, VMWareInterop.Timeouts.LoginTimeout);
             }
         }
 

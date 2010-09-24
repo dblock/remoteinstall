@@ -3,6 +3,7 @@
   <xsl:output method="html" />
   <xsl:variable name="nunit2.result.list" select="//test-results"/>
   <xsl:variable name="nunit2.suite.list" select="$nunit2.result.list//test-suite"/>
+  <xsl:variable name="nunit2.suite.count" select="count($nunit2.result.list//test-suite)"/>
   <xsl:variable name="nunit2.case.list" select="$nunit2.suite.list/results/test-case"/>
   <xsl:variable name="nunit2.case.count" select="count($nunit2.case.list)"/>
   <xsl:variable name="nunit2.time" select="sum($nunit2.result.list/test-suite[position()=1]/@time)"/>
@@ -14,6 +15,9 @@
   <xsl:variable name="nunit2.notrun.count" select="count($nunit2.notrun.list)"/>
   
   <xsl:variable name="junit.suite.list" select="//testsuite"/>
+  <xsl:variable name="junit.suite.count" select="count($junit.suite.list)"/>
+  <xsl:variable name="junit.suite.error.list" select="$junit.suite.list/error"/>
+  <xsl:variable name="junit.suite.error.count" select="count($junit.suite.error.list)"/>  
   <xsl:variable name="junit.case.list" select="$junit.suite.list/testcase"/>
   <xsl:variable name="junit.case.count" select="count($junit.case.list)"/>
   <xsl:variable name="junit.time" select="sum($junit.case.list/@time)"/>
@@ -23,11 +27,12 @@
   <xsl:variable name="junit.success.count" select="count($junit.success.list)"/>
   <xsl:variable name="junit.error.list" select="$junit.case.list/error"/>
   <xsl:variable name="junit.error.count" select="count($junit.error.list)"/>
-
+  
   <xsl:variable name="total.time" select="$nunit2.time + $junit.time"/>
   <xsl:variable name="total.notrun.count" select="$nunit2.notrun.count"/>
+  <xsl:variable name="total.suite.count" select="$nunit2.suite.count + $junit.suite.count"/>
   <xsl:variable name="total.run.count" select="$nunit2.case.count + $junit.case.count - $total.notrun.count"/>
-  <xsl:variable name="total.failure.count" select="$nunit2.failure.count + $junit.failure.count + $junit.error.count"/>
+  <xsl:variable name="total.failure.count" select="$nunit2.failure.count + $junit.failure.count + $junit.error.count + $junit.suite.error.count"/>
 
   <xsl:template match="/">
     <table cellpadding="2" cellspacing="0" border="0">
@@ -35,7 +40,11 @@
       <!-- Unit Tests -->
       <tr>
         <td class="headernote" colspan="2">
-          Tests run: <xsl:value-of select="$total.run.count"/>, Failures: <xsl:value-of select="$total.failure.count"/>, Not run: <xsl:value-of select="$total.notrun.count"/>, Time: <xsl:value-of select="$total.time"/> seconds
+          Suites run: <xsl:value-of select="$total.suite.count"/>,
+          Tests run: <xsl:value-of select="$total.run.count"/>, 
+          Failures: <xsl:value-of select="$total.failure.count"/>, 
+          Not run: <xsl:value-of select="$total.notrun.count"/>, 
+          Time: <xsl:value-of select="$total.time"/> seconds
         </td>
       </tr>
 
@@ -57,6 +66,7 @@
       </xsl:choose>
 
       <xsl:apply-templates select="$junit.success.list | $nunit2.success.list"/>
+      <xsl:apply-templates select="$junit.suite.error.list"/>
       <xsl:apply-templates select="$junit.error.list"/>
       <xsl:apply-templates select="$junit.failure.list | $nunit2.failure.list"/>
       <xsl:apply-templates select="$nunit2.notrun.list"/>

@@ -85,8 +85,9 @@
             <definition>
               The remote or local location of the file or directory to be copied. If the name specifies
               a file, the file is copied. If the name specifies a directory, its entire contents are
-              copied, including subdirectories. When moving files to the VM you may use <literal>*</literal>
-              in the path to substitute portions of a directory for the last entry in the directory listing.
+              copied, including subdirectories. When copying files to the virtual machine you may use 
+              <literal>*</literal> in the path to substitute portions of a directory for the last entry in 
+              the directory listing.
             </definition>
             <definedTerm>destpath</definedTerm>
             <definition>

@@ -81,11 +81,12 @@
               A name of the file as it appears in the XML results. It is also the filename of the destination file. This value
               defaults to the filename portion of <literal>file</literal>.
             </definition>
-            <definedterm>file</definedterm>
+            <definedTerm>file</definedTerm>
             <definition>
               The remote or local location of the file or directory to be copied. If the name specifies
               a file, the file is copied. If the name specifies a directory, its entire contents are
-              copied, including subdirectories.
+              copied, including subdirectories. When moving files to the VM you may use <literal>*</literal>
+              in the path to substitute portions of a directory for the last entry in the directory listing.
             </definition>
             <definedTerm>destpath</definedTerm>
             <definition>

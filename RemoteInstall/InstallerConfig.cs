@@ -105,89 +105,8 @@ namespace RemoteInstall
         /// </summary>
         private void ResolvePaths()
         {
-            ResolveFilePath();
-            ResolveSvnRevision();
-        }
-
-        /// <summary>
-        /// Resolve file path
-        /// </summary>
-        private void ResolveFilePath()
-        {
-            _file = (string)this["file"];
-            int pos = _file.IndexOf('*');
-            while (pos != -1)
-            {
-                int front = _file.Substring(0, pos).LastIndexOf('\\') + 1;
-                int back = _file.IndexOf('\\', pos);
-                string lastDir = null;
-                if (back > 0)
-                {
-                    lastDir = FindLatest(_file.Substring(0, front), _file.Substring(front, back - front), false);
-                    _file = lastDir + _file.Substring(back);
-                }
-                else
-                {
-                    lastDir = FindLatest(_file.Substring(0, front), _file.Substring(front), true);
-                    _file = lastDir;
-                }
-                pos = _file.IndexOf('*');
-            }
-        }
-
-        /// <summary>
-        /// Resolve current svn revision
-        /// </summary>
-        private void ResolveSvnRevision()
-        {
-            string file = (string)this["file"];
-            int pos = file.IndexOf('*');
-            int front = 0;
-            int back = 0;
-
-            if (pos < 0)
-            {
-                int lastSeparator = file.LastIndexOf('\\');
-                if (lastSeparator < 0)
-                {
-                    _svnrevision = "unknown";
-                    return;
-                }
-
-                int beforeLastSeparator = file.Substring(0, lastSeparator - 1).LastIndexOf('\\');
-                front = beforeLastSeparator + 1;
-                back = lastSeparator;
-            }
-            else
-            {
-                front = file.Substring(0, pos).LastIndexOf('\\') + 1;
-                back = file.IndexOf('\\', pos);
-            }
-
-            string[] subdirs = null;
-            string path = file.Substring(0, front);
-            if (string.IsNullOrEmpty(path))
-            {
-                _svnrevision = "unknown";
-                return;
-            }
-
-            if (back > 0)
-            {
-                subdirs = Directory.GetDirectories(path, file.Substring(front, back - front));
-            }
-            else
-            {
-                subdirs = Directory.GetFiles(path, file.Substring(front));
-            }
-
-            if (subdirs.Length == 0)
-            {
-                throw new DirectoryNotFoundException("Could not find directory that met the search pattern criteria in directory: " + file + ".");
-            }
-
-            _svnrevision = subdirs[subdirs.Length - 1].Substring(
-                subdirs[subdirs.Length - 1].LastIndexOf('\\') + 1);
+            _file = FileTools.ResolveFilePath((string)this["file"]);
+            _svnrevision = FileTools.ResolveSvnRevision((string)this["file"]);
         }
 
         /// <summary>
@@ -296,41 +215,6 @@ namespace RemoteInstall
             {
                 return _svnrevision;
             }
-        }
-
-        /// <summary>
-        /// Finds the latest version of an installer
-        /// </summary>
-        private static string FindLatest(string path, string dirpattern, Boolean searchfiles)
-        {
-            // todo: find all files or directories and sort by last modified date
-
-            string[] subdirs = null;
-
-            try
-            {
-                if (searchfiles)
-                {
-                    subdirs = Directory.GetFiles(path, dirpattern);
-                }
-                else
-                {
-                    subdirs = Directory.GetDirectories(path, dirpattern);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("Could not find a file or directory that met the search pattern {0} in {1}: {2}",
-                    dirpattern, path, ex.Message), ex);
-            }
-
-            if (subdirs.Length == 0)
-            {
-                throw new DirectoryNotFoundException(string.Format("Could not find directory or file that met the search pattern {0} in {1}",
-                    dirpattern, path));
-            }
-
-            return subdirs[subdirs.Length - 1];
         }
 
         /// <summary>

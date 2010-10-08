@@ -171,5 +171,53 @@ namespace RemoteInstallUnitTests
                 File.Delete(configFileName);
             }
         }
+
+        [Test]
+        public void LatestDirConfigTest()
+        {
+            string dir1 = null;
+            string dir2 = null;
+            string prefix = Guid.NewGuid().ToString() + '-';
+            string configFileName = null;
+            string tempMsi = null;
+            const string fileName = "testFile";
+
+            try
+            {
+                // Create temp directories and files
+                string tempPath = Path.GetTempPath() + prefix;
+                dir1 = tempPath + "dir001" + '\\';
+                Directory.CreateDirectory(dir1);
+                File.CreateText(dir1 + fileName).Close();
+                dir2 = tempPath + "dir002" + '\\';
+                Directory.CreateDirectory(dir2);
+                File.CreateText(dir2 + fileName).Close();
+                tempMsi = Path.GetTempFileName();
+
+                // Save config to disk
+                Stream configStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(
+                    "RemoteInstallUnitTests.TestConfigs.LatestDir.config");
+                configFileName = Path.GetTempFileName();
+                using (StreamReader sr = new StreamReader(configStream))
+                {
+                    File.WriteAllText(configFileName, sr.ReadToEnd());
+                }
+
+                // Check config
+                NameValueCollection vars = new NameValueCollection();
+                vars["temp"] = tempPath;
+                vars["msi"] = tempMsi;
+                ConfigManager config = new ConfigManager(configFileName, vars);
+                Assert.AreEqual(config.Configuration.CopyFiles.Count, 1);
+                Assert.AreEqual(config.Configuration.CopyFiles[0].File, dir2 + fileName);
+            }
+            finally
+            {
+                File.Delete(configFileName);
+                File.Delete(tempMsi);
+                Directory.Delete(dir1, true);
+                Directory.Delete(dir2, true);
+            }
+        }
     }
 }

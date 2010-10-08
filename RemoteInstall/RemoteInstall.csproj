@@ -74,6 +74,7 @@
     <Compile Include="DriverTask_Lifo.cs" />
     <Compile Include="ExeInstallerConfig.cs" />
     <Compile Include="ExitCodes.cs" />
+    <Compile Include="FileTools.cs" />
     <Compile Include="GlobalTasksConfig.cs" />
     <Compile Include="InvalidConfigurationException.cs" />
     <Compile Include="NoopInstallerConfig.cs" />

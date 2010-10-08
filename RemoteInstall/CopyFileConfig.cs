@@ -44,6 +44,7 @@ namespace RemoteInstall
             set
             {
                 this["file"] = value;
+                ResolvePath();
             }
         }
 
@@ -125,6 +126,7 @@ namespace RemoteInstall
             set
             {
                 this["destination"] = value;
+                ResolvePath();
             }
         }
 
@@ -174,6 +176,23 @@ namespace RemoteInstall
             {
                 this["includeInResults"] = value;
             }
+        }
+
+        /// <summary>
+        /// Resolve paths, file and svn revision
+        /// </summary>
+        private void ResolvePath()
+        {
+            if (Destination == CopyDestination.toVirtualMachine)
+            {
+                this["file"] = FileTools.ResolveFilePath((string)this["file"]);
+            }
+        }
+
+        protected override void PostDeserialize()
+        {
+            ResolvePath();
+            base.PostDeserialize();
         }
     }
 }

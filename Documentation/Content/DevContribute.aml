@@ -87,30 +87,36 @@
             </listItem>
             <listItem>
               <externalLink>
-                <linkUri>http://msbuildtasks.tigris.org/</linkUri>
+                <linkUri>http://dl.dropbox.com/u/4321494/MSBuild%20Community%20Tasks/MSBuild.Community.Tasks.1.3.0.msi</linkUri>
                 <linkText>MSBuild Community Tasks 1.3.0</linkText>
               </externalLink>
             </listItem>
             <listItem>
               <externalLink>
                 <linkUri>http://www.vmware.com/support/developer/vix-api/</linkUri>
-                <linkText>VMWare ViX 1.7</linkText>
+                <linkText>VMWare ViX 1.10</linkText>
               </externalLink>.
             </listItem>
             <listItem>
-              VMWare Workstation 6.5 or VMWare Infrastructure Client and an ESX environment
+              VMWare Workstation 6.5, 7.0 or VMWare Infrastructure Client and an ESX environment
             </listItem>
             <listItem>
               <externalLink>
-                <linkUri>http://www.codeplex.com/Sandcastle</linkUri>
-                <linkText>SandCastle 2.4 (May 2008)</linkText>
+                <linkText>HTML Help Workshop</linkText>
+                <linkUri>http://msdn.microsoft.com/en-us/library/ms669985.aspx</linkUri>
               </externalLink>,
-              + SandCastle Styles Project 2.4 patch
-            </listItem>
-            <listItem>
               <externalLink>
-                <linkUri>http://www.codeplex.com/SHFB</linkUri>
-                <linkText>Sandcastle Help File Builder 1.8 (Alpha)</linkText>
+                <linkText>Sandcastle 2.6 (June 2010)</linkText>
+                <linkUri>http://sandcastle.codeplex.com/</linkUri>
+              </externalLink>,
+              <externalLink>
+                <linkText>Sandcastle Styles 2.6 Patch 1</linkText>
+                <linkUri>http://sandcastlestyles.codeplex.com/</linkUri>
+              </externalLink>
+              and
+              <externalLink>
+                <linkText>Sandcastle Help File Builder 1.9.1.0</linkText>
+                <linkUri>http://shfb.codeplex.com/</linkUri>
               </externalLink>
             </listItem>
           </list>

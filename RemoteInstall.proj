@@ -93,7 +93,7 @@
     <CreateItem Include="RemoteInstallUnitTests\**\bin\x86\$(Configuration)\*UnitTests.dll">
       <Output TaskParameter="Include" ItemName="UnitTestBinaries" />
     </CreateItem>
-    <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitDir)\bin" OutputXmlFile="target\UnitTests\$(Configuration)\results.xml" />
+    <NUnit Assemblies="@(UnitTestBinaries)" ToolPath="$(NUnitBinDir)" Force32Bit="true" OutputXmlFile="target\UnitTests\$(Configuration)\results.xml" />
   </Target>
   <Target Name="zip" DependsOnTargets="version">
     <CreateItem Include="target\$(Configuration)\**\*" Exclude="target\$(Configuration)\*.zip">

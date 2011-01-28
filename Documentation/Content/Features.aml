@@ -19,7 +19,7 @@
             <listItem>Automatically collects installation logs clickable in the results summary.</listItem>
             <listItem>Copies user-defined files and folders from/to the virtual machine.</listItem>
             <listItem>Supports horizontal scaling with parallel execution against multiple Virtual Machine hosts.</listItem>
-            <listItem>Itegrates and remotes unit tests from unit test frameworks, including NUnit and JUnit.</listItem>
+            <listItem>Integrates and remotes unit tests from unit test frameworks, including NUnit and JUnit.</listItem>
             <listItem>Supports some distributed test scenarios with multiple virtual machines and snapshots.</listItem>
           </list>
         </para>

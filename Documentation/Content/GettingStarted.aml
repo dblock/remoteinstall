@@ -104,7 +104,7 @@ RemoteInstaller 1.0.2633.0: VMWare Test Driver
               current snapshot with a <literal>*</literal> keyword.
               <code language="xml">
                 <![CDATA[
-<virtualmachines username="Administrator" password="admin123">
+<virtualmachines>
   <virtualmachine type="Workstation" name="Windows XP Pro"
     file="C:\Users\Administrator\Virtual Machines\Windows XP Pro SP2\winXPPro.vmx">
     <snapshots>

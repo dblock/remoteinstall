@@ -21,7 +21,6 @@
           <code language="xml">
             <![CDATA[
 <project name="My Project Install Tests">
-  <labeller />
   <sourcecontrol type="svn">
     <trunkUrl>http://svn/myproject/trunk</trunkUrl>
     <workingDirectory>c:\source\myproject\trunk</workingDirectory>
@@ -30,7 +29,7 @@
   <tasks>
     <exec>
       <executable>cmd.exe</executable>
-      <buildArgs>/C "Tools\RemoteInstaller.exe /config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml</buildArgs>
+      <buildArgs>/C "Tools\RemoteInstaller.exe /config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml"</buildArgs>
       <baseDirectory>c:\source\myproject\trunk</baseDirectory>
     </exec>
     <merge>
@@ -85,12 +84,12 @@
             </listItem>
             <listItem>
               Copy <literal>xsl\CruiseControl.xsl</literal> from a RemoteInstaller distribution into
-              <literal>C:\Program Files\CruiseControl.NET\webdashboard\xsl\RemoteInstaller.xsl</literal>
-              and <literal>C:\Program Files\CruiseControl.NET\server\xsl\RemoteInstaller.xsl</literal>
+              <literal>C:\Program Files\CruiseControl.NET\webdashboard\xsl\RemoteInstallResults.xsl</literal>
+              and <literal>C:\Program Files\CruiseControl.NET\server\xsl\RemoteInstallResults.xsl</literal>
             </listItem>
             <listItem>
               Edit <literal>C:\Program Files\CruiseControl.NET\webdashboard\dashboard.config</literal> and
-              reference the <literal>RemoteInstaller.xsl</literal> under <literal>buildPlugins/buildReportBuildPlugin/xslFileNames</literal>
+              reference the <literal>RemoteInstallResults.xsl</literal> under <literal>buildPlugins/buildReportBuildPlugin/xslFileNames</literal>
               and <literal>buildPlugins/xslReportBuildPlugin</literal>.
               <code language="xml">
                 <![CDATA[
@@ -106,26 +105,32 @@
             </listItem>
             <listItem>
               Edit <literal>C:\Program Files\CruiseControl.NET\server\ccnet.exe.config</literal> and
-              <literal>ccservice.exe.config</literal> and reference <literal>xsl\RemoteInstaller.xsl</literal>.
+              <literal>ccservice.exe.config</literal> and reference <literal>xsl\RemoteInstallResults.xsl</literal>.
               <code language="xml">
                 <![CDATA[
-<xslFileNames>
-  <xslFile>xsl\RemoteInstallResults.xsl</xslFile>
-</xslFileNames>
+<xslFiles>
+  <file name="xsl\RemoteInstallResults.xsl"/>
+</xslFiles>
                 ]]>
               </code>
             </listItem>
             <listItem>
-              Make sure that your <literal>email</literal> publisher task includes details.
+              If you want your RemoteInstall test results emailed to you, make sure that your <literal>email</literal> publisher task includes details.
               <code language="xml">
+
                 <![CDATA[
-<email from="build@mycompany.com" includeDetails="true" 
-  mailhost="mail.mycompany.com" mailhostUsername="build@appsecinc.com" mailhostPassword="password">
+<email includeDetails="True">
+  <from>build@mycompany.com</from>
+  <mailhost>mail.mycompany.com</mailhost>
   <users>
     <user name="Engineering" group="lists" address="engineering@mycompany.com" />
   </users>
   <groups>
-    <group name="lists" notification="always" />
+    <group name="lists">
+      <notifications>
+        <notificationType>Always</notificationType>
+      </notifications>
+    </group>
   </groups>
 </email>
                 ]]>

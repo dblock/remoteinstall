@@ -52,25 +52,25 @@
           </definitionTable>
         </para>
         <para>
-          An <literal>installer</literal> identifies either a single MSI or DNI executable bootstrapper to copy,
+          An <literal>installer</literal> identifies either a single MSI, DNI, exe, or noop bootstrapper to copy,
           install and uninstall on the remote host. All installer types supports the following attributes.
           <definitionTable>
             <definedTerm>name</definedTerm>
             <definition>A unique name identifying this installer.</definition>
             <definedTerm>file</definedTerm>
             <definition>
-              A file or path that locates the MSI installer. You may use <literal>*</literal> to substitute portions
+              A file or path that locates the installer. You may use <literal>*</literal> to substitute portions
               of a directory for the last entry in the directory listing. This is useful for testing tatest builds.
             </definition>
             <definedTerm>copymethod</definedTerm>
             <definition>
               Method of copying the file to the remote virtual machine. See <literal>installers</literal> for details.
             </definition>
-            <definedTerm>installargs</definedTerm>
+            <definedTerm>installArgs</definedTerm>
             <definition>Additional installer arguments.</definition>
             <definedTerm>type</definedTerm>
             <definition>
-              This installer type. Can be either <literal>msi</literal> or <literal>dni</literal>.
+              This installer type. Can be either <literal>msi</literal>, <literal>dni</literal>, <literal>exe</literal>, <literal>noop</literal>.
               <definitionTable>
                 <definedTerm>noop</definedTerm>
                 <definition>A installer that doesn't do anything.</definition>

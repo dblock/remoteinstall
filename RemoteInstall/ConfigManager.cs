@@ -21,7 +21,7 @@ namespace RemoteInstall
         NameValueCollection _variables;
         string _configFilename;
 
-        public static string VarRegex = @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.\-\(\)]*)\}";
+        public const string VarRegex = @"\$\{(?<var>[\w_]*)[\.\:](?<name>[\w_\.\-\(\)]*)\}";
 
         public ConfigManager(string filename)
             : this(filename, new NameValueCollection())

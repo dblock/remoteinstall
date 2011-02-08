@@ -15,10 +15,10 @@ namespace RemoteInstall
     /// </summary>
     public class Driver
     {
-        private ConfigManager _configManager = null;
         private string _logpath = Environment.CurrentDirectory;
         private bool _simulationOnly = false;
         private int _pipelineCount = -1;
+        private RemoteInstallConfig _configuration;
 
         /// <summary>
         /// The path to the log file
@@ -36,7 +36,7 @@ namespace RemoteInstall
         {
             get
             {
-                return _configManager.Configuration;
+                return _configuration;
             }
         }
 
@@ -46,11 +46,18 @@ namespace RemoteInstall
         /// </summary>
         public Driver(string logpath, bool simulationOnly, string filename, NameValueCollection variables, int pipelineCount)
         {
-            _configManager = new ConfigManager(filename, variables);
-            _simulationOnly = simulationOnly;
-            VMWareInterop.Timeouts = _configManager.Configuration.Timeouts.GetVMWareTimeouts();
-            _logpath = logpath;
-            _pipelineCount = pipelineCount;
+            _configuration = new ConfigManager(filename, variables).Configuration;
+            Init(simulationOnly, logpath, pipelineCount);
+        }
+
+        /// <summary>
+        /// Create a new remote installer driver, logging to logpath with configuration stored in 
+        /// RemoteInstallConfig class object and additional command-line variables.
+        /// </summary>
+        public Driver(string logpath, bool simulationOnly, RemoteInstallConfig configuration, NameValueCollection variables, int pipelineCount)
+        {
+            this._configuration = configuration;
+            Init(simulationOnly, logpath, pipelineCount);
         }
 
         /// <summary>
@@ -65,14 +72,13 @@ namespace RemoteInstall
             // build parallelizable tasks
             ParallelizableRemoteInstallDriverTaskCollections ptasks = new ParallelizableRemoteInstallDriverTaskCollections();
 
-            if (_configManager.Configuration.VirtualMachines.Count == 0)
+            if (_configuration.VirtualMachines.Count == 0)
             {
-                throw new InvalidConfigurationException(string.Format("Missing virtual machines in {0}.",
-                   _configManager.ConfigFilename));
+                throw new InvalidConfigurationException("Missing virtual machines in configuration.");
             }
 
             // build the sequence that is going to be run
-            foreach (VirtualMachineConfig vm in _configManager.Configuration.VirtualMachines)
+            foreach (VirtualMachineConfig vm in _configuration.VirtualMachines)
             {
                 DriverTaskCollection tasks = new DriverTaskCollection();
 
@@ -82,32 +88,32 @@ namespace RemoteInstall
                         vm.Name));
                 }
 
-                switch (_configManager.Configuration.Installers.Sequence)
+                switch (_configuration.Installers.Sequence)
                 {
                     case InstallersSequence.alternate:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, true, true));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configuration, 
+                            _logpath, _simulationOnly, vm, _configuration.Installers, true, true));
                         break;
                     case InstallersSequence.install:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, true, false));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configuration, 
+                            _logpath, _simulationOnly, vm, _configuration.Installers, true, false));
                         break;
                     case InstallersSequence.uninstall:
-                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configManager.Configuration, 
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers, false, true));
+                        tasks.Add(new DriverTasks.DriverTask_Alternate(_configuration, 
+                            _logpath, _simulationOnly, vm, _configuration.Installers, false, true));
                         break;
                     case InstallersSequence.fifo:
-                        tasks.Add(new DriverTasks.DriverTask_Fifo(_configManager.Configuration, 
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Fifo(_configuration, 
+                            _logpath, _simulationOnly, vm, _configuration.Installers));
                         break;
                     case InstallersSequence.lifo:
-                        tasks.Add(new DriverTasks.DriverTask_Lifo(_configManager.Configuration, 
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Lifo(_configuration, 
+                            _logpath, _simulationOnly, vm, _configuration.Installers));
                         break;
                     case InstallersSequence.clean:
                     default:
-                        tasks.Add(new DriverTasks.DriverTask_Clean(_configManager.Configuration,
-                            _logpath, _simulationOnly, vm, _configManager.Configuration.Installers));
+                        tasks.Add(new DriverTasks.DriverTask_Clean(_configuration,
+                            _logpath, _simulationOnly, vm, _configuration.Installers));
                         break;
                 }
 
@@ -160,6 +166,14 @@ namespace RemoteInstall
                 groups.Count);
 
             return groups;
+        }
+
+        private void Init(bool simulationOnly, string logpath, int pipelineCount)
+        {
+            _simulationOnly = simulationOnly;
+            VMWareInterop.Timeouts = _configuration.Timeouts.GetVMWareTimeouts();
+            _logpath = logpath;
+            _pipelineCount = pipelineCount;
         }
 
         private IList<IList<ResultsGroup>> RunTasks(object args)

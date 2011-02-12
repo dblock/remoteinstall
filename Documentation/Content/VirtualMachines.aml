@@ -176,6 +176,7 @@
             <definedTerm>powerOff</definedTerm>
             <definition>
               Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
+              If the current snapshot is used, the virtual machine will not be powered off.
             </definition>
           </definitionTable>
           <code language="xml">
@@ -232,6 +233,7 @@
               <definedTerm>powerOff</definedTerm>
               <definition>
                 Power off the snapshot after installation/uninstallation has completed, default is <literal>true</literal>.
+                If the current snapshot is used, the virtual machine will not be powered off.
               </definition>
               <definedTerm>installargs</definedTerm>
               <definition>

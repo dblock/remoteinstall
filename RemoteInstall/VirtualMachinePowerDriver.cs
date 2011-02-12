@@ -194,7 +194,7 @@ namespace RemoteInstall
 
         public void PowerOff()
         {
-            if (!_snapshotConfig.IsCurrentSnapshot)
+            if ((!_snapshotConfig.IsCurrentSnapshot) && (_snapshotConfig.PowerOff))
             {
                 _vm.PowerOff();
             }

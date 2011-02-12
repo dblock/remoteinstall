@@ -203,6 +203,13 @@
               </code>
             </para>
           </alert>
+          <alert class="tip">
+            <para>
+              Most virtual machine operations require VMware Tools installed on the guest OS.
+              The VIX API relies on a matching version of VMware Tools on the guest OS in order to communicate the state of the guest 
+              back to RemoteInstall.
+            </para>
+          </alert>
           <para>
             A <literal>snapshot</literal> supports the following attributes.
             <definitionTable>

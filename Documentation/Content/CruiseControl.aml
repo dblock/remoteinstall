@@ -28,8 +28,8 @@
   <triggers />
   <tasks>
     <exec>
-      <executable>cmd.exe</executable>
-      <buildArgs>/C "Tools\RemoteInstaller.exe /config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml"</buildArgs>
+      <executable>Tools\RemoteInstaller.exe</executable>
+      <buildArgs>/config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml</buildArgs>
       <baseDirectory>c:\source\myproject\trunk</baseDirectory>
     </exec>
     <merge>

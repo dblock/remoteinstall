@@ -91,17 +91,31 @@ namespace RemoteInstall
             WriteLine(string.Empty);
         }
 
-        public static void WriteLine(string s)
+        public static void WriteLine(bool error, string s)
         {
+            string message = StringFormat(s);
+
             lock (_lock)
             {
-                Console.WriteLine(StringFormat(s));
+                if (error)
+                {
+                    Console.Error.WriteLine(message);
+                }
+                else
+                {
+                    Console.Out.WriteLine(message);
+                }
             }
         }
 
         public static void WriteLine(string format, params object[] arg)
         {
-            WriteLine(string.Format(format, arg));
+            WriteLine(false, string.Format(format, arg));
+        }
+
+        public static void WriteErrorLine(string format, params object[] arg)
+        {
+            WriteLine(true, string.Format(format, arg));
         }
 
         public static void WriteLine(Exception ex)
@@ -111,15 +125,15 @@ namespace RemoteInstall
                 Exception current = ex;
                 while (current != null)
                 {
-                    WriteLine("ERROR: {0}", current.Message);
-                    WriteLine("  Exception: {0}", current.GetType().FullName);
-                    WriteLine(current.StackTrace);
+                    WriteErrorLine("ERROR: {0}", current.Message);
+                    WriteErrorLine("  Exception: {0}", current.GetType().FullName);
+                    WriteErrorLine(current.StackTrace);
                     current = current.InnerException;
                 }
             }
             else
             {
-                WriteLine("ERROR: {0}", ex.Message);
+                WriteErrorLine("ERROR: {0}", ex.Message);
             }
         }
     }

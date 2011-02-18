@@ -87,7 +87,11 @@
           in the task definition.
           <definitionTable>
             <definedTerm>cmd</definedTerm>
-            <definition>Command or executable to run.</definition>
+            <definition>
+              Command or executable to run.  Although the VIX API indicates "The current working directory for the program in the guest is not defined.
+              Absolute paths should be used for files in the guest, including guestProgramName and any command-line arguments.", it actually seems that for 
+              32-bit systems, the current working directory is "C:\windows\system32" and for 64-bit systems, the current working directory is "C:\windows\SysWOW64".
+            </definition>
             <definedTerm>cmdargs</definedTerm>
             <definition>Optional command-line arguments.</definition>
             <definedTerm>exitcode</definedTerm>

@@ -21,6 +21,7 @@
           <code language="xml">
             <![CDATA[
 <project name="My Project Install Tests">
+  <webURL>http://$(COMPUTERNAME)/ccnet/server/local/project/My Project Install Tests/ViewProjectReport.aspx</webURL>
   <sourcecontrol type="svn">
     <trunkUrl>http://svn/myproject/trunk</trunkUrl>
     <workingDirectory>c:\source\myproject\trunk</workingDirectory>
@@ -32,18 +33,31 @@
       <buildArgs>/config:Tests\tests.config /outputDir:TestResults /outputXml:Results.xml</buildArgs>
       <baseDirectory>c:\source\myproject\trunk</baseDirectory>
     </exec>
-    <merge>
+  </tasks>
+  <publishers>
+  	<merge>
       <files>
         <file>c:\source\myproject\trunk\TestResults\Results.xml</file>
       </files>
     </merge>
-  </tasks>
-  <publishers>
     <xmllogger />
-    <buildpublisher>
+    <buildpublisher alwaysPublish="True">
       <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
-      <publishDir>\\dropserver\builds\myproject</publishDir>
-    </buildpublisher>
+	  </buildpublisher>
+	  <email includeDetails="True">
+	    <from>build@mycompany.com</from>
+	    <mailhost>mail.mycompany.com</mailhost>
+	    <users>
+	      <user name="Engineering" group="lists" address="engineering@mycompany.com" />
+	    </users>
+	    <groups>
+	      <group name="lists">
+	        <notifications>
+	          <notificationType>Always</notificationType>
+	        </notifications>
+	      </group>
+	    </groups>
+	  </email>
     <statistics />
   </publishers>
 </project>]]>
@@ -55,23 +69,12 @@
       <title>Publishing Test Results</title>
       <content>
         <para>
-          Test results are portable between network locations, so you can publish test results to a
-          remote server with each build.
-          <code language="xml">
-            <![CDATA[
-<buildpublisher>
-  <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
-  <publishDir>\\dropserver\builds\myproject</publishDir>
-</buildpublisher>
-              ]]>
-          </code>
-        </para>
-        <para>
-          You can also publish results to CruiseControl directly, making them available online and in build status
+          You can publish results to CruiseControl directly, making them available online and in build status
           e-mails with other types of build results.
           <list class="ordered">
             <listItem>
-              Merge test results in your CruiseControl project configuration.
+              Merge test results in your CruiseControl project configuration.  Make sure this is the first item within the publishers task so that it
+              will get processed before everything else.
               <code language="xml">
                 <![CDATA[
 <merge>
@@ -90,12 +93,13 @@
             <listItem>
               Edit <literal>C:\Program Files\CruiseControl.NET\webdashboard\dashboard.config</literal> and
               reference the <literal>RemoteInstallResults.xsl</literal> under <literal>buildPlugins/buildReportBuildPlugin/xslFileNames</literal>
-              and <literal>buildPlugins/xslReportBuildPlugin</literal>.
+              and <literal>buildPlugins/xslReportBuildPlugin</literal>.  Also reference compile.xsl to display any errors and warnings in the build report.
               <code language="xml">
                 <![CDATA[
 <buildPlugins>
   <buildReportBuildPlugin>
     <xslFileNames>
+      <xslFile>xsl\compile.xsl</xslFile>
       <xslFile>xsl\RemoteInstallResults.xsl</xslFile>
     </xslFileNames>
   </buildReportBuildPlugin>
@@ -114,11 +118,35 @@
                 ]]>
               </code>
             </listItem>
-            <listItem>
-              If you want your RemoteInstall test results emailed to you, make sure that your <literal>email</literal> publisher task includes details.
-              <code language="xml">
+          </list>
+        </para>
+      	<para>
+          Test results can also be published to the CruiseControl project's artifact directory.
+          <code language="xml">
+            <![CDATA[
+<buildpublisher alwaysPublish="True">
+  <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
+</buildpublisher>
+              ]]>
+          </code>
+        </para>
+        <para>
+          Test results are also portable between network locations, so you can also publish test results to a
+          remote server with each build.
+          <code language="xml">
+            <![CDATA[
+<buildpublisher alwaysPublish="True">
+  <sourceDir>c:\source\myproject\trunk\TestResults</sourceDir>
+  <publishDir>\\dropserver\builds\myproject</publishDir>
+</buildpublisher>
+              ]]>
+          </code>
+        </para>
+        <para>
+          If you want your RemoteInstall test results emailed to you, make sure that your <literal>email</literal> publisher task includes details.
+          <code language="xml">
 
-                <![CDATA[
+            <![CDATA[
 <email includeDetails="True">
   <from>build@mycompany.com</from>
   <mailhost>mail.mycompany.com</mailhost>
@@ -133,10 +161,8 @@
     </group>
   </groups>
 </email>
-                ]]>
-              </code>
-            </listItem>
-          </list>
+            ]]>
+          </code>
         </para>
       </content>
     </section>

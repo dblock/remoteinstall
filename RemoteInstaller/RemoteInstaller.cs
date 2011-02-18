@@ -28,6 +28,8 @@ namespace RemoteInstaller
             if (!Parser.ParseArgumentsWithUsage(args, iArgs))
                 return -1;
 
+            Results results = new Results();
+
             try
             {
                 iArgs.Parse();
@@ -52,7 +54,6 @@ namespace RemoteInstaller
                 ConsoleOutput.WriteLine("Results will be written to '{0}'", Path.GetFullPath(iArgs.outputDir));
                 Directory.CreateDirectory(iArgs.outputDir);
 
-                Results results = new Results();
                 string outputXmlFile = Path.Combine(iArgs.outputDir, iArgs.outputXml);
                 if (iArgs.appendOutput &&
                     !string.IsNullOrEmpty(iArgs.outputXml) &&
@@ -61,9 +62,23 @@ namespace RemoteInstaller
                     ConsoleOutput.WriteLine("Loading '{0}'", outputXmlFile);
                     results.Load(outputXmlFile);
                 }
+                else if (!string.IsNullOrEmpty(iArgs.outputXml) &&
+                    File.Exists(outputXmlFile))
+                {
+                    File.Delete(outputXmlFile);
+                }
 
                 results.AddRange(driver.Run());
 
+                return results.Success ? 0 : -1;
+            }
+            catch (Exception ex)
+            {
+                ConsoleOutput.WriteLine(ex);
+                return -2;
+            }
+            finally
+            {
                 if (!string.IsNullOrEmpty(iArgs.outputXml))
                 {
                     string xmlFileName = Path.Combine(iArgs.outputDir, iArgs.outputXml);
@@ -77,13 +92,6 @@ namespace RemoteInstaller
                     ConsoleOutput.WriteLine("Writing {0}", htmlFileName);
                     new ResultCollectionHtmlWriter().Write(results, htmlFileName);
                 }
-
-                return results.Success ? 0 : -1;
-            }
-            catch (Exception ex)
-            {
-                ConsoleOutput.WriteLine(ex);
-                return -2;
             }
         }
     }

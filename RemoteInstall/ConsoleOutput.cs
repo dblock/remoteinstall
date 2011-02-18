@@ -97,13 +97,11 @@ namespace RemoteInstall
 
             lock (_lock)
             {
+                Console.Out.WriteLine(message);
+
                 if (error)
                 {
                     Console.Error.WriteLine(message);
-                }
-                else
-                {
-                    Console.Out.WriteLine(message);
                 }
             }
         }

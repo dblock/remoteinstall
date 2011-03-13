@@ -20,7 +20,7 @@
                 <linkUri>http://www.vmware.com/support/developer/vix-api/</linkUri>
                 <linkText>http://www.vmware.com/support/developer/vix-api</linkText>
               </externalLink>.
-              Tested with version 1.7.0.
+              Tested with version 1.7.0, 1.10.1, and 1.10.2
             </para>
           </content>
         </step>

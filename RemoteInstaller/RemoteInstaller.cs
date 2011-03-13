@@ -21,6 +21,8 @@ namespace RemoteInstaller
         [MTAThread]
         static int Main(string[] args)
         {
+            //TODO: CruiseControl.Net interprets a return code of -1 as a timeout error
+
             ConsoleOutput.WriteLine("RemoteInstaller {0}: Product Test Driver", Assembly.GetExecutingAssembly().GetName().Version);
             ConsoleOutput.WriteLine();
 

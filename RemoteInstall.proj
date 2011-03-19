@@ -13,6 +13,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ReleaseDir>target\$(Configuration)\RemoteInstall</ReleaseDir>
+    <MSBuild_4_0_ExeFilePath>%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe</MSBuild_4_0_ExeFilePath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <Import Project="Version.proj"/>
@@ -76,7 +77,7 @@
   <Target Name="doc" DependsOnTargets="version">
     <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />
     <Error Condition="'$(SHFBROOT)'==''" Text="Missing Sandcastle Builder, SHFBROOT environment variable not set, install from http://www.codeplex.com/SHFB" />
-    <MSBuild Projects="Documentation\RemoteInstaller.shfbproj" />
+    <Exec Command="$(MSBuild_4_0_ExeFilePath) Documentation\RemoteInstaller.shfbproj /p:Configuration=$(Configuration)" />
     <Error Condition="Exists('Documentation\$(Configuration)\LastBuild.log')" Text="Documentation build failed, check Documentation\$(Configuration)\LastBuild.log" />
   </Target>
   <Target Name="sample">

@@ -144,7 +144,8 @@
             <definition>
               Additional delay, in seconds, to wait after a virtual machine powers on and VMWare
               tools yield control. This introduces an artificial delay that may allow some services
-              to start and reach a fully functioning state.
+              to start and reach a fully functioning state.  If you receive the error "The command is not recognized by VMware Tools", 
+              try increasing this value.
             </definition>
           </definitionTable>
         </para>

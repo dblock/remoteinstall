@@ -166,7 +166,9 @@ namespace RemoteInstall
                     {
                         case SnapshotCommand.create:
                             _installInstance.VirtualMachine.Snapshots.CreateSnapshot(
-                                snapshotConfig.Name, snapshotConfig.Description);
+                                snapshotConfig.Name, snapshotConfig.Description, 
+                                snapshotConfig.IncludeMemory ? Constants.VIX_SNAPSHOT_INCLUDE_MEMORY : 0, 
+                                VMWareInterop.Timeouts.CreateSnapshotTimeout);
                             break;
                         case SnapshotCommand.remove:
                             _installInstance.VirtualMachine.Snapshots.RemoveSnapshot(
@@ -191,7 +193,7 @@ namespace RemoteInstall
 
                         case SnapshotCommand.revert:
                             _installInstance.VirtualMachine.Snapshots.FindSnapshotByName(
-                                snapshotConfig.Name).RevertToSnapshot();
+                                snapshotConfig.Name).RevertToSnapshot(Constants.VIX_VMPOWEROP_SUPPRESS_SNAPSHOT_POWERON);
                             break;
                         default:
                             throw new Exception(string.Format("Unsupported command '{0}'",

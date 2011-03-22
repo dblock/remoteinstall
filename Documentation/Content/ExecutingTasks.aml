@@ -188,6 +188,10 @@
                 </definition>
               </definitionTable>
             </definition>
+            <definedTerm>includeMemory</definedTerm>
+            <definition>
+              Captures the full state of a running virtual machine, including the memory, when creating a snapshot
+            </definition>
           </definitionTable>
         </para>
         <para>
@@ -200,9 +204,9 @@
   <tasks when="beforeall">
     <tasks>
       <task name="latest installed build" type="snapshot" command="removeifexists" when="beforeall" />
-      <task name="latest installed build" type="snapshot" command="create" when="aftersuccessfulinstall" />
+      <task name="latest installed build" type="snapshot" command="create" includeMemory="true" when="aftersuccessfulinstall" />
       <task name="latest failure" type="snapshot" command="removeifexists" when="beforeall" />
-      <task name="latest failure" type="snapshot" command="create" when="afterfailedinstalluninstall" />
+      <task name="latest failure" type="snapshot" command="create" includeMemory="true" when="afterfailedinstalluninstall" />
     </tasks>    
   </tasks>
 </installers>

@@ -77,5 +77,21 @@ namespace RemoteInstall
                 this["description"] = value;
             }
         }
+
+        /// <summary>
+        /// Captures the full state of a running virtual machine, including the memory
+        /// </summary>
+        [ConfigurationProperty("includeMemory", DefaultValue = false)]
+        public bool IncludeMemory
+        {
+            get
+            {
+                return (bool)this["includeMemory"];
+            }
+            set
+            {
+                this["includeMemory"] = value;
+            }
+        }
     }
 }

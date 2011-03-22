@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Vestris.VMWareLib;
+using Interop.VixCOM;
 
 namespace RemoteInstall
 {
@@ -160,7 +161,7 @@ namespace RemoteInstall
                     if (snapshot == null) snapshot = _vm.Snapshots.GetNamedSnapshot(_snapshotConfig.Name);
                     if (snapshot == null) throw new Exception(string.Format("Missing snapshot: {0}",
                         _snapshotConfig.Name));
-                    snapshot.RevertToSnapshot();
+                    snapshot.RevertToSnapshot(Constants.VIX_VMPOWEROP_SUPPRESS_SNAPSHOT_POWERON);
                 }
             }
 

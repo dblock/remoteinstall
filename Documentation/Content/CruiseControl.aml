@@ -6,6 +6,12 @@
         RemoteInstaller integration with CruiseControl enables continuous integration, publishing of results
         and repeatable process.
       </para>
+      <para>
+        It is not recommended to integrate CruiseControl.NET Server's windows service when using VMware Workstation because the ccservice.exe
+        and vmware.exe processes will be running in different sessions and may cause unexpected behavior.  For example, a black\blank screen 
+        will be displayed when trying to view a guest virtual machine in VMware Workstation that was powered on by ccservice instead of the 
+        expected windows desktop for example.  The work-around is to run ccnet.exe on the command line in the same session as vmware.exe.
+      </para>
     </introduction>
     <section address="RunningUnderCruiseControl">
       <title>Running under CruiseControl</title>

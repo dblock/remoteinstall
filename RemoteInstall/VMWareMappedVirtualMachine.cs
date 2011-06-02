@@ -142,8 +142,14 @@ namespace RemoteInstall
 
         #endregion
 
-        private void CopyFiles(string sourcePath, string destinationPath)
+        private void CopyFiles(string sourcePath, string destinationPath, string exclude)
         {
+            if (!string.IsNullOrEmpty(exclude) && Regex.IsMatch(sourcePath, exclude))
+            {
+                ConsoleOutput.WriteLine(" Skip '{0}'", sourcePath);
+                return;
+            }
+
             if (_simulationOnly)
                 return;
 
@@ -159,12 +165,14 @@ namespace RemoteInstall
                 }
                 else
                 {
+                    // target is a file
                     ConsoleOutput.WriteLine(" Copy '{0}' => '{1}'", sourcePath, destinationPath);
                     File.Copy(sourcePath, destinationPath, true);
                 }
             }
             else
             {
+                // this is a directory
                 if (!Directory.Exists(destinationPath))
                 {
                     ConsoleOutput.WriteLine(" MkDir '{0}'", destinationPath);
@@ -177,7 +185,7 @@ namespace RemoteInstall
                 {
                     if (Directory.Exists(systementry))
                     {
-                        CopyFiles(systementry, Path.Combine(destinationPath, Path.GetFileName(systementry)));
+                        CopyFiles(systementry, Path.Combine(destinationPath, Path.GetFileName(systementry)), exclude);
                     }
                     else
                     {
@@ -190,6 +198,11 @@ namespace RemoteInstall
         }
 
         public void CopyFileFromHostToGuest(string hostPath, string guestPath)
+        {
+            CopyFileFromHostToGuest(hostPath, guestPath, null);
+        }
+
+        public void CopyFileFromHostToGuest(string hostPath, string guestPath, string exclude)
         {
             switch (_copyMethod)
             {
@@ -209,7 +222,7 @@ namespace RemoteInstall
                             ConsoleOutput.WriteLine(" Resolving 'Remote:{0}'", guestNetworkRootPath);
                             mappedNetworkDrive.MapNetworkDrive();
                             ConsoleOutput.WriteLine(" Copying '{0}' => 'Remote:{1}'", hostPath, guestNetworkPath);
-                            CopyFiles(hostPath, guestNetworkPath);
+                            CopyFiles(hostPath, guestNetworkPath, exclude);
                         }
                     }
                     break;
@@ -225,6 +238,11 @@ namespace RemoteInstall
         }
 
         public void CopyFileFromGuestToHost(string guestPath, string hostPath)
+        {
+            CopyFileFromGuestToHost(guestPath, hostPath, null);
+        }
+
+        public void CopyFileFromGuestToHost(string guestPath, string hostPath, string exclude)
         {
             switch (_copyMethod)
             {
@@ -244,7 +262,7 @@ namespace RemoteInstall
                             ConsoleOutput.WriteLine(" Resolving 'Remote:{0}'", guestNetworkRootPath);
                             mappedNetworkDrive.MapNetworkDrive();
                             ConsoleOutput.WriteLine(" Copying 'Remote:{0}' => '{1}'", guestNetworkPath, hostPath);
-                            CopyFiles(guestNetworkPath, hostPath);
+                            CopyFiles(guestNetworkPath, hostPath, exclude);
                         }
                     }
                     break;

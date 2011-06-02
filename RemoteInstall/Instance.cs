@@ -156,6 +156,10 @@ namespace RemoteInstall
                     // install
                     if (options.Install)
                     {
+                        // execute and copy files before install
+                        result.AddRange(additionalSequences.ExecuteSequence(
+                            SequenceWhen.beforeinstall));
+
                         ConsoleOutput.WriteLine("Installing 'Remote:{0}', '{1}'",
                             _installerConfig.Name, _installerConfig.DestinationPath);
 
@@ -174,6 +178,10 @@ namespace RemoteInstall
                     // uninstall
                     if (options.Uninstall)
                     {
+                        // execute and copy files before uninstall
+                        result.AddRange(additionalSequences.ExecuteSequence(
+                            SequenceWhen.beforeuninstall));
+
                         DateTime startUnInstall = DateTime.UtcNow;
                         ConsoleOutput.WriteLine("Uninstalling 'Remote:{0}', '{1}'", _installerConfig.Name, _installerConfig.DestinationPath);
 

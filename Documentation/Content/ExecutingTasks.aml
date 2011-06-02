@@ -31,6 +31,10 @@
             <definition>
               Indicates when to execute the command.
               <definitionTable>
+                <definedTerm>beforeinstall</definedTerm>
+                <definition>Execute before install.</definition>
+                <definedTerm>beforeuninstall</definedTerm>
+                <definition>Execute before uninstall.</definition>
                 <definedTerm>beforeall</definedTerm>
                 <definition>Execute before install.</definition>
                 <definedTerm>aftersuccessfulinstall</definedTerm>

@@ -89,6 +89,17 @@
               <literal>*</literal> in the path to substitute portions of a directory for the last entry in 
               the directory listing.
             </definition>
+            <definedTerm>exclude</definedTerm>
+            <definition>
+              <para>
+                Optional attribute. The value must be a regular expression (regex) that each file or directory contained
+                in the <literal>file</literal> location should not match. If a file or folder matches the expression,
+                the copy operation will be skipped.
+              </para>
+              <para>
+                Useful to skip specific file types or folders. Example: <literal>\\\.svn</literal>
+              </para>
+            </definition>
             <definedTerm>destpath</definedTerm>
             <definition>
               <para>

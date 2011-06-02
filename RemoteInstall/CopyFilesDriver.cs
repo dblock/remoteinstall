@@ -112,7 +112,7 @@ namespace RemoteInstall
                     sourceFilePath, destinationFileName);
 
                 _installInstance.VirtualMachine.CopyFileFromHostToGuest(
-                    sourceFilePath, destinationFileName);
+                    sourceFilePath, destinationFileName, copyFileConfig.Exclude);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace RemoteInstall
             if (copyFile)
             {
                 ConsoleOutput.WriteLine("Copying 'Remote:{0}' to 'Local:{1}'", copyFileConfig.File, destinationFileName);
-                _installInstance.VirtualMachine.CopyFileFromGuestToHost(copyFileConfig.File, destinationFileName);
+                _installInstance.VirtualMachine.CopyFileFromGuestToHost(copyFileConfig.File, destinationFileName, copyFileConfig.Exclude);
                 // local destination only exists when file was successfuly copied
                 string destinationShortFileName = Path.Combine(_installInstance.ShortLogPath, copyFileConfig.DestinationPath);
                 destinationShortFileName = Path.Combine(destinationShortFileName, Path.GetFileName(copyFileConfig.Name));

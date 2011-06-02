@@ -7,6 +7,8 @@ namespace RemoteInstall
 {
     public enum SequenceWhen
     {
+        beforeinstall,
+        beforeuninstall,
         beforeall,
         aftersuccessfulinstall,
         aftersuccessfuluninstall,

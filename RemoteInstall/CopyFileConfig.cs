@@ -179,6 +179,22 @@ namespace RemoteInstall
         }
 
         /// <summary>
+        /// Pattern to exclude files.
+        /// </summary>
+        [ConfigurationProperty("exclude", IsRequired = false)]
+        public string Exclude
+        {
+            get
+            {
+                return (string)this["exclude"];
+            }
+            set
+            {
+                this["exclude"] = value;
+            }
+        }
+
+        /// <summary>
         /// Resolve paths, file and svn revision
         /// </summary>
         private void ResolvePath()

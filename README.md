@@ -2,8 +2,9 @@
 
 RemoteInstall is a VMWare-based tool to automate software testing, starting with software installation. It's a pragmatic approach to system and integration-testing starting with the installer process itself through the final installed product and product integration.
 
-* [Screeshots][Screenshots/README.md]
+* [Screeshots](Screenshots/README.md)
 * [Introducing Remote Install](http://www.slideshare.net/dblockdotorg/introducing-remote-install-framework)
+* [Old Project on CodePlex](http://remoteinstall.codeplex.com/)
 
 ### Features
 

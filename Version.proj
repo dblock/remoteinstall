@@ -1,6 +1,6 @@
 <Project DefaultTargets="version" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
   <Target Name="version">
-    <Version Major="$(MajorVersion)" Minor="$(MinorVersion)">
+    <Version Major="$(MajorVersion)" Minor="$(MinorVersion)" Build="$(BuildVersion)" Revision="$(RevisionVersion)">
       <Output TaskParameter="Major" PropertyName="Major" />
       <Output TaskParameter="Minor" PropertyName="Minor" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
@@ -13,12 +13,9 @@
       <Output TaskParameter="Minute" PropertyName="Minute" />
       <Output TaskParameter="Second" PropertyName="Second" />
     </Time>
-    <SvnVersion LocalPath=".">
-      <Output TaskParameter="Revision" PropertyName="Build" />
-    </SvnVersion>
-    <Modulo Numbers="$(Build);10000">
-      <Output TaskParameter="Result" PropertyName="Build" />
-    </Modulo>
+    <CreateProperty Value="$(Month)$(Day)">
+      <Output TaskParameter="Value" PropertyName="Build" />
+    </CreateProperty>
     <CreateItem Include="Major" AdditionalMetadata="ReplacementValue=$(Major)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
     <CreateItem Include="Minor" AdditionalMetadata="ReplacementValue=$(Minor)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
     <CreateItem Include="SchemaRevision" AdditionalMetadata="ReplacementValue=$(SchemaRevision)"><Output TaskParameter="Include" ItemName="AssemblyInfoTokens"/></CreateItem>
@@ -41,5 +38,7 @@
        CLSCompliant="false" AssemblyDelaySign="false" AssemblyKeyName="" AssemblyCulture=""
        AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
        AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+    <MakeDir Directories="Version" />
+    <TemplateFile Template="Version\Version.wxi.template" OutputFilename="Version.wxi" Tokens="@(AssemblyInfoTokens)"/>
   </Target>
 </Project>

@@ -10,6 +10,7 @@
     <Trademark>All Rights Reserved</Trademark>
     <MajorVersion>1</MajorVersion>
     <MinorVersion>3</MinorVersion>
+ 	  <RevisionVersion>0</RevisionVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ReleaseDir>target\$(Configuration)\RemoteInstall</ReleaseDir>
@@ -71,8 +72,8 @@
     <MakeDir Directories="$(ReleaseDir)\schema" />
     <Copy SourceFiles="@(Schema)" DestinationFolder="$(ReleaseDir)\schema" />
     <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="$(ReleaseDir)" />
-    <TemplateFile Template="Documentation\WhatsNew.html" OutputFilename="..\$(ReleaseDir)\WhatsNew.html" Tokens="@(AssemblyInfoTokens)" />
-    <Copy SourceFiles="License\epl-v10.html" DestinationFiles="$(ReleaseDir)\License.htm" />
+    <TemplateFile Template="CHANGELOG.md" OutputFilename="..\$(ReleaseDir)\CHANGELOG.md" Tokens="@(AssemblyInfoTokens)" />
+    <Copy SourceFiles="LICENSE" DestinationFiles="$(ReleaseDir)\LICENSE" />
   </Target>
   <Target Name="doc" DependsOnTargets="version">
     <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />

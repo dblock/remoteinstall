@@ -24,7 +24,7 @@ RemoteInstall is a VMWare-based tool to automate software testing, starting with
 ### Using RemoteInstall
 
 * Download and Install [VMWare VIX API](http://www.vmware.com/support/developer/vix-api/).
-* Download and Extract [RemoteInstall 1.2](http://code.dblock.org/downloads/remoteinstall/RemoteInstall.1.2.zip). 
+* Download and Extract [RemoteInstall 1.3](http://code.dblock.org/downloads/remoteinstall/RemoteInstall.1.3.zip). 
 * Open RemoteInstaller.chm and check out *Getting Started*.
 
 License and Copyright

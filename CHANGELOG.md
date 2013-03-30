@@ -1,4 +1,6 @@
-##  Next Release
+##  1.3 (3/30/2013)
+
+First release off Github.
 
 ### Features
 

@@ -4,26 +4,13 @@
     <introduction>
       <para>
         You're encouraged to contribute to the RemoteInstaller Framework. The latest information about this project
-        can be found at
+        can be found on Github at
         <externalLink>
-          <linkUri>http://remoteinstall.codeplex.com/</linkUri>
-          <linkText>http://remoteinstall.codeplex.com/</linkText>
+          <linkUri>https://github.com/dblock/remoteinstall/</linkUri>
+          <linkText>https://github.com/dblock/remoteinstall</linkText>
         </externalLink>.
       </para>
     </introduction>
-    <section address="SourceCode">
-      <title>Source Code</title>
-      <content>
-        <para>
-          Source code is located in
-          <externalLink>
-            <linkUri>https://remoteinstall.svn.codeplex.com/svn/trunk</linkUri>
-            <linkText>https://remoteinstall.svn.codeplex.com/svn/trunk</linkText>
-          </externalLink>.
-          Double-click the Visual Studio solution file, RemoteInstall.sln and Visual Studio will open.
-        </para>
-      </content>
-    </section>
     <section address="Building">
       <title>Building the Project</title>
       <content>
@@ -42,11 +29,7 @@
       <title>Patches and Code Reviews</title>
       <content>
         <para>
-          All changes must be code-reviewed. Submit patches under issues at
-          <externalLink>
-            <linkUri>http://remoteinstall.codeplex.com/WorkItem/List.aspx</linkUri>
-            <linkText>http://remoteinstall.codeplex.com/WorkItem/List.aspx</linkText>
-          </externalLink>.
+          Fork the project. Make pull requests. Bonus points for topic branches.
         </para>
       </content>
     </section>
@@ -83,22 +66,22 @@
               Microsoft Visual Studio 2008
             </listItem>
             <listItem>
-              Subversion Client
+              GIT
             </listItem>
             <listItem>
               <externalLink>
-                <linkUri>http://dl.dropbox.com/u/4321494/MSBuild%20Community%20Tasks/MSBuild.Community.Tasks.1.3.0.msi</linkUri>
-                <linkText>MSBuild Community Tasks 1.3.0</linkText>
+                <linkUri>https://github.com/loresoft/msbuildtasks</linkUri>
+                <linkText>MSBuild Community Tasks</linkText>
               </externalLink>
             </listItem>
             <listItem>
               <externalLink>
                 <linkUri>http://www.vmware.com/support/developer/vix-api/</linkUri>
-                <linkText>VMWare ViX 1.10</linkText>
+                <linkText>VMWare ViX 1.10 or newer</linkText>
               </externalLink>.
             </listItem>
             <listItem>
-              VMWare Workstation 6.5, 7.0 or VMWare Infrastructure Client and an ESX environment
+              VMWare Workstation 6.5, 7.0 or VMWare Infrastructure Client and an ESX environment or newer.
             </listItem>
             <listItem>
               <externalLink>

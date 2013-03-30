@@ -72,8 +72,8 @@
     <MakeDir Directories="$(ReleaseDir)\schema" />
     <Copy SourceFiles="@(Schema)" DestinationFolder="$(ReleaseDir)\schema" />
     <Copy SourceFiles="Documentation\$(Configuration)\RemoteInstaller.chm" DestinationFolder="$(ReleaseDir)" />
-    <TemplateFile Template="CHANGELOG.md" OutputFilename="..\$(ReleaseDir)\CHANGELOG.md" Tokens="@(AssemblyInfoTokens)" />
-    <Copy SourceFiles="LICENSE" DestinationFiles="$(ReleaseDir)\LICENSE" />
+    <Copy SourceFiles="CHANGELOG.md" DestinationFolder="$(ReleaseDir)" />
+    <Copy SourceFiles="LICENSE" DestinationFolder="$(ReleaseDir)" />
   </Target>
   <Target Name="doc" DependsOnTargets="version">
     <Error Condition="'$(DXROOT)'==''" Text="Missing Sandcastle, DXROOT environment variable not set, install from http://www.codeplex.com/Sandcastle" />
